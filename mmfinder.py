@@ -9,7 +9,8 @@ import time
 
 op = {}
 op['txt'] = 'gedit '
-op['pdf'] = 'evince '
+#op['pdf'] = 'evince '
+op['pdf'] = 'okular '
 op['odt'] = 'oowriter '
 op['doc'] = 'oowriter '
 
