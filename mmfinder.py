@@ -14,7 +14,7 @@ op['pdf'] = 'okular '
 op['odt'] = 'oowriter '
 op['doc'] = 'oowriter '
 
-ids = string.ascii_letters
+IDS = string.ascii_letters
 
 class main:
     def __init__(self):
@@ -30,7 +30,7 @@ class main:
         
         c = 0
         for item in out.strip().split('\n'):
-            id = ids[c]
+            id = IDS[c]
             i = obj(id, item)
             self.items.append(i)
             i.check_filetype()
