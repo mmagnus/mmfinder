@@ -44,34 +44,49 @@ class main:
         if not len(input.strip()):
             print 'exit'
             sys.exit(1)
-        id = input[0]
-        action = input[1]
-        print 'id', id
+
+        # zaprogramuj przedzialy a-b, lub *, lub aegh
+
+        ids, action = input.split() ## 'abc o'
+
+        # change a-c -> abc
+        if re.search('-',  ids):
+            start, end = ids.split('-')
+            #print start, end
+            #print IDS.index(start)
+            ids = IDS[ IDS.index(start): IDS.index(end)+1 ]
+            #print ids
+        # ** end ** change a-c -> abc
+
+        print 'ids', ids
         print 'action', action
 
-        item = self.items[ids.index(id)]
+        for item in self.items: ## for each item
+            if re.search(item.id, ids):
+                #item = self.items[ids.index(id)]
 
+                #sys.exit(1)
 
-        if action == 'g':
-            cmd = 'cd ' + item.path
+                if action == 'g':
+                    cmd = 'cd ' + item.path
 
-        if action == 'q' or id == '':
-            print 'exit'
-            sys.exit(1)
-            
-        if action == 'o':
-            cmd = op[item.filetype] + ' ' + "'" + item.path + "' "
-            print cmd
-            cmd_text = "opening " + item.path + ' by ' + op[item.filetype] + ' ...'
+                if action == 'q' or id == '':
+                    print 'exit'
+                    sys.exit(1)
 
-        import shlex
-        args = shlex.split(cmd)
-        #print args
-        print cmd_text
-        subprocess.Popen(args)
-        #subprocess.call(args)
+                if action == 'o':
+                    cmd = op[item.filetype] + ' ' + "'" + item.path + "' "
+                    print cmd
+                    cmd_text = "opening " + item.path + ' by ' + op[item.filetype] + ' ...'
 
-        #print out
+                import shlex
+                args = shlex.split(cmd)
+                #print args
+                print cmd_text
+                subprocess.Popen(args)
+                #subprocess.call(args)
+
+                #print out
 class obj:
     def __init__(self, id, path):
         self.path = path
