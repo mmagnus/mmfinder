@@ -1,3 +1,9 @@
+#!/usr/bin/python
+"""
+* todo
+** otworz folder ! 
+** przejdz do niego z konsoli
+"""
 import mmscikit
 import sys
 import string
@@ -7,21 +13,44 @@ import commands
 import re 
 import time
 
+import config
+
 op = {}
 op['txt'] = 'gedit '
 #op['pdf'] = 'evince '
-op['pdf'] = 'okular '
+#op['pdf'] = 'okular '
+op['pdf'] = 'mmpdf.sh '
 op['odt'] = 'oowriter '
 op['doc'] = 'oowriter '
 
 IDS = string.ascii_letters
 
+
 class main:
     def __init__(self):
         self.items = []
-    def search(self, word,ext = '', verbose = True):
+
+    def load_db(self):
+        pass
+
+    def search(self, word,ext = '', method = 'find', verbose = True):
         mmscikit.hr()
-        cmd = "find /home/magnus/ -iname '*" + word + "*" + ext + "*'"
+        #@@@@@@ 
+        if method == 'find':
+            cmd = "find /home/magnus/ -iname '*" + word + "*" + ext + "*'"
+        if method == 'locate_local':
+            cmd = "locate -d /home/magnus/Dropbox/db/netbook. -iname '*" + word + "*" + ext + "*'"
+        if method == 'locate_global':
+            cmd = "locate -d /home/magnus/Dropbox/db/netbook. -iname '*" + word + "*" + ext + "*'"
+            #####
+            ####
+            # and inne...
+            wrzuca jako liste
+            # @@@ maximus @@@
+            # @@@ netbook @@@
+            # @@@   1TB   @@@
+
+        #@@@@@@ 
         if verbose:
             print '# cmd', cmd
         out = mmscikit.shell2(cmd)
@@ -37,7 +66,6 @@ class main:
             i.show()
             c += 1
         print
-        mmscikit.hr()
 
     def get_command(self):
         input = raw_input('What to do? [ao]:')
@@ -49,6 +77,9 @@ class main:
 
         ids, action = input.split() ## 'abc o'
 
+        # *
+        if ids == '*': 
+            ids = IDS
         # change a-c -> abc
         if re.search('-',  ids):
             start, end = ids.split('-')
@@ -63,28 +94,29 @@ class main:
 
         for item in self.items: ## for each item
             if re.search(item.id, ids):
-                #item = self.items[ids.index(id)]
+                if not item.is_empty:
+                    #item = self.items[ids.index(id)]
 
-                #sys.exit(1)
+                    #sys.exit(1)
 
-                if action == 'g':
-                    cmd = 'cd ' + item.path
+                    if action == 'g':
+                        cmd = 'cd ' + item.path
 
-                if action == 'q' or id == '':
-                    print 'exit'
-                    sys.exit(1)
+                    if action == 'q' or id == '':
+                        print 'exit'
+                        sys.exit(1)
 
-                if action == 'o':
-                    cmd = op[item.filetype] + ' ' + "'" + item.path + "' "
-                    print cmd
-                    cmd_text = "opening " + item.path + ' by ' + op[item.filetype] + ' ...'
+                    if action == 'o':
+                        cmd = op[item.filetype] + ' ' + "'" + item.path + "' "
+                        print cmd
+                        cmd_text = "opening " + item.path + ' by ' + op[item.filetype] + ' ...'
 
-                import shlex
-                args = shlex.split(cmd)
-                #print args
-                print cmd_text
-                subprocess.Popen(args)
-                #subprocess.call(args)
+                    import shlex
+                    args = shlex.split(cmd)
+                    #print args
+                    print cmd_text
+                    subprocess.Popen(args)
+                    #subprocess.call(args)
 
                 #print out
 class obj:
@@ -140,7 +172,7 @@ if __name__ == "__main__":
     #    time.sleep(0.2)
     while 1:
         m = main()
-        if False:
+        if True:
             m.search(sys.argv[1],sys.argv[2])
             m.get_command()
         else:
