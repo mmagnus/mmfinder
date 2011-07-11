@@ -13,7 +13,6 @@ import os.path
 
 import config
 
-
 class db:
     """
 
@@ -39,7 +38,7 @@ class db:
             print '# done'
             return True
         else:
-            print '# ERROR: No such file or directory'
+            mmscikit.print_red('# ERROR: No such file or directory')
             return False
 
     def print_statistics(self):
@@ -63,7 +62,7 @@ if __name__ == "__main__":
     else:
         locs = config.LOCS_NETBOOK
     ##
-    
+
     for l in locs:
         mmscikit.hr_text(l)
         path = locs[l]
