@@ -35,7 +35,7 @@ class db:
             print cmd
             if config.RUN_UPDATE:
                 os.system(cmd)
-            print '# done'
+            mmscikit.print_green('# done')
             return True
         else:
             mmscikit.print_red('# ERROR: No such file or directory')
@@ -66,7 +66,8 @@ if __name__ == "__main__":
     for l in locs:
         mmscikit.hr_text(l)
         path = locs[l]
-        print "# PATH", path
+      
+        mmscikit.print_blue("# PATH: " + path)
 
         filename_db = config.PATH_DB + l + '.db'
         filename_db_temp = config.PATH_DB + l + '.db.temp'
