@@ -21,9 +21,8 @@ class db:
     d.statistics()
 
     """
-    def __init__(self, path_to_scan, filename_db, filename_db_temp):
+    def __init__(self, path_to_scan, filename_db):
         self.path_to_scan = path_to_scan
-        self.filename_db_temp = filename_db_temp
         self.filename_db = filename_db ### ~/Dropbox/db/netbook.db ## ~/Dropbox/db/maximus.db # 1TB.db # hp.db
         self.statistics = ''
         self.scan_done = False
@@ -31,7 +30,7 @@ class db:
         #cmd = "updatedb -l 0 -U '" + /home/magnus -o magnus.db
         #
         if os.path.exists(self.path_to_scan):
-            cmd = "updatedb -l 0 -U '" + self.path_to_scan + "' -o '" + self.filename_db_temp + "'"
+            cmd = "updatedb -l 0 -U '" + self.path_to_scan + "' -o '" + self.filename_db + "'"
             print cmd
             if config.RUN_UPDATE:
                 os.system(cmd)
@@ -49,11 +48,6 @@ class db:
         self.statistics = out
         mmscikit.hr()
         return 
-
-    def temp2db(self):
-        cmd = 'mv -v ' + self.filename_db_temp + ' ' + self.filename_db
-        #print cmd
-        print commands.getoutput(cmd)
         
 if __name__ == "__main__":
 
@@ -70,12 +64,9 @@ if __name__ == "__main__":
         mmscikit.print_blue("# PATH: " + path)
 
         filename_db = config.PATH_DB + l + '.db'
-        filename_db_temp = config.PATH_DB + l + '.db.temp'
-
         print "# creating DB ... ", filename_db
         
-        dbf = db(path, filename_db, filename_db_temp)
+        dbf = db(path, filename_db)
         if dbf.scan():
-            dbf.temp2db()
             dbf.print_statistics()
         
