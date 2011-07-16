@@ -68,9 +68,6 @@ def start():
         dbf = db(path, filename_db)
         if dbf.scan():
             dbf.print_statistics()
-        
-
-
 
 if __name__ == "__main__":
     start()

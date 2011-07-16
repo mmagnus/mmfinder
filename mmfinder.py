@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-VERSION = '0.01'
+VERSION = '0.02'
 
 """
 * todo
@@ -37,15 +37,20 @@ class main:
     def load_db(self):
         pass
 
-    def search(self, word,ext = '', method = 'find', verbose = True):
+    def search(self, word, local_search, ext = '', method = 'find', verbose = True):
 
         verbose_cmd = False
         list_with_action = False
 
         mmscikit.hr()
-        print config.PLACES
         
-        for p in config.PLACES:
+        if local_search:
+            PLACES = config.PLACES_LOCAL
+            PLACES.append(mmscikit.get_hostname())
+        else:
+            PLACES = config.PLACES
+        
+        for p in PLACES:
             mmscikit.hr_text( p + '...' )
             #if method == 'locate_local':
             cmd = "locate -d " + config.PATH_DB + p + '.db' + ' -b -i ' + word
@@ -174,8 +179,10 @@ def option_parser():
                               version=version,
                               usage=usage)
     parser.add_option("-u", "--update_db", dest="update_db", default=False,help="force to update databases", action="store_true")
+    parser.add_option("-l", "--local_search", dest="local_search", default=False,help="search only local host i dropbox", action="store_true")
+
     (opt, args) = parser.parse_args()
-    
+
     #@@
     #if not args:
     #    parser.print_help()
@@ -188,17 +195,18 @@ def option_parser():
         print 'mmfinder_deamon [done]'
         time.sleep(2)
 
-    return args
+    return args, opt.local_search
 
-if __name__ == "__main__":
+def start():
     #os.system('clear')
     mmscikit.banner2('mmfinder.py')
-    args = option_parser()
-
+    args, local_search = option_parser()
+    #print args
+    #print local_search
     if 1:
         m = main()
         if True:
-            m.search(args[0], '')
+            m.search(args[0], local_search, '')
             #m.get_command()
         else:
             what_to_find = raw_input('>>> ')
@@ -211,3 +219,6 @@ if __name__ == "__main__":
                 else:
                     m.search(what_to_find)
                 #m.get_command()
+
+if __name__ == "__main__":
+    start()
