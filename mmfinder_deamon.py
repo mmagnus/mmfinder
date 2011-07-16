@@ -49,8 +49,7 @@ class db:
         mmscikit.hr()
         return 
         
-if __name__ == "__main__":
-
+def start():
     if mmscikit.get_hostname() == 'maximus':
         locs = config.LOCS
     else:
@@ -70,3 +69,9 @@ if __name__ == "__main__":
         if dbf.scan():
             dbf.print_statistics()
         
+
+
+
+if __name__ == "__main__":
+    start()
+

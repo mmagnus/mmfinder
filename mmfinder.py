@@ -1,4 +1,7 @@
 #!/usr/bin/python
+
+VERSION = '0.01'
+
 """
 * todo
 ** otworz folder ! 
@@ -12,11 +15,12 @@ import subprocess
 import commands
 import re 
 import time
-
+from optparse import OptionParser
 import config
+import mmfinder_deamon
 
 op = {}
-op['txt'] = 'gedit '
+op['txt'] = 'gedit ' 
 #op['pdf'] = 'evince '
 #op['pdf'] = 'okular '
 op['pdf'] = 'mmpdf.sh '
@@ -34,38 +38,33 @@ class main:
         pass
 
     def search(self, word,ext = '', method = 'find', verbose = True):
-        mmscikit.hr()
-        #@@@@@@ 
-        if method == 'find':
-            cmd = "find /home/magnus/ -iname '*" + word + "*" + ext + "*'"
-        if method == 'locate_local':
-            cmd = "locate -d /home/magnus/Dropbox/db/netbook. -iname '*" + word + "*" + ext + "*'"
-        if method == 'locate_global':
-            cmd = "locate -d /home/magnus/Dropbox/db/netbook. -iname '*" + word + "*" + ext + "*'"
-            #####
-            ####
-            # and inne...
-            wrzuca jako liste
-            # @@@ maximus @@@
-            # @@@ netbook @@@
-            # @@@   1TB   @@@
 
-        #@@@@@@ 
-        if verbose:
-            print '# cmd', cmd
-        out = mmscikit.shell2(cmd)
+        verbose_cmd = False
+        list_with_action = False
+
         mmscikit.hr()
-        print
+        print config.PLACES
         
-        c = 0
-        for item in out.strip().split('\n'):
-            id = IDS[c]
-            i = obj(id, item)
-            self.items.append(i)
-            i.check_filetype()
-            i.show()
-            c += 1
-        print
+        for p in config.PLACES:
+            mmscikit.hr_text( p + '...' )
+            #if method == 'locate_local':
+            cmd = "locate -d " + config.PATH_DB + p + '.db' + ' -b -i ' + word
+            if verbose_cmd:
+                print '# cmd', cmd
+            #out = mmscikit.shell(cmd)
+            os.system(cmd)
+            out = commands.getoutput(cmd).strip()
+            if out and list_with_action:
+                #mmscikit.hr()
+                c = 0
+                for item in out.strip().split('\n'):
+                    id = IDS[c]
+                    i = obj(id, item)
+                    self.items.append(i)
+                    i.check_filetype()
+                    i.show()
+                    c += 1
+                print
 
     def get_command(self):
         input = raw_input('What to do? [ao]:')
@@ -164,17 +163,43 @@ class obj:
                 self.is_empty = True
                    
         #print '\t#filetype: ',self.filetype
+
+def option_parser():
+    """
+    """
+    description=''
+    version=VERSION
+    usage='%prog -u -n dir'
+    parser = OptionParser(description=description,
+                              version=version,
+                              usage=usage)
+    parser.add_option("-u", "--update_db", dest="update_db", default=False,help="force to update databases", action="store_true")
+    (opt, args) = parser.parse_args()
+    
+    #@@
+    #if not args:
+    #    parser.print_help()
+    #    sys.exit(1)
+    
+    if opt.update_db:
+        print 'mmfinder_deamon start...'
+        mmfinder_deamon.start()
+        mmscikit.hr()
+        print 'mmfinder_deamon [done]'
+        time.sleep(2)
+
+    return args
+
 if __name__ == "__main__":
-    os.system('clear')
+    #os.system('clear')
     mmscikit.banner2('mmfinder.py')
-    #for i in range(0,3):
-    #    print '.'
-    #    time.sleep(0.2)
-    while 1:
+    args = option_parser()
+
+    if 1:
         m = main()
         if True:
-            m.search(sys.argv[1],sys.argv[2])
-            m.get_command()
+            m.search(args[0], '')
+            #m.get_command()
         else:
             what_to_find = raw_input('>>> ')
             if what_to_find == '':
@@ -185,4 +210,4 @@ if __name__ == "__main__":
                     m.search(what_to_find1, what_to_find2)
                 else:
                     m.search(what_to_find)
-                m.get_command()
+                #m.get_command()

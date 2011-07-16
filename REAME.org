@@ -1,0 +1,36 @@
+
+real	2m47.866s
+user	0m0.980s
+sys	0m4.140s
+
+tyle teraz trwa zaktualizowanie baz
+
+
+22 * * * * /home/magnus/Dropbox/workspace/mmfinder/mmfinder.py_deamon.py
+
+* TODO
+** -f opcja dla full search po innych dyskach itd 
+** -u opcja dla updatu baz danych przed wykonaniem danego przeszukania
+** -s opcja dla wykonania find cmd zamiast locate i danych baz danych, wtedy to zrobic trzeba dla tylko danego dysku
+** hash na koncu item, lub size przynajmiej coby wiedziec czy to ten sam plik
+####################################################################################################
+['dropbox', 'maximus', 'netbook', 'EON', '8GB2', '1TB']
+####################################################################################### dropbox... #
+####################################################################################### maximus... #
+/home/magnus/.local/share/Trash/info/Unknown - Biochemia - Jeremy M. Berg, Lubert Stryer, John L. Tymoczko.pdf - Unknown - Unknown.pdf.trashinfo
+/home/magnus/.local/share/Trash/info/Unknown - Lubert Stryer- Biochemia.pdf - Unknown - Unknown.pdf.trashinfo
+/home/magnus/.local/share/Trash/info/Unknown. Biochemia - Jeremy M. Berg, Lubert Stryer, John L. Tymoczko.pdf. Unknown.pdf.trashinfo
+/home/magnus/.local/share/Trash/info/Unknown. Lubert Stryer- Biochemia.pdf. Unknown.pdf.trashinfo
+/home/magnus/Downloads/completed/Biology/Biochemistry/Berg, Tymoczko, Stryer - Biochemistry - Fifth Edition.pdf
+/home/magnus/Downloads/completed/Biology/Biochemistry/Biochemistry 5th ed - Jeremy M. Berg, John L. Tymoczko, Lubert Stryer.pdf
+/home/magnus/papers-uam/PDF.LIBRARY/books/books/Books_Szymon/biochemistry.stryer
+/home/magnus/papers-uam/PDF.LIBRARY/books/books/Books_Szymon/biochemistry.stryer.rar
+/home/magnus/papers-uam/PDF.LIBRARY/books/books/Books_Szymon/biochemistry.stryer/biochemistry.stryer
+/home/magnus/papers-uam/uam/PDF.LIBRARY/books/books/Books_Szymon/biochemistry.stryer
+/home/magnus/papers-uam/uam/PDF.LIBRARY/books/books/Books_Szymon/biochemistry.stryer/biochemistry.stryer
+/home/magnus/pdfbooks/Biochemia - Jeremy M. Berg, Lubert Stryer, John L. Tymoczko.pdf
+/home/magnus/pdfbooks/Biochemistry 5th ed - Jeremy M. Berg, John L. Tymoczko, Lubert Stryer WEBversion .pdf
+/home/magnus/pdfbooks/Lubert Stryer- Biochemia.pdf @@@@@@@@@@ 423f32 itd HASH @@@@@@@@@@@@@@
+** przeszukuj jeszcze jakies inne repozytoria publikacji itd.. inne komputery inne papieru ktorzy maja ludzie
+** do pliku sprawdzonego przez magnusa dopisuj Stryer.mmOK.pdf to znaczy ze zostal curated przez MM
+
