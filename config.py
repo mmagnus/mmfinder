@@ -13,6 +13,7 @@ LOCS = {
 
     'maximus' : '/home/magnus/',
     '1TB'     : '/media/1TB',
+    'StoreJet'     : '/media/StoreJet',
     }
 
 LOCS = {
@@ -26,6 +27,7 @@ LOCS = {
     'dropbox' : '/home/magnus/Dropbox',
 
     'maximus' : '/home/magnus/',
+    'StoreJet'     : '/media/StoreJet',
     #'1TB'     : '/media/1TB',
     }
 
@@ -43,9 +45,10 @@ LOCS_NETBOOK = {
     '8GB2'   : '/media/8GB2'    ,
 
     '1TB'     : '/media/1TB',
+    'StoreJet'     : '/media/StoreJet',
     }
 
-PLACES = ['dropbox','maximus', 'netbook','EON',  '8GB2', '1TB'] # 'SD8GB',
+PLACES = ['dropbox','maximus', 'netbook','EON',  '8GB2', '1TB', 'StoreJet'] # 'SD8GB',
 #PLACES = ['dropbox','maximus']
 PLACES_LOCAL = ['dropbox'] # + hostname
 PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'
