@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-VERSION = '0.02'
+VERSION = '0.03'
 
 """
 * todo
@@ -37,9 +37,9 @@ class main:
     def load_db(self):
         pass
 
-    def search(self, word, local_search, ext = '', method = 'find', verbose = True):
+    def search(self, word, local_search,find_dir, ext = '', method = 'find', verbose = True):
 
-        verbose_cmd = False
+        verbose_cmd = True
         list_with_action = False
 
         mmscikit.hr()
@@ -49,11 +49,25 @@ class main:
             PLACES.append(mmscikit.get_hostname())
         else:
             PLACES = config.PLACES
-        
+        # @@@
+        if find_dir:
+            PLACES = ['find@' + mmscikit.get_hostname()]
         for p in PLACES:
             mmscikit.hr_text( p + '...' )
             #if method == 'locate_local':
-            cmd = "locate -d " + config.PATH_DB + p + '.db' + ' -b -i ' + word
+            # @@@@
+            # -e existing a co ze zdalnymi bazami?!?!
+            if find_dir:
+                cmd = "find ~ -iname '*" + word + "*' -type d" ## very slow :-(
+                if False:
+                    if word.startswith('^'):
+                        word_without = word.replace('^','')
+                        cmd = "locate -d " + config.PATH_DB + p + '.db' + " -e -i -r  '/" + word_without +"*' | xargs file" #locate -r '/*python2.7*/' | less
+                    else:
+                        cmd = "locate -d " + config.PATH_DB + p + '.db' + " -e -i -r  '/*" + word +"*/'" #locate -r '/*python2.7*/' | less
+            else:
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + ' -e -b -i ' + word
+            # @@@@
             if verbose_cmd:
                 print '# cmd', cmd
             #out = mmscikit.shell(cmd)
@@ -67,7 +81,13 @@ class main:
                     i = obj(id, item)
                     self.items.append(i)
                     i.check_filetype()
-                    i.show()
+                    print i.is_dir
+                    if i.is_dir and find_dir:
+                        i.show()
+                    print 'x'
+                    #if not find_dir:
+                     #   i.show()
+                                            
                     c += 1
                 print
 
@@ -180,7 +200,7 @@ def option_parser():
                               usage=usage)
     parser.add_option("-u", "--update_db", dest="update_db", default=False,help="force to update databases", action="store_true")
     parser.add_option("-l", "--local_search", dest="local_search", default=False,help="search only local host i dropbox", action="store_true")
-
+    parser.add_option("-d", "--find_dir", dest="find_dir", default=False,help="search only for directories", action="store_true")
     (opt, args) = parser.parse_args()
 
     #@@
@@ -195,18 +215,18 @@ def option_parser():
         print 'mmfinder_deamon [done]'
         time.sleep(2)
 
-    return args, opt.local_search
+    return args, opt.local_search, opt.find_dir
 
 def start():
     #os.system('clear')
     mmscikit.banner2('mmfinder.py')
-    args, local_search = option_parser()
+    args, local_search, find_dir = option_parser()
     #print args
     #print local_search
     if 1:
         m = main()
         if True:
-            m.search(args[0], local_search, '')
+            m.search(args[0], local_search,find_dir ,'')
             #m.get_command()
         else:
             what_to_find = raw_input('>>> ')

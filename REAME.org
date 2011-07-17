@@ -8,11 +8,14 @@ tyle teraz trwa zaktualizowanie baz
 
 22 * * * * /home/magnus/Dropbox/workspace/mmfinder/mmfinder.py_deamon.py
 
+* moj db system
+lista plikow, info hash, size, czy dyrectory
+
 * TODO
-** -f opcja dla full search po innych dyskach itd 
-** -u opcja dla updatu baz danych przed wykonaniem danego przeszukania
+** DONE -f opcja dla full search po innych dyskach itd 
+** DONE -u opcja dla updatu baz danych przed wykonaniem danego przeszukania
 ** -s opcja dla wykonania find cmd zamiast locate i danych baz danych, wtedy to zrobic trzeba dla tylko danego dysku
-** hash na koncu item, lub size przynajmiej coby wiedziec czy to ten sam plik
+** hash na koncu item, lub size przynajmiej coby wiedziec czy to ten sam plik, no ale wtedy plik nie moze byc z bazy danych
 ####################################################################################################
 ['dropbox', 'maximus', 'netbook', 'EON', '8GB2', '1TB']
 ####################################################################################### dropbox... #
@@ -32,5 +35,6 @@ tyle teraz trwa zaktualizowanie baz
 /home/magnus/pdfbooks/Biochemistry 5th ed - Jeremy M. Berg, John L. Tymoczko, Lubert Stryer WEBversion .pdf
 /home/magnus/pdfbooks/Lubert Stryer- Biochemia.pdf @@@@@@@@@@ 423f32 itd HASH @@@@@@@@@@@@@@
 ** przeszukuj jeszcze jakies inne repozytoria publikacji itd.. inne komputery inne papieru ktorzy maja ludzie
-** do pliku sprawdzonego przez magnusa dopisuj Stryer.mmOK.pdf to znaczy ze zostal curated przez MM
+
+* do pliku sprawdzonego przez magnusa dopisuj Stryer.mmOK.pdf to znaczy ze zostal curated przez MM
 
