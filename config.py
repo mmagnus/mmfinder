@@ -48,7 +48,7 @@ LOCS_NETBOOK = {
     'StoreJet'     : '/media/StoreJet',
     }
 
-PLACES = ['dropbox','maximus', 'netbook','EON',  '8GB2', '1TB', 'StoreJet'] # 'SD8GB',
+PLACES = ['dropbox','maximus', 'magnusbook','EON',  '8GB2', '1TB', 'StoreJet'] # 'SD8GB',
 #PLACES = ['dropbox','maximus']
 PLACES_LOCAL = ['dropbox'] # + hostname
 PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'

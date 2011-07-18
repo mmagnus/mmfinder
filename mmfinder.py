@@ -41,7 +41,7 @@ class main:
     def search(self, word,global_search,find_dir, find_find,pdf_find, ext = '', method = 'find', verbose = True):
 
         verbose_cmd = True
-        list_with_action = False
+        list_with_action = True
 
         mmscikit.hr()
         # @@@        
@@ -61,7 +61,7 @@ class main:
             # @@@@
             # -e existing a co ze zdalnymi bazami?!?!
             if pdf_find:
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i '*" + word + "*.pdf*'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i '*" + word + "*.pdf'"
             elif find_find:
                 cmd = "find ~ -iname '*" + word + "*'"
             elif find_dir:
@@ -73,33 +73,37 @@ class main:
                     else:
                         cmd = "locate -d " + config.PATH_DB + p + '.db' + " -e -i -r  '/*" + word +"*/'" #locate -r '/*python2.7*/' | less
             else:
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i '*" + word + '"'
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i '*" + word + "*'"
             # @@@@
             if verbose_cmd:
                 print '# cmd', cmd
             #out = mmscikit.shell(cmd)
-            os.system(cmd)
+            #os.system(cmd)
             out = commands.getoutput(cmd).strip()
+
+
             if out and list_with_action:
                 #mmscikit.hr()
                 c = 0
                 for item in out.strip().split('\n'):
-                    id = IDS[c]
+                    ########################################### @@ BUG @@ id = IDS[c]
+                    id = 'a' ### TO FIX
+
                     i = obj(id, item)
                     self.items.append(i)
                     i.check_filetype()
-                    print i.is_dir
-                    if i.is_dir and find_dir:
-                        i.show()
-                    print 'x'
+                    #print i.is_dir
+                    #if i.is_dir and find_dir:
+                    #    i.show()
+                    #print 'x'
                     #if not find_dir:
-                     #   i.show()
+                    i.show()
                                             
                     c += 1
                 print
 
     def get_command(self):
-        input = raw_input('What to do? [ao]:')
+        input = raw_input('What to do? [ids action] [abc o]:')
         if not len(input.strip()):
             print 'exit'
             sys.exit(1)
@@ -114,10 +118,10 @@ class main:
         # change a-c -> abc
         if re.search('-',  ids):
             start, end = ids.split('-')
-            #print start, end
-            #print IDS.index(start)
+            print start, end
+            print IDS.index(start)
             ids = IDS[ IDS.index(start): IDS.index(end)+1 ]
-            #print ids
+            print ids
         # ** end ** change a-c -> abc
 
         print 'ids', ids
@@ -157,10 +161,20 @@ class obj:
         self.filetype = ''
         self.is_pdf = False
         self.is_empty = False
+
     def show(self):
         if not self.is_empty:
-            out = '\t [' + self.filetype + '] ' + self.id + ') '+self.path
+            #out = '\t [' + self.filetype + '] ' + self.id + ") file://"+self.path.replace(' ','\ ')+""
+            #out = '\t [' + self.filetype + '] ' + self.id + ") file://"+self.path.replace(' ','%20')+""
+            print
+            mmscikit.print_red('\t' + os.path.dirname(self.path).strip()+'/', newline = False)
+            mmscikit.print_blue(''+os.path.basename(self.path))
+            #out = '\t [' + self.filetype + '] ' + self.id + ") " + '' + " \t\tfile://"+self.path.replace(' ','%20')+""
+            out = "\tfile://"+self.path.replace(' ','%20')+""
+            #out = '\t [' + self.filetype + '] ' + self.id + ") file:'//"+self.path+"'" # NO
+            #out = '\t [' + self.filetype + '] ' + self.id + ") 'file://"+self.path+"'" # NO
             print out
+
     def check_filetype(self):
         if not os.path.isfile(self.path):
             self.is_dir = True
