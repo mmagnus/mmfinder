@@ -38,7 +38,7 @@ class main:
     def load_db(self):
         pass
 
-    def search(self, word,global_search,find_dir, find_find, ext = '', method = 'find', verbose = True):
+    def search(self, word,global_search,find_dir, find_find,pdf_find, ext = '', method = 'find', verbose = True):
 
         verbose_cmd = True
         list_with_action = False
@@ -60,9 +60,11 @@ class main:
             #if method == 'locate_local':
             # @@@@
             # -e existing a co ze zdalnymi bazami?!?!
-            if find_find:
+            if pdf_find:
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i '*" + word + "*.pdf*'"
+            elif find_find:
                 cmd = "find ~ -iname '*" + word + "*'"
-            if find_dir:
+            elif find_dir:
                 cmd = "find ~ -iname '*" + word + "*' -type d" ## very slow :-(
                 if False:
                     if word.startswith('^'):
@@ -71,7 +73,7 @@ class main:
                     else:
                         cmd = "locate -d " + config.PATH_DB + p + '.db' + " -e -i -r  '/*" + word +"*/'" #locate -r '/*python2.7*/' | less
             else:
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + ' -e -b -i ' + word
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i '*" + word + '"'
             # @@@@
             if verbose_cmd:
                 print '# cmd', cmd
@@ -208,6 +210,7 @@ def option_parser():
     parser.add_option("-g", "--global_search", dest="global_search", default=False,help="search globally all PLACES", action="store_true")
     parser.add_option("-d", "--find_dir", dest="find_dir", default=False,help="search only for directories", action="store_true")
     parser.add_option("-f", "--find_find", dest="find_find", default=False,help="search only local via find ~", action="store_true")
+    parser.add_option("-p", "--pdf_find", dest="pdf_find", default=False,help="search only for PDFs", action="store_true")
     (opt, args) = parser.parse_args()
 
     #@@
@@ -222,18 +225,18 @@ def option_parser():
         print 'mmfinder_deamon [done]'
         time.sleep(2)
 
-    return args, opt.global_search, opt.find_dir, opt.find_find
+    return args, opt.global_search, opt.find_dir, opt.find_find, opt.pdf_find
 
 def start():
     #os.system('clear')
     mmscikit.banner2('mmfinder.py')
-    args, global_search, find_dir, find_find = option_parser()
+    args, global_search, find_dir, find_find, pdf_find = option_parser()
     #print args
     #print local_search
     if 1:
         m = main()
         if True:
-            m.search(args[0], global_search,find_dir, find_find ,'')
+            m.search(args[0], global_search,find_dir, find_find,pdf_find ,'')
             #m.get_command()
         else:
             what_to_find = raw_input('>>> ')

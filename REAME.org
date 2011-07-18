@@ -43,9 +43,15 @@ pylucene
 *Release Notes*
 =======================================
 
-Change of Version 0.04
--g global.. opcja przeszukiwania lokalnego staje sie domyslna
+version 0.05
+ * -p search for pdfs only
+ * small changes in if-s
 
+Change of Version 0.04
+ * -g global.. opcja przeszukiwania lokalnego staje sie domyslna
+ * add StoreJet
+
+[..]
 
 
 * Ile trwa aktualizowanie baz? (okolo kilku minut)*
