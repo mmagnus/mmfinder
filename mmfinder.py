@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-VERSION = '0.03'
+VERSION = '0.04'
+
 
 """
 * todo
@@ -37,26 +38,30 @@ class main:
     def load_db(self):
         pass
 
-    def search(self, word, local_search,find_dir, ext = '', method = 'find', verbose = True):
+    def search(self, word,global_search,find_dir, find_find, ext = '', method = 'find', verbose = True):
 
         verbose_cmd = True
         list_with_action = False
 
         mmscikit.hr()
-        
-        if local_search:
+        # @@@        
+        if global_search:
+            PLACES = config.PLACES
+        else:
             PLACES = config.PLACES_LOCAL
             PLACES.append(mmscikit.get_hostname())
-        else:
-            PLACES = config.PLACES
         # @@@
         if find_dir:
+            PLACES = ['find directories@' + mmscikit.get_hostname()]
+        if find_find:
             PLACES = ['find@' + mmscikit.get_hostname()]
         for p in PLACES:
             mmscikit.hr_text( p + '...' )
             #if method == 'locate_local':
             # @@@@
             # -e existing a co ze zdalnymi bazami?!?!
+            if find_find:
+                cmd = "find ~ -iname '*" + word + "*'"
             if find_dir:
                 cmd = "find ~ -iname '*" + word + "*' -type d" ## very slow :-(
                 if False:
@@ -199,8 +204,10 @@ def option_parser():
                               version=version,
                               usage=usage)
     parser.add_option("-u", "--update_db", dest="update_db", default=False,help="force to update databases", action="store_true")
-    parser.add_option("-l", "--local_search", dest="local_search", default=False,help="search only local host i dropbox", action="store_true")
+    #parser.add_option("-l", "--local_search", dest="local_search", default=True,help="search only local host i dropbox", action="store_true")
+    parser.add_option("-g", "--global_search", dest="global_search", default=False,help="search globally all PLACES", action="store_true")
     parser.add_option("-d", "--find_dir", dest="find_dir", default=False,help="search only for directories", action="store_true")
+    parser.add_option("-f", "--find_find", dest="find_find", default=False,help="search only local via find ~", action="store_true")
     (opt, args) = parser.parse_args()
 
     #@@
@@ -215,18 +222,18 @@ def option_parser():
         print 'mmfinder_deamon [done]'
         time.sleep(2)
 
-    return args, opt.local_search, opt.find_dir
+    return args, opt.global_search, opt.find_dir, opt.find_find
 
 def start():
     #os.system('clear')
     mmscikit.banner2('mmfinder.py')
-    args, local_search, find_dir = option_parser()
+    args, global_search, find_dir, find_find = option_parser()
     #print args
     #print local_search
     if 1:
         m = main()
         if True:
-            m.search(args[0], local_search,find_dir ,'')
+            m.search(args[0], global_search,find_dir, find_find ,'')
             #m.get_command()
         else:
             what_to_find = raw_input('>>> ')

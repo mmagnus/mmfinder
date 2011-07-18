@@ -27,7 +27,7 @@ LOCS = {
     'dropbox' : '/home/magnus/Dropbox',
 
     'maximus' : '/home/magnus/',
-    'StoreJet'     : '/media/StoreJet',
+    #'StoreJet'     : '/media/StoreJet',
     #'1TB'     : '/media/1TB',
     }
 
