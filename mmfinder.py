@@ -1,13 +1,7 @@
 #!/usr/bin/python
 
-VERSION = '0.04'
+VERSION = '0.09'
 
-
-"""
-* todo
-** otworz folder ! 
-** przejdz do niego z konsoli
-"""
 import mmscikit
 import sys
 import string
@@ -38,10 +32,12 @@ class main:
     def load_db(self):
         pass
 
-    def search(self, word,global_search,find_dir, find_find,pdf_find, ext = '', method = 'find', verbose = True):
+    def search(self, word,word2, options, ext = '', method = 'find', verbose = True):
 
         verbose_cmd = True
         list_with_action = True
+        
+        show_hash,global_search,find_dir, find_find,pdf_find, document_find = options
 
         mmscikit.hr()
         # @@@        
@@ -60,8 +56,15 @@ class main:
             #if method == 'locate_local':
             # @@@@
             # -e existing a co ze zdalnymi bazami?!?!
+            #
+            # TODO word2
+            #
             if pdf_find:
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i '*" + word + "*.pdf'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i '*" + word + "*" + word2 + "*.pdf$'"
+
+            if document_find:
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i --regex '.*" + word + ".*" + word2 + ".*(doc$|odt$)'"
+                
             elif find_find:
                 cmd = "find ~ -iname '*" + word + "*'"
             elif find_dir:
@@ -73,7 +76,7 @@ class main:
                     else:
                         cmd = "locate -d " + config.PATH_DB + p + '.db' + " -e -i -r  '/*" + word +"*/'" #locate -r '/*python2.7*/' | less
             else:
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i '*" + word + "*'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i '*" + word + "*"+ word2 +"*'"
             # @@@@
             if verbose_cmd:
                 print '# cmd', cmd
@@ -97,7 +100,7 @@ class main:
                     #    i.show()
                     #print 'x'
                     #if not find_dir:
-                    i.show()
+                    i.show(show_hash)
                                             
                     c += 1
                 print
@@ -162,15 +165,24 @@ class obj:
         self.is_pdf = False
         self.is_empty = False
 
-    def show(self):
+    def show(self, show_hash):
         if not self.is_empty:
             #out = '\t [' + self.filetype + '] ' + self.id + ") file://"+self.path.replace(' ','\ ')+""
             #out = '\t [' + self.filetype + '] ' + self.id + ") file://"+self.path.replace(' ','%20')+""
             print
             mmscikit.print_red('\t' + os.path.dirname(self.path).strip()+'/', newline = False)
             mmscikit.print_blue(''+os.path.basename(self.path))
+            out = ''
+            
+            ### 
+            dir_file = True
+            
+            if dir_file:
+                out = "\tfile://"+os.path.dirname(self.path).strip().replace(' ','%20')+"\n"
             #out = '\t [' + self.filetype + '] ' + self.id + ") " + '' + " \t\tfile://"+self.path.replace(' ','%20')+""
-            out = "\tfile://"+self.path.replace(' ','%20')+""
+            out += "\tfile://"+self.path.replace(' ','%20')+""
+            if show_hash:
+                out += '\n\t'+ mmscikit.hash_file(self.path)[0]
             #out = '\t [' + self.filetype + '] ' + self.id + ") file:'//"+self.path+"'" # NO
             #out = '\t [' + self.filetype + '] ' + self.id + ") 'file://"+self.path+"'" # NO
             print out
@@ -215,7 +227,7 @@ def option_parser():
     """
     description=''
     version=VERSION
-    usage='%prog -u -n dir'
+    usage='%prog <options> word word2'
     parser = OptionParser(description=description,
                               version=version,
                               usage=usage)
@@ -225,6 +237,8 @@ def option_parser():
     parser.add_option("-d", "--find_dir", dest="find_dir", default=False,help="search only for directories", action="store_true")
     parser.add_option("-f", "--find_find", dest="find_find", default=False,help="search only local via find ~", action="store_true")
     parser.add_option("-p", "--pdf_find", dest="pdf_find", default=False,help="search only for PDFs", action="store_true")
+    parser.add_option("-s", "--show_hash", dest="show_hash", default=False,help="show_hash", action="store_true")
+    parser.add_option("-o", "--document_find", dest="document_find", default=False,help="document_find", action="store_true")
     (opt, args) = parser.parse_args()
 
     #@@
@@ -239,18 +253,21 @@ def option_parser():
         print 'mmfinder_deamon [done]'
         time.sleep(2)
 
-    return args, opt.global_search, opt.find_dir, opt.find_find, opt.pdf_find
+    return args, [opt.global_search, opt.find_dir, opt.find_find, opt.pdf_find, opt.show_hash, opt.document_find]
 
 def start():
-    #os.system('clear')
     mmscikit.banner2('mmfinder.py')
-    args, global_search, find_dir, find_find, pdf_find = option_parser()
-    #print args
-    #print local_search
-    if 1:
+    args, options = option_parser()
+    # @@@
+    if args:
         m = main()
         if True:
-            m.search(args[0], global_search,find_dir, find_find,pdf_find ,'')
+            args1 = args[0]
+            try:
+                arg2 = args[1]
+            except:
+                arg2 = ''
+            m.search(args1,arg2,options)#show_hash, global_search,find_dir, find_find,pdf_find ,'')
             #m.get_command()
         else:
             what_to_find = raw_input('>>> ')

@@ -42,6 +42,11 @@ pylucene
 
 *Release Notes*
 =======================================
+version 0.09
+ * -s show hash
+ * word, word2
+ * -d document odt|doc
+ * -u in crontab
 
 version 0.05
  * -p search for pdfs only

@@ -1,3 +1,10 @@
+import sys
+
+PATH = '/home/magnus/Dropbox/workspace/mmfinder/'
+sys.path.append(PATH)
+sys.path.append('/home/magnus/Dropbox/workspace/mmscikit/')
+print sys.path
+
 RUN_UPDATE = True
 
 
@@ -16,7 +23,7 @@ LOCS = {
     'StoreJet'     : '/media/StoreJet',
     }
 
-LOCS = {
+LOCS2 = {
     #'EON'     : '/media/EONVECTOR',
     #1 SD 'EON'     : '/media/EONVECTOR',
     #2 SD 
@@ -52,3 +59,4 @@ PLACES = ['dropbox','maximus', 'magnusbook','EON',  '8GB2', '1TB', 'StoreJet'] #
 #PLACES = ['dropbox','maximus']
 PLACES_LOCAL = ['dropbox'] # + hostname
 PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'
+

@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import config
 import mmscikit
 import sys
 import string
@@ -10,8 +11,6 @@ import re
 import time
 import os.path
 
-
-import config
 
 class db:
     """
@@ -50,6 +49,8 @@ class db:
         return 
         
 def start():
+
+
     if mmscikit.get_hostname() == 'maximus':
         locs = config.LOCS
     else:
@@ -69,6 +70,11 @@ def start():
         if dbf.scan():
             dbf.print_statistics()
 
+    ## log
+    f = open(config.PATH + '/log', 'aw')
+    f.write(mmscikit.get_datetime() + '\n')
+    f.close(
+)
 if __name__ == "__main__":
     start()
 
