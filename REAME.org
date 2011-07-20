@@ -72,6 +72,7 @@ tyle teraz trwa zaktualizowanie baz
 lista plikow, info hash, size, czy dyrectory
 
 * TODO
+** patrz funkcja *check_filetype* sprawdz tam zapisane TODO
 ** DONE -f opcja dla full search po innych dyskach itd 
 ** DONE -u opcja dla updatu baz danych przed wykonaniem danego przeszukania
 ** -s opcja dla wykonania find cmd zamiast locate i danych baz danych, wtedy to zrobic trzeba dla tylko danego dysku

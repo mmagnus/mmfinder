@@ -35,6 +35,7 @@ class main:
     def search(self, word,word2, options, ext = '', method = 'find', verbose = True):
 
         verbose_cmd = True
+        verbose_out = False
         list_with_action = True
         
         show_hash,global_search,find_dir, find_find,pdf_find, document_find = options
@@ -84,6 +85,8 @@ class main:
             #os.system(cmd)
             out = commands.getoutput(cmd).strip()
 
+            if verbose_out:
+                print out
 
             if out and list_with_action:
                 #mmscikit.hr()
@@ -166,7 +169,7 @@ class obj:
         self.is_empty = False
 
     def show(self, show_hash):
-        if not self.is_empty:
+        #if not self.is_empty:
             #out = '\t [' + self.filetype + '] ' + self.id + ") file://"+self.path.replace(' ','\ ')+""
             #out = '\t [' + self.filetype + '] ' + self.id + ") file://"+self.path.replace(' ','%20')+""
             print
@@ -188,6 +191,15 @@ class obj:
             print out
 
     def check_filetype(self):
+        """
+
+        problem.. jezeli plik nie wpadnie w zadna z kategorii to (czyli self.filetype == '') to wtedy dostaje is_empty
+
+magnus@maximus:~/Dropbox/workspace/mmfinder$ file /home/magnus/Dropbox/workspace/myutil/backup_mysql_maximus.sh 
+/home/magnus/Dropbox/workspace/myutil/backup_mysql_maximus.sh: Bourne-Again shell script text executable
+
+
+        """
         if not os.path.isfile(self.path):
             self.is_dir = True
             self.filetype = 'dir'
@@ -214,7 +226,7 @@ class obj:
                 self.is_doc = True
                 self.filetype = 'doc'
 
-            if self.filetype == '': ## if still ''
+            if self.filetype == '': ## if still '' ###### 
                 #print 'out'
                 #print out
                 self.filetype = 'empty'

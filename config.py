@@ -3,7 +3,7 @@ import sys
 PATH = '/home/magnus/Dropbox/workspace/mmfinder/'
 sys.path.append(PATH)
 sys.path.append('/home/magnus/Dropbox/workspace/mmscikit/')
-print sys.path
+
 
 RUN_UPDATE = True
 
