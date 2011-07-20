@@ -60,18 +60,23 @@ class main:
             #
             # TODO word2
             #
+            status = ''
             
             if opt.pdf_find:
+                status = 'pdf searching...'
 
             if opt.document_find:
             elif opt.document_find:
+                status = 'document searching...'
                 cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i --regex '.*" + word + ".*" + word2 + ".*(doc$|odt$)'"
-                
             elif opt.find_tu:
+                status = 'finding here (tutaj)...'
                 cmd = "find " + os.getcwd() + " -iname '*" + word + "*" + word2 +"'"
             elif opt.find_find:
+                status = 'finding /home/...'
                 cmd = "find ~ -iname '*" + word + "*" + word2 +"'"
             elif opt.find_dir:
+                status = 'finding a dir /...'
                 cmd = "find ~ -iname '*" + word + "*" + word2 + "' -type d" ## very slow :-(
                 if False:
                     if word.startswith('^'):
@@ -80,9 +85,11 @@ class main:
                     else:
                         cmd = "locate -d " + config.PATH_DB + p + '.db' + " -e -i -r  '/*" + word +"*/'" #locate -r '/*python2.7*/' | less
             else:
+                status = 'basic search...'
                 cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i '*" + word + "*"+ word2 +"*'"
             # @@@@
             if verbose_cmd:
+                print '# status:', status
                 print '# cmd', cmd
             #out = mmscikit.shell(cmd)
             #os.system(cmd)
