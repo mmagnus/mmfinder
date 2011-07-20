@@ -50,6 +50,8 @@ class main:
             PLACES = ['find directories@' + mmscikit.get_hostname()]
         if opt.find_find:
             PLACES = ['find@' + mmscikit.get_hostname()]
+        if opt.find_tu:
+            PLACES = ['find here -t tu@' + mmscikit.get_hostname()]
         for p in PLACES:
             mmscikit.hr_text( p + '...' )
             #if method == 'locate_local':
@@ -65,6 +67,8 @@ class main:
             if opt.document_find:
                 cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i --regex '.*" + word + ".*" + word2 + ".*(doc$|odt$)'"
                 
+            elif opt.find_tu:
+                cmd = "find " + os.getcwd() + " -iname '*" + word + "*" + word2 +"'"
             elif opt.find_find:
                 cmd = "find ~ -iname '*" + word + "*'"
             elif opt.find_dir:
@@ -250,6 +254,9 @@ def option_parser():
     parser.add_option("-p", "--pdf_find", dest="pdf_find", default=False,help="search only for PDFs", action="store_true")
     parser.add_option("-s", "--show_hash", dest="show_hash", default=False,help="show_hash", action="store_true")
     parser.add_option("-o", "--document_find", dest="document_find", default=False,help="document_find (documents are odt, doc)", action="store_true")
+
+    parser.add_option("-t", "--find_tu", dest="find_tu", default=False,help="find in a folder", action="store_true")
+
     (opt, args) = parser.parse_args()
 
     #@@
