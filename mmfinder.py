@@ -64,8 +64,7 @@ class main:
             
             if opt.pdf_find:
                 status = 'pdf searching...'
-
-            if opt.document_find:
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i -r '.*" + word + ".*" + word2 + ".*pdf$'"
             elif opt.document_find:
                 status = 'document searching...'
                 cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i --regex '.*" + word + ".*" + word2 + ".*(doc$|odt$)'"
