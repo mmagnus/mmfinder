@@ -40,6 +40,12 @@ http://stackoverflow.com/questions/532312/python-file-indexing-and-searching
 
 pylucene
 
+*opt obj*
+
+    #print opt {'global_search': False, 'pdf_find': False, 'find_tu': False, 'show_hash': False, 'update_db': False, 'find_dir': False, 'document_find': False, 'find_find': False}
+    #print type(opt) <type 'instance'>
+
+
 *Release Notes*
 =======================================
 version 0.09

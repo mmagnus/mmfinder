@@ -32,25 +32,23 @@ class main:
     def load_db(self):
         pass
 
-    def search(self, word,word2, options, ext = '', method = 'find', verbose = True):
+    def search(self, word,word2, opt, ext = '', method = 'find', verbose = True):
 
         verbose_cmd = True
         verbose_out = False
         list_with_action = True
         
-        show_hash,global_search,find_dir, find_find,pdf_find, document_find = options
-
         mmscikit.hr()
         # @@@        
-        if global_search:
+        if opt.global_search:
             PLACES = config.PLACES
         else:
             PLACES = config.PLACES_LOCAL
             PLACES.append(mmscikit.get_hostname())
         # @@@
-        if find_dir:
+        if opt.find_dir:
             PLACES = ['find directories@' + mmscikit.get_hostname()]
-        if find_find:
+        if opt.find_find:
             PLACES = ['find@' + mmscikit.get_hostname()]
         for p in PLACES:
             mmscikit.hr_text( p + '...' )
@@ -60,15 +58,16 @@ class main:
             #
             # TODO word2
             #
-            if pdf_find:
+            
+            if opt.pdf_find:
                 cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i '*" + word + "*" + word2 + "*.pdf$'"
 
-            if document_find:
+            if opt.document_find:
                 cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i --regex '.*" + word + ".*" + word2 + ".*(doc$|odt$)'"
                 
-            elif find_find:
+            elif opt.find_find:
                 cmd = "find ~ -iname '*" + word + "*'"
-            elif find_dir:
+            elif opt.find_dir:
                 cmd = "find ~ -iname '*" + word + "*' -type d" ## very slow :-(
                 if False:
                     if word.startswith('^'):
@@ -103,7 +102,7 @@ class main:
                     #    i.show()
                     #print 'x'
                     #if not find_dir:
-                    i.show(show_hash)
+                    i.show(opt.show_hash)
                                             
                     c += 1
                 print
@@ -265,7 +264,8 @@ def option_parser():
         print 'mmfinder_deamon [done]'
         time.sleep(2)
 
-    return args, [opt.global_search, opt.find_dir, opt.find_find, opt.pdf_find, opt.show_hash, opt.document_find]
+
+    return args, opt
 
 def start():
     mmscikit.banner2('mmfinder.py')
