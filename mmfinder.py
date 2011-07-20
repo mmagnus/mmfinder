@@ -62,7 +62,6 @@ class main:
             #
             
             if opt.pdf_find:
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i '*" + word + "*" + word2 + "*.pdf$'"
 
             if opt.document_find:
                 cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i --regex '.*" + word + ".*" + word2 + ".*(doc$|odt$)'"
