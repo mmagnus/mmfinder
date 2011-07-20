@@ -70,9 +70,9 @@ class main:
             elif opt.find_tu:
                 cmd = "find " + os.getcwd() + " -iname '*" + word + "*" + word2 +"'"
             elif opt.find_find:
-                cmd = "find ~ -iname '*" + word + "*'"
+                cmd = "find ~ -iname '*" + word + "*" + word2 +"'"
             elif opt.find_dir:
-                cmd = "find ~ -iname '*" + word + "*' -type d" ## very slow :-(
+                cmd = "find ~ -iname '*" + word + "*" + word2 + "' -type d" ## very slow :-(
                 if False:
                     if word.startswith('^'):
                         word_without = word.replace('^','')
