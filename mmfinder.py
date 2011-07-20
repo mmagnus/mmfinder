@@ -249,7 +249,7 @@ def option_parser():
     parser.add_option("-f", "--find_find", dest="find_find", default=False,help="search only local via find ~", action="store_true")
     parser.add_option("-p", "--pdf_find", dest="pdf_find", default=False,help="search only for PDFs", action="store_true")
     parser.add_option("-s", "--show_hash", dest="show_hash", default=False,help="show_hash", action="store_true")
-    parser.add_option("-o", "--document_find", dest="document_find", default=False,help="document_find", action="store_true")
+    parser.add_option("-o", "--document_find", dest="document_find", default=False,help="document_find (documents are odt, doc)", action="store_true")
     (opt, args) = parser.parse_args()
 
     #@@
