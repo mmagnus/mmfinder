@@ -118,6 +118,8 @@ class main:
                                             
                     c += 1
                 print
+            if opt.key and out:### and out becuase don't 'press key' for empty outputs
+                raw_input('[press key]')
 
     def get_command(self):
         input = raw_input('What to do? [ids action] [abc o]:')
@@ -265,6 +267,7 @@ def option_parser():
 
     parser.add_option("-t", "--find_tu", dest="find_tu", default=False,help="find in a folder", action="store_true")
     parser.add_option("-e", "--dev", dest="dev", default=False,help="development version.. lots of prints", action="store_true")
+    parser.add_option("-k", "--key", dest="key", default=False,help="press key every place", action="store_true")
 
     (opt, args) = parser.parse_args()
 
