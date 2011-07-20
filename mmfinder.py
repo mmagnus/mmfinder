@@ -271,6 +271,7 @@ def option_parser():
         print 'mmfinder_deamon [done]'
         time.sleep(2)
 
+    print '# opt', opt
 
     return args, opt
 
