@@ -92,10 +92,12 @@ class main:
                 print '# cmd', cmd
             #out = mmscikit.shell(cmd)
             #os.system(cmd)
+                
             out = commands.getoutput(cmd).strip()
-
-            if verbose_out:
+            if opt.dev:
+                mmscikit.hr_text('dev::out')
                 print out
+                mmscikit.hr()
 
             if out and list_with_action:
                 #mmscikit.hr()
@@ -262,6 +264,7 @@ def option_parser():
     parser.add_option("-o", "--document_find", dest="document_find", default=False,help="document_find (documents are odt, doc)", action="store_true")
 
     parser.add_option("-t", "--find_tu", dest="find_tu", default=False,help="find in a folder", action="store_true")
+    parser.add_option("-e", "--dev", dest="dev", default=False,help="development version.. lots of prints", action="store_true")
 
     (opt, args) = parser.parse_args()
 
@@ -277,13 +280,14 @@ def option_parser():
         print 'mmfinder_deamon [done]'
         time.sleep(2)
 
-    print '# opt', opt
+    if opt.dev:
+        print '# opt', opt
 
     return args, opt
 
 def start():
     mmscikit.banner2('mmfinder.py')
-    args, options = option_parser()
+    args, opt = option_parser()
     # @@@
     if args:
         m = main()
@@ -293,7 +297,7 @@ def start():
                 arg2 = args[1]
             except:
                 arg2 = ''
-            m.search(args1,arg2,options)#show_hash, global_search,find_dir, find_find,pdf_find ,'')
+            m.search(args1,arg2,opt)#show_hash, global_search,find_dir, find_find,pdf_find ,'')
             #m.get_command()
         else:
             what_to_find = raw_input('>>> ')
