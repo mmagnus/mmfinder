@@ -77,7 +77,7 @@ class main:
 
             elif opt.find_tu:
                 status = 'finding here (tutaj)...'
-                cmd = "find " + os.getcwd() + " -iname '*" + word + "*" + word2 +"'"
+                cmd = "find '" + os.getcwd() + "' -iname '*" + word + "*" + word2 +"'"
             elif opt.find_find:
                 status = 'finding /home/...'
                 cmd = "find ~ -iname '*" + word + "*" + word2 +"'"
