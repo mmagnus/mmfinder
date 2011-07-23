@@ -78,11 +78,12 @@ tyle teraz trwa zaktualizowanie baz
 lista plikow, info hash, size, czy dyrectory
 
 * TODO
+** DONE [-x opcja] w komencie -d exp i wtedy nie wyszukuje tego; np. -r exp aby nie wyszukiwalo jakis plikow itd
 ** patrz funkcja *check_filetype* sprawdz tam zapisane TODO
 ** DONE -f opcja dla full search po innych dyskach itd 
 ** DONE -u opcja dla updatu baz danych przed wykonaniem danego przeszukania
-** -s opcja dla wykonania find cmd zamiast locate i danych baz danych, wtedy to zrobic trzeba dla tylko danego dysku
-** hash na koncu item, lub size przynajmiej coby wiedziec czy to ten sam plik, no ale wtedy plik nie moze byc z bazy danych
+** DONE -s opcja dla wykonania find cmd zamiast locate i danych baz danych, wtedy to zrobic trzeba dla tylko danego dysku
+** INFO hash na koncu item, lub size przynajmiej coby wiedziec czy to ten sam plik, no ale wtedy plik nie moze byc z bazy danych
 ####################################################################################################
 ['dropbox', 'maximus', 'netbook', 'EON', '8GB2', '1TB']
 ####################################################################################### dropbox... #
