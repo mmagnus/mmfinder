@@ -71,6 +71,10 @@ class main:
             elif opt.find_media:
                 status = 'document searching...'
                 cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i --regex '.*" + word + ".*" + word2 + ".*(avi$|mp4$|mp3$)'"
+            elif opt.rex:
+                status = 'rex searching...'
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i --regex '" + word + "'"
+
             elif opt.find_tu:
                 status = 'finding here (tutaj)...'
                 cmd = "find " + os.getcwd() + " -iname '*" + word + "*" + word2 +"'"
@@ -271,6 +275,7 @@ def option_parser():
     parser.add_option("-e", "--dev", dest="dev", default=False,help="development version.. lots of prints", action="store_true")
     parser.add_option("-k", "--key", dest="key", default=False,help="press key every place", action="store_true")
     parser.add_option("-m", "--find_media", dest="find_media", default=False,help="find media (mp3, avi, mp4 and so on)", action="store_true")
+    parser.add_option("-r", "--rex", dest="rex", default=False,help="--regex '.*ods$'", action="store_true")
 
     (opt, args) = parser.parse_args()
 
