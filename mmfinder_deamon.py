@@ -29,7 +29,8 @@ class db:
         #cmd = "updatedb -l 0 -U '" + /home/magnus -o magnus.db
         #
         if os.path.exists(self.path_to_scan):
-            cmd = "updatedb -l 0 -U '" + self.path_to_scan + "' -n 'Dropbox Trash' -o '" + self.filename_db + "'"
+            dont_db = ' '.join(config.DONT_DB)
+            cmd = "updatedb -l 0 -U '" + self.path_to_scan + "' -n '" + dont_db + "' -o '" + self.filename_db + "'"
             print cmd
             if config.RUN_UPDATE:
                 os.system(cmd)

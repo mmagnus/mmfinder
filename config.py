@@ -62,4 +62,8 @@ PLACES = ['dropbox','maximus', 'magnusbook','EON',  '8GB2', '1TB', 'StoreJet', '
 #PLACES = ['dropbox','maximus']
 PLACES_LOCAL = ['dropbox'] # + hostname
 PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'
-
+DONT_DB = [
+    'Dropbox',
+    ' Trash',
+    'english-lingXwavsOnline',
+    ]
