@@ -93,8 +93,11 @@ class main:
             else:
                 status = 'basic search...'
                 cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i '*" + word + "*"+ word2 +"*'"
+            if opt.un_grep:
+                cmd = cmd + " | grep -v '" + opt.un_grep + "'"
             # @@@@
             if verbose_cmd:
+
                 print '# status:', status
                 print '# cmd', cmd
             #out = mmscikit.shell(cmd)
@@ -276,6 +279,7 @@ def option_parser():
     parser.add_option("-k", "--key", dest="key", default=False,help="press key every place", action="store_true")
     parser.add_option("-m", "--find_media", dest="find_media", default=False,help="find media (mp3, avi, mp4 and so on)", action="store_true")
     parser.add_option("-r", "--rex", dest="rex", default=False,help="--regex '.*ods$'", action="store_true")
+    parser.add_option("-x", "--un_grep", dest="un_grep", default=False,help="--regex '.*ods$'", action="store", type="string")
 
     (opt, args) = parser.parse_args()
 
