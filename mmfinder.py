@@ -189,8 +189,7 @@ class obj:
             #out = '\t [' + self.filetype + '] ' + self.id + ") file://"+self.path.replace(' ','\ ')+""
             #out = '\t [' + self.filetype + '] ' + self.id + ") file://"+self.path.replace(' ','%20')+""
             print
-            mmscikit.print_red('\t' + os.path.dirname(self.path).strip()+'/', newline = False)
-            mmscikit.print_blue(''+os.path.basename(self.path))
+            mmscikit.print_red_and_blue('\t\'' + os.path.dirname(self.path).strip()+'/',''+os.path.basename(self.path)+"'")
             out = ''
             
             ### 
