@@ -67,7 +67,7 @@ class main:
                 cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i -r '.*" + word + ".*" + word2 + ".*pdf$'"
             elif opt.document_find:
                 status = 'document searching...'
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i --regex '.*" + word + ".*" + word2 + ".*(doc$|odt$)'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i --regex '.*" + word + ".*" + word2 + ".*(doc$|odt$|ppt$|odp$)'"
             elif opt.find_media:
                 status = 'document searching...'
                 cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i --regex '.*" + word + ".*" + word2 + ".*(avi$|mp4$|mp3$)'"
