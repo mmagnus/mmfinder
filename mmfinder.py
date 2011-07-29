@@ -46,6 +46,11 @@ class main:
             PLACES = config.PLACES_LOCAL
             PLACES.append(mmscikit.get_hostname())
         # @@@
+        if opt.wholename: # or basename
+            wholename_or_basename = ' -w '
+        else:
+            wholename_or_basename = ' -b '            
+        #
         if opt.find_dir:
             PLACES = ['find directories@' + mmscikit.get_hostname()]
         if opt.find_find:
@@ -64,16 +69,16 @@ class main:
             
             if opt.pdf_find:
                 status = 'pdf searching...'
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i -r '.*" + word + ".*" + word2 + ".*pdf$'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i -r '.*" + word + ".*" + word2 + ".*pdf$'"
             elif opt.document_find:
                 status = 'document searching...'
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i --regex '.*" + word + ".*" + word2 + ".*(rtf$|doc$|odt$|ppt$|odp$)'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i --regex '.*" + word + ".*" + word2 + ".*(rtf$|doc$|odt$|ppt$|odp$)'"
             elif opt.find_media:
                 status = 'document searching...'
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i --regex '.*" + word + ".*" + word2 + ".*(avi$|mp4$|mp3$)'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i --regex '.*" + word + ".*" + word2 + ".*(avi$|mp4$|mp3$)'"
             elif opt.rex:
                 status = 'rex searching...'
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i --regex '" + word + "'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i --regex '" + word + "'"
 
             elif opt.find_tu:
                 status = 'finding here (tutaj)...'
@@ -92,7 +97,7 @@ class main:
                         cmd = "locate -d " + config.PATH_DB + p + '.db' + " -e -i -r  '/*" + word +"*/'" #locate -r '/*python2.7*/' | less
             else:
                 status = 'basic search...'
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " -b -i '*" + word + "*"+ word2 +"*'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i '*" + word + "*"+ word2 +"*'"
             if opt.un_grep:
                 cmd = cmd + " | grep -v '" + opt.un_grep + "'"
             # @@@@
@@ -280,6 +285,7 @@ def option_parser():
     parser.add_option("-m", "--find_media", dest="find_media", default=False,help="find media (mp3, avi, mp4 and so on)", action="store_true")
     parser.add_option("-r", "--rex", dest="rex", default=False,help="--regex '.*ods$'", action="store_true")
     parser.add_option("-x", "--un_grep", dest="un_grep", default=False,help="--regex '.*ods$'", action="store", type="string")
+    parser.add_option("-w", "--wholename", dest="wholename", default=False,help="-w -match only the whole path name against the specified patterns'", action="store_true")
 
     (opt, args) = parser.parse_args()
 
