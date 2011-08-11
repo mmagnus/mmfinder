@@ -39,6 +39,31 @@ class main:
         list_with_action = True
         
         mmscikit.hr()
+
+
+        ########################################
+        if opt.bookmarks:
+                from pysqlite2 import dbapi2 as sqlite
+                conn = sqlite.connect("/home/magnus/.mozilla/firefox/ssfbppfu.default/places.sqlite")
+                c = conn.cursor()
+                c.execute("select title, url from moz_places;")
+                conn.commit()
+                results = c.fetchall()
+                if 1:
+                    for r in results:
+                        title = r[0]
+                        if title:
+                            pass
+                        else:
+                            #title = 'no title'
+                            title = ''
+                        line = title + r[1]
+                        if re.compile(word, re.I).search(line) and re.compile(word2, re.I).search(line):
+                            mmscikit.print_red_and_blue(title,' '+ r[1])
+                sys.exit(1)
+        ########################################
+
+
         # @@@        
         if opt.global_search:
             PLACES = config.PLACES
@@ -112,27 +137,6 @@ class main:
                 mmscikit.hr_text('dev::out')
                 print out
                 mmscikit.hr()
-            ########################################
-            if opt.bookmarks:
-                from pysqlite2 import dbapi2 as sqlite
-                conn = sqlite.connect("/home/magnus/.mozilla/firefox/ssfbppfu.default/places.sqlite")
-                c = conn.cursor()
-                c.execute("select title, url from moz_places;")
-                conn.commit()
-                results = c.fetchall()
-                if 1:
-                    for r in results:
-                        title = r[0]
-                        if title:
-                            pass
-                        else:
-                            #title = 'no title'
-                            title = ''
-                        line = title + r[1]
-                        if re.compile(word, re.I).search(line) and re.compile(word2, re.I).search(line):
-                            mmscikit.print_red_and_blue(title,' '+ r[1])
-                sys.exit(1)
-            ########################################
 
             if out and list_with_action:
                 #mmscikit.hr()
