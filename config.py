@@ -66,4 +66,5 @@ DONT_DB = [
     'Dropbox',
     ' Trash',
     'english-lingXwavsOnline',
+    'backups-snapshots'
     ]
