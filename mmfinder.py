@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-VERSION = '0.09'
+VERSION = '0.11'
 
 import mmscikit
 import sys
@@ -32,14 +32,13 @@ class main:
     def load_db(self):
         pass
 
-    def search(self, word,word2, opt, ext = '', method = 'find', verbose = True):
+    def search(self, args, opt, ext = '', method = 'find', verbose = True):
 
         verbose_cmd = True
         verbose_out = False
         list_with_action = True
         
         mmscikit.hr()
-
 
         ########################################
         if opt.bookmarks:
@@ -58,11 +57,18 @@ class main:
                             #title = 'no title'
                             title = ''
                         line = title + r[1]
+
+                        #stupid way
+                        word = args[0]
+                        word2= args[1]
+
                         if re.compile(word, re.I).search(line) and re.compile(word2, re.I).search(line):
                             mmscikit.print_red_and_blue(title,' '+ r[1])
                 sys.exit(1)
         ########################################
 
+        words = '*'+'*'.join(args)+'*' # '*a*b*c*'
+        words_rex = '.*'+'.*'.join(args)+'.*' # '.*a.*b*.c*'
 
         # @@@        
         if opt.global_search:
@@ -94,27 +100,28 @@ class main:
             
             if opt.pdf_find:
                 status = 'pdf searching...'
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i -r '.*" + word + ".*" + word2 + ".*pdf$'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i -r '" + words_rex + "pdf$'"
             elif opt.document_find:
                 status = 'document searching...'
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i --regex '.*" + word + ".*" + word2 + ".*(rtf$|doc$|odt$|ppt$|odp$|ods$|xls$)'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i --regex '" + words_rex + ".*(rtf$|doc$|odt$|ppt$|odp$|ods$|xls$)'"
             elif opt.find_media:
                 status = 'document searching...'
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i --regex '.*" + word + ".*" + word2 + ".*(avi$|mp4$|mp3$)'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i --regex '" + words_rex + ".*(avi$|mp4$|mp3$)'"
             elif opt.rex:
                 status = 'rex searching...'
+                word = args[0] # <--- !!!
                 cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i --regex '" + word + "'"
 
             elif opt.find_tu:
                 status = 'finding here (tutaj)...'
-                cmd = "find '" + os.getcwd() + "' -iname '*" + word + "*" + word2 +"'"
+                cmd = "find '" + os.getcwd() + "' -iname '" + words + "'"
             elif opt.find_find:
                 status = 'finding /home/...'
-                cmd = "find ~ -iname '*" + word + "*" + word2 +"'"
+                cmd = "find ~ -iname '" + words + "'"
             elif opt.find_dir:
                 status = 'finding a dir /...'
-                cmd = "find ~ -iname '*" + word + "*" + word2 + "' -type d" ## very slow :-(
-                if False:
+                cmd = "find ~ -iname '" + words + "' -type d" ## very slow :-(
+
                     if word.startswith('^'):
                         word_without = word.replace('^','')
                         cmd = "locate -d " + config.PATH_DB + p + '.db' + " -e -i -r  '/" + word_without +"*' | xargs file" #locate -r '/*python2.7*/' | less
@@ -122,7 +129,7 @@ class main:
                         cmd = "locate -d " + config.PATH_DB + p + '.db' + " -e -i -r  '/*" + word +"*/'" #locate -r '/*python2.7*/' | less
             else:
                 status = 'basic search...'
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i '*" + word + "*"+ word2 +"*'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i '" + words + "'"
             if opt.un_grep:
                 cmd = cmd + " | grep -v '" + opt.un_grep + "'"
             # @@@@
@@ -130,9 +137,11 @@ class main:
 
                 print '# status:', status
                 print '# cmd', cmd
+
             #out = mmscikit.shell(cmd)
             #os.system(cmd)
             out = commands.getoutput(cmd).strip()
+
             if opt.dev:
                 mmscikit.hr_text('dev::out')
                 print out
@@ -290,7 +299,7 @@ def option_parser():
     """
     description=''
     version=VERSION
-    usage='%prog <options> word word2'
+    usage='%prog <options> word word word word'
     parser = OptionParser(description=description,
                               version=version,
                               usage=usage)
@@ -338,12 +347,7 @@ def start():
     if args:
         m = main()
         if True:
-            args1 = args[0]
-            try:
-                arg2 = args[1]
-            except:
-                arg2 = ''
-            m.search(args1,arg2,opt)#show_hash, global_search,find_dir, find_find,pdf_find ,'')
+            m.search(args,opt)#show_hash, global_search,find_dir, find_find,pdf_find ,'')
             #m.get_command()
         else:
             what_to_find = raw_input('>>> ')
