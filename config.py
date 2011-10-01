@@ -4,9 +4,7 @@ PATH = '/home/magnus/Dropbox/workspace/mmfinder/'
 sys.path.append(PATH)
 sys.path.append('/home/magnus/Dropbox/workspace/mmscikit/')
 
-
 RUN_UPDATE = True
-
 
 LOCS = {
     'EON'     : '/media/EONVECTOR',
@@ -66,7 +64,9 @@ DONT_DB = [
     'Dropbox',
     ' Trash',
     'english-lingXwavsOnline',
-    'backups-snapshots'
+    'backups-snapshots',
+    '.libreoffice',
+    '.dropbox.cache'
     ]
 EXTENSIONS_OF_DOCUMENTS = ['rtf','doc','odt', 'ppt', 'odp', 'ods', 'xls']
 EXTENSIONS_OF_MEDIA = ['avi', 'mp4']
