@@ -68,3 +68,5 @@ DONT_DB = [
     'english-lingXwavsOnline',
     'backups-snapshots'
     ]
+EXTENSIONS_OF_DOCUMENTS = ['rtf','doc','odt', 'ppt', 'odp', 'ods', 'xls']
+EXTENSIONS_OF_MEDIA = ['avi', 'mp4']

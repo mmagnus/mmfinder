@@ -106,10 +106,12 @@ class main:
                 cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i -r '" + words_rex + "pdf$'"
             elif opt.document_find:
                 status = 'document searching...'
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i --regex '" + words_rex + ".*(rtf$|doc$|odt$|ppt$|odp$|ods$|xls$)'"
+                extensions = '$|'.join(config.EXTENSIONS_OF_DOCUMENTS)
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i --regex '" + words_rex + ".*(" + extensions + ")'"
             elif opt.find_media:
                 status = 'document searching...'
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i --regex '" + words_rex + ".*(avi$|mp4$|mp3$)'"
+                extensions = '$|'.join(config.EXTENSIONS_OF_MEDIA)
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i --regex '" + words_rex + ".*(" + extensions + ")'"
             elif opt.rex:
                 status = 'rex searching...'
                 word = args[0] # <--- !!!
