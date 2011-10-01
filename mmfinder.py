@@ -39,7 +39,6 @@ class main:
         list_with_action = True
         
         mmscikit.hr()
-
         ########################################
         if opt.bookmarks:
                 from pysqlite2 import dbapi2 as sqlite
@@ -162,7 +161,7 @@ class main:
                     #    i.show()
                     #print 'x'
                     #if not find_dir:
-                    i.show(opt.show_hash)
+                    i.show(opt.show_hash, opt.less)
                                             
                     c += 1
                 print
@@ -229,11 +228,10 @@ class obj:
         self.is_pdf = False
         self.is_empty = False
 
-    def show(self, show_hash):
+    def show(self, show_hash, less):
         #if not self.is_empty:
             #out = '\t [' + self.filetype + '] ' + self.id + ") file://"+self.path.replace(' ','\ ')+""
             #out = '\t [' + self.filetype + '] ' + self.id + ") file://"+self.path.replace(' ','%20')+""
-            print
             mmscikit.print_red_and_blue('\t\'' + os.path.dirname(self.path).strip()+'/',''+os.path.basename(self.path)+"'")
             out = ''
             
@@ -248,7 +246,8 @@ class obj:
                 out += '\n\t'+ mmscikit.hash_file(self.path)[0]
             #out = '\t [' + self.filetype + '] ' + self.id + ") file:'//"+self.path+"'" # NO
             #out = '\t [' + self.filetype + '] ' + self.id + ") 'file://"+self.path+"'" # NO
-            print out
+            if not less:
+                print out
 
     def check_filetype(self):
         """
@@ -304,7 +303,7 @@ def option_parser():
                               version=version,
                               usage=usage)
     parser.add_option("-u", "--update_db", dest="update_db", default=False,help="force to update databases", action="store_true")
-    #parser.add_option("-l", "--local_search", dest="local_search", default=True,help="search only local host i dropbox", action="store_true")
+    parser.add_option("-l", "--less", dest="less", default=False,help="less", action="store_true")
     parser.add_option("-g", "--global_search", dest="global_search", default=False,help="search globally all PLACES", action="store_true")
     parser.add_option("-d", "--find_dir", dest="find_dir", default=False,help="search only for directories", action="store_true")
     parser.add_option("-f", "--find_find", dest="find_find", default=False,help="search only local via find ~", action="store_true")
