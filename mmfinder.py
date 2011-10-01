@@ -66,6 +66,9 @@ class main:
                 sys.exit(1)
         ########################################
 
+        if opt.invert:
+            args.reverse()
+
         words = '*'+'*'.join(args)+'*' # '*a*b*c*'
         words_rex = '.*'+'.*'.join(args)+'.*' # '.*a.*b*.c*'
 
@@ -122,11 +125,13 @@ class main:
                 status = 'finding a dir /...'
                 cmd = "find ~ -iname '" + words + "' -type d" ## very slow :-(
 
+                if False:####what is it?????
                     if word.startswith('^'):
                         word_without = word.replace('^','')
                         cmd = "locate -d " + config.PATH_DB + p + '.db' + " -e -i -r  '/" + word_without +"*' | xargs file" #locate -r '/*python2.7*/' | less
                     else:
                         cmd = "locate -d " + config.PATH_DB + p + '.db' + " -e -i -r  '/*" + word +"*/'" #locate -r '/*python2.7*/' | less
+                ################################################33
             else:
                 status = 'basic search...'
                 cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i '" + words + "'"
@@ -321,6 +326,7 @@ def option_parser():
     parser.add_option("-w", "--wholename", dest="wholename", default=False,help="-w -match only the whole path name against the specified patterns'", action="store_true")
     parser.add_option("-b", "--bookmarks", dest="bookmarks", default=False,help="-b search firefox bookmarks'", action="store_true")
     parser.add_option("-v", "--verbose", dest="verbose", default=False,help="-v verbose'", action="store_true")
+    parser.add_option("-i", "--invert", dest="invert", default=False,help="-i invert word1 word2 word3 --> word3 word2 word1", action="store_true")
     (opt, args) = parser.parse_args()
 
     #@@
