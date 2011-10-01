@@ -42,7 +42,7 @@ class main:
         ########################################
         if opt.bookmarks:
                 from pysqlite2 import dbapi2 as sqlite
-                conn = sqlite.connect("/home/magnus/.mozilla/firefox/ssfbppfu.default/places.sqlite")
+                conn = sqlite.connect(config.FF_SQLITE_DATABASE)
                 c = conn.cursor()
                 c.execute("select title, url from moz_places;")
                 conn.commit()

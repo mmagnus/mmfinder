@@ -70,3 +70,5 @@ DONT_DB = [
     ]
 EXTENSIONS_OF_DOCUMENTS = ['rtf','doc','odt', 'ppt', 'odp', 'ods', 'xls']
 EXTENSIONS_OF_MEDIA = ['avi', 'mp4']
+
+FF_SQLITE_DATABASE = '/home/magnus/.mozilla/firefox/ssfbppfu.default/places.sqlite'
