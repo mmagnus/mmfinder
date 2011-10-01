@@ -59,7 +59,10 @@ class main:
 
                         #stupid way
                         word = args[0]
-                        word2= args[1]
+                        try:
+                            word2= args[1]
+                        except IndexError:
+                            word2=''
 
                         if re.compile(word, re.I).search(line) and re.compile(word2, re.I).search(line):
                             mmscikit.print_red_and_blue(title,' '+ r[1])
