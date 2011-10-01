@@ -88,7 +88,8 @@ class main:
         if opt.find_tu:
             PLACES = ['find here -t tu@' + mmscikit.get_hostname()]
         for p in PLACES:
-            mmscikit.hr_text( p + '...' )
+            if opt.verbose:
+                mmscikit.hr_text( p + '...' )
             #if method == 'locate_local':
             # @@@@
             # -e existing a co ze zdalnymi bazami?!?!
@@ -132,7 +133,7 @@ class main:
             if opt.un_grep:
                 cmd = cmd + " | grep -v '" + opt.un_grep + "'"
             # @@@@
-            if verbose_cmd:
+            if opt.verbose:
 
                 print '# status:', status
                 print '# cmd', cmd
@@ -319,7 +320,7 @@ def option_parser():
     parser.add_option("-x", "--un_grep", dest="un_grep", default=False,help="--regex '.*ods$'", action="store", type="string")
     parser.add_option("-w", "--wholename", dest="wholename", default=False,help="-w -match only the whole path name against the specified patterns'", action="store_true")
     parser.add_option("-b", "--bookmarks", dest="bookmarks", default=False,help="-b search firefox bookmarks'", action="store_true")
-
+    parser.add_option("-v", "--verbose", dest="verbose", default=False,help="-v verbose'", action="store_true")
     (opt, args) = parser.parse_args()
 
     #@@
