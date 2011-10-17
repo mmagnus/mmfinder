@@ -46,8 +46,8 @@ HOSTS = {'maximus' : LOCS, 'magnusbook' : LOCS_NETBOOK}
 ########################################
 #list of db
 PLACES = ['dropbox','maximus', 'magnusbook','EON',  '8GB2', '1TB', 'StoreJet', 'truecrypt'] # 'SD8GB',
-#PLACES = ['dropbox','maximus']
-PLACES_LOCAL = ['dropbox'] # + hostname
+PLACES_LOCAL = ['dropbox','srv'] # + hostname
+
 PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'
 DONT_DB = [
     'Dropbox',
