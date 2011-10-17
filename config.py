@@ -1,11 +1,15 @@
 import sys
-
+###
+###   INIT & CONFIGURATION FILE
+###
 PATH = '/home/magnus/Dropbox/workspace/mmfinder/'
+RUN_UPDATE = True
+
 sys.path.append(PATH)
 sys.path.append('/home/magnus/Dropbox/workspace/mmscikit/')
 
-RUN_UPDATE = True
 
+# MMFINDER DEAMON
 ## LOCS ##################################
 LOCS = {
 
@@ -38,6 +42,9 @@ HOSTS = {'maximus' : LOCS, 'magnusbook' : LOCS_NETBOOK}
 ########################################
 
 
+#MMFINDER
+########################################
+#list of db
 PLACES = ['dropbox','maximus', 'magnusbook','EON',  '8GB2', '1TB', 'StoreJet', 'truecrypt'] # 'SD8GB',
 #PLACES = ['dropbox','maximus']
 PLACES_LOCAL = ['dropbox'] # + hostname
@@ -50,7 +57,10 @@ DONT_DB = [
     '.libreoffice',
     '.dropbox.cache'
     ]
+
+#
 EXTENSIONS_OF_DOCUMENTS = ['rtf','doc','odt', 'ppt', 'odp', 'ods', 'xls']
 EXTENSIONS_OF_MEDIA = ['avi', 'mp4']
 
+#FF BOOKMARK SEARCHER
 FF_SQLITE_DATABASE = '/home/magnus/.mozilla/firefox/ssfbppfu.default/places.sqlite'
