@@ -79,7 +79,7 @@ tyle teraz trwa zaktualizowanie baz
 lista plikow, info hash, size, czy dyrectory
 
 * INSTALL
-python-pysqlite2
+  python-pysqlite2
 * #TODO#
 ** TODO 59% problem with apostroph
 	'/home/magnus/Downloads/completed/ESL English Advanced Learner's Megapack v6.5/1994 - Murphy, R. - Grammar In Use [Intermediate] - Cambridge - 2nd Edition.PDF'
