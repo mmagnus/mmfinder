@@ -51,12 +51,8 @@ class db:
         
 def start():
 
-
-    if mmscikit.get_hostname() == 'maximus':
-        locs = config.LOCS
-    else:
-        locs = config.LOCS_NETBOOK
-    ##
+    hostname = mmscikit.get_hostname()
+    locs = config.HOSTS[hostname]
 
     for l in locs:
         mmscikit.hr_text(l)

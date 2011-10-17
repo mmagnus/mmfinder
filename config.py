@@ -6,55 +6,37 @@ sys.path.append('/home/magnus/Dropbox/workspace/mmscikit/')
 
 RUN_UPDATE = True
 
+## LOCS ##################################
 LOCS = {
-    'EON'     : '/media/EONVECTOR',
-    #1 SD 'EON'     : '/media/EONVECTOR',
-    #2 SD 
 
-    'SD8GB'   : '/media/SD8GB',
+    #name of db : path on that host'
+
+    'EON'      : '/media/EONVECTOR',
+    'SD8GB'    : '/media/SD8GB',
     'SD8GB2'   : '/media/8GB2'    ,
-
-    'dropbox' : '/home/magnus/Dropbox',
-
-    'maximus' : '/home/magnus/',
-    '1TB'     : '/media/1TB',
-    'StoreJet'     : '/media/StoreJet',
+    'dropbox'  : '/home/magnus/Dropbox',
+    'maximus'  : '/home/magnus/',
+    '1TB'      : '/media/1TB',
+    'StoreJet' : '/media/StoreJet',
     'truecrypt': '/media/truecrypt1/',
-
     }
-
-LOCS2 = {
-    #'EON'     : '/media/EONVECTOR',
-    #1 SD 'EON'     : '/media/EONVECTOR',
-    #2 SD 
-
-    #'SD8GB'   : '/media/SD8GB',
-    #'SD8GB2'   : '/media/8GB2'    ,
-
-    'dropbox' : '/home/magnus/Dropbox',
-
-    
-    'maximus' : '/home/magnus/',
-    #'StoreJet'     : '/media/StoreJet',
-    #'1TB'     : '/media/1TB',
-    }
-
 
 LOCS_NETBOOK = {
     'magnusbook' : '/home/magnus/',
-
     'dropbox' : '/home/magnus/Dropbox',
+	'srv' : '/srv/',
+    #'EON'     : '/media/EONVECTOR',
+    #'SD8GB'   : '/media/SD8GB',
+    #'8GB2'   : '/media/8GB2'    ,
 
-    'EON'     : '/media/EONVECTOR',
-    #1 SD 'EON'     : '/media/EONVECTOR',
-    #2 SD 
-
-    'SD8GB'   : '/media/SD8GB',
-    '8GB2'   : '/media/8GB2'    ,
-
-    '1TB'     : '/media/1TB',
-    'StoreJet'     : '/media/StoreJet',
+    #'1TB'     : '/media/1TB',
+    #'StoreJet'     : '/media/StoreJet',
     }
+
+HOSTS = {'maximus' : LOCS, 'magnusbook' : LOCS_NETBOOK}
+## you can check a hostname by '$hostname'
+########################################
+
 
 PLACES = ['dropbox','maximus', 'magnusbook','EON',  '8GB2', '1TB', 'StoreJet', 'truecrypt'] # 'SD8GB',
 #PLACES = ['dropbox','maximus']
