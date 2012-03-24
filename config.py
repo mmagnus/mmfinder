@@ -23,7 +23,13 @@ LOCS = {
     '1TB'      : '/media/1TB',
     'StoreJet' : '/media/StoreJet',
     'truecrypt': '/media/truecrypt1/',
+
     }
+
+LOCS_HP = {
+    'hp' : '/home/magnus/',
+    'dropbox' : '/home/magnus/Dropbox',
+}
 
 LOCS_NETBOOK = {
     'magnusbook' : '/home/magnus/',
@@ -37,7 +43,7 @@ LOCS_NETBOOK = {
     #'StoreJet'     : '/media/StoreJet',
     }
 
-HOSTS = {'maximus' : LOCS, 'magnusbook' : LOCS_NETBOOK}
+HOSTS = {'maximus' : LOCS, 'magnusbook' : LOCS_NETBOOK, 'hp' : LOCS_HP}
 ## you can check a hostname by '$hostname'
 ########################################
 
@@ -45,7 +51,7 @@ HOSTS = {'maximus' : LOCS, 'magnusbook' : LOCS_NETBOOK}
 #MMFINDER
 ########################################
 #list of db
-PLACES = ['dropbox','maximus', 'magnusbook','EON',  '8GB2', '1TB', 'StoreJet', 'truecrypt'] # 'SD8GB',
+PLACES = ['dropbox','maximus', 'magnusbook','EON',  '8GB2', '1TB', 'StoreJet', 'truecrypt', 'ubuntu'] # 'SD8GB',
 PLACES_LOCAL = ['dropbox','srv'] # + hostname
 
 PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'
