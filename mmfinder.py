@@ -94,8 +94,7 @@ class main:
         if opt.find_tu:
             PLACES = ['find here -t tu@' + mmscikit.get_hostname()]
         for p in PLACES:
-            if opt.verbose:
-                mmscikit.hr_text( p + '...' )
+            mmscikit.hr_text( p + '...' )
             #if method == 'locate_local':
             # @@@@
             # -e existing a co ze zdalnymi bazami?!?!
