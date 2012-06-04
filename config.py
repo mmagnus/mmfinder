@@ -16,8 +16,6 @@ LOCS = {
     #name of db : path on that host'
 
     'EON'      : '/media/EONVECTOR',
-    'SD8GB'    : '/media/SD8GB',
-    'SD8GB2'   : '/media/8GB2'    ,
     'dropbox'  : '/home/magnus/Dropbox',
     'maximus'  : '/home/magnus/',
     '1TB'      : '/media/1TB',
@@ -32,18 +30,16 @@ LOCS_HP = {
 }
 
 LOCS_NETBOOK = {
-    'magnusbook' : '/home/magnus/',
+    'netbook' : '/home/magnus/',
     'dropbox' : '/home/magnus/Dropbox',
-	'srv' : '/srv/',
+    'srv' : '/srv/',
     #'EON'     : '/media/EONVECTOR',
-    #'SD8GB'   : '/media/SD8GB',
-    #'8GB2'   : '/media/8GB2'    ,
 
     #'1TB'     : '/media/1TB',
-    #'StoreJet'     : '/media/StoreJet',
+    'StoreJet'     : '/media/disk',
     }
 
-HOSTS = {'maximus' : LOCS, 'magnusbook' : LOCS_NETBOOK, 'hp' : LOCS_HP}
+HOSTS = {'maximus' : LOCS, 'netbook' : LOCS_NETBOOK, 'hp' : LOCS_HP}
 ## you can check a hostname by '$hostname'
 ########################################
 
@@ -51,7 +47,7 @@ HOSTS = {'maximus' : LOCS, 'magnusbook' : LOCS_NETBOOK, 'hp' : LOCS_HP}
 #MMFINDER
 ########################################
 #list of db
-PLACES = ['dropbox','maximus', 'magnusbook','EON',  '8GB2', '1TB', 'StoreJet', 'truecrypt', 'ubuntu'] # 'SD8GB',
+PLACES = ['dropbox','maximus', 'netbook', 'EON', '1TB', 'StoreJet', 'truecrypt'] 
 PLACES_LOCAL = ['dropbox','srv'] # + hostname
 
 PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'

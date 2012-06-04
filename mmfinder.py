@@ -1,100 +1,195 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+#-*-coding: utf-8 -*-
+"""
+mmfinder: the tool to find different types of files on many machines
+"""
+from mmscikit import banner2, hr, get_hostname, hr_text, print_red_and_blue
+from sys import exit, argv
+from string import ascii_letters
+from os import getcwd, path
+from subprocess import Popen
+from commands import getoutput
+from re import compile, search, I
+from time import sleep
+from shlex import split
 
-VERSION = '0.11'
-
-import mmscikit
-import sys
-import string
-import os
-import subprocess
-import commands
-import re 
-import time
+#from ipdb import set_trace
 from optparse import OptionParser
-import config
-import mmfinder_deamon
+from mmfinder_deamon import start
+from django.conf import settings
+from subprocess import Popen
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME':
+            '/home/magnus/.mozilla/firefox/ssfbppfu.default/places.sqlite',
+        'HOST': '',
+        'PORT': '',
+        }
+    }
+settings.configure(DATABASES=DATABASES)
+
+from orm.models import *
+
+from config import PLACES_LOCAL, PLACES, PATH_DB, FF_SQLITE_DATABASE
+
+from pysqlite2 import dbapi2 as sqlite
+
+VERSION = '0.2'
 op = {}
-op['txt'] = 'gedit ' 
-#op['pdf'] = 'evince '
-#op['pdf'] = 'okular '
+op['txt'] = 'gedit '
 op['pdf'] = 'mmpdf.sh '
 op['odt'] = 'oowriter '
 op['doc'] = 'oowriter '
 
-IDS = string.ascii_letters
+IDS = ascii_letters
 
 
 class main:
+
     def __init__(self):
         self.items = []
 
-    def load_db(self):
-        pass
+    def get_command(self):
+        """
+        not used in this VERSION
+        """
+        input = raw_input('What to do? [ids action] [abc o]:')
+        if not len(input.strip()):
+            print 'exit'
+            exit(1)
 
-    def search(self, args, opt, ext = '', method = 'find', verbose = True):
+        # zaprogramuj przedzialy a-b, lub *, lub aegh
 
-        verbose_cmd = True
-        verbose_out = False
+        ids, action = input.split()  # 'abc o'
+
+        # *
+        if ids == '*':
+            ids = IDS
+        # change a-c -> abc
+        if search('-',  ids):
+            start, end = ids.split('-')
+            print start, end
+            print IDS.index(start)
+            ids = IDS[IDS.index(start):IDS.index(end) + 1]
+            print ids
+        # ** end ** change a-c -> abc
+
+        print 'ids', ids
+        print 'action', action
+
+        for item in self.items:  # for each item
+            if search(item.id, ids):
+                if not item.is_empty:
+                    #item = self.items[ids.index(id)]
+
+                    #exit(1)
+
+                    if action == 'g':
+                        cmd = 'cd ' + item.path
+
+                    if action == 'q' or id == '':
+                        print 'exit'
+                        exit(1)
+
+                    if action == 'o':
+                        cmd = op[item.filetype] + ' ' + "'" + item.path + "' "
+                        print cmd
+                        cmd_text = "opening " + item.path + ' by ' + \
+                            op[item.filetype] + ' ...'
+                    arguments = shlex.split(cmd)
+                    #print arguments
+                    print cmd_text
+                    Popen(arguments)
+                    #subprocess.call(arguments)
+
+    def search(self, arguments,
+               opt, ext='', method='find', verbose=True):
         list_with_action = True
-        
-        mmscikit.hr()
-        ########################################
+        hr()
+
         if opt.bookmarks:
-                from pysqlite2 import dbapi2 as sqlite
-                conn = sqlite.connect(config.FF_SQLITE_DATABASE)
-                c = conn.cursor()
-                c.execute("select title, url from moz_places;")
-                conn.commit()
-                results = c.fetchall()
-                if 1:
-                    for r in results:
-                        title = r[0]
-                        if title:
-                            pass
-                        else:
-                            #title = 'no title'
-                            title = ''
-                        line = title + r[1]
+            conn = sqlite.connect(FF_SQLITE_DATABASE)
+            c = conn.cursor()
+            c.execute("select title, url from moz_places;")
+            conn.commit()
+            results = c.fetchall()
+            if 1:
+                for r in results:
+                    title = r[0]
+                    if title:
+                        pass
+                    else:
+                        title = ''
+                    line = title + r[1]
 
-                        #stupid way
-                        word = args[0]
-                        try:
-                            word2= args[1]
-                        except IndexError:
-                            word2=''
+                    #stupid way
+                    word = arguments[0]
+                    try:
+                        word2 = arguments[1]
+                    except IndexError:
+                        word2 = ''
 
-                        if re.compile(word, re.I).search(line) and re.compile(word2, re.I).search(line):
-                            mmscikit.print_red_and_blue(title,' '+ r[1])
-                sys.exit(1)
-        ########################################
+                    if compile(word, I).search(line) and \
+                    compile(word2, I).search(line):
+                        print_red_and_blue(title, ' ' + r[1])
+                exit(1)
+
+        if opt.bookmarks_folder:
+            """
+            very rough but works
+            """
+            show_path = False
+
+            phrase = argv[2].strip()
+            print 'phrase:', phrase, '\n'
+
+            bookmarks = MozBookmarks.objects.all()
+            c = 0
+            for b in bookmarks:
+                if b.fk is None and b.title != '':  # b.fk = has bookmarks
+                    try:
+                        path = b.title.strip()
+                    except AttributeError:
+                        print '-- b.title:', b.title
+                    while b.parent != 1:
+                        parent = MozBookmarks.objects.get(id=b.parent)
+                        path = parent.title.strip() + '/' + path
+                        b = parent
+                    if show_path:
+                        print path
+                    if path.lower().find(phrase.lower()) > -1:
+                        print path
+                        #assert False, 'found:'+path
+                c += 1
+            exit(1)
 
         if opt.invert:
-            args.reverse()
+            arguments.reverse()
 
-        words = '*'+'*'.join(args)+'*' # '*a*b*c*'
-        words_rex = '.*'+'.*'.join(args)+'.*' # '.*a.*b*.c*'
+        words = '*' + '*'.join(arguments) + '*'  # '*a*b*c*'
+        words_rex = '.*' + '.*'.join(arguments) + '.*'  # '.*a.*b*.c*'
 
-        # @@@        
         if opt.global_search:
-            PLACES = config.PLACES
+            PLACES = PLACES
         else:
-            PLACES = config.PLACES_LOCAL
-            PLACES.append(mmscikit.get_hostname())
-        # @@@
-        if opt.wholename: # or basename
+            PLACES = PLACES_LOCAL
+            PLACES.append(get_hostname())
+
+        if opt.wholename:  # or basename
             wholename_or_basename = ' -w '
         else:
-            wholename_or_basename = ' -b '            
+            wholename_or_basename = ' -b '
         #
         if opt.find_dir:
-            PLACES = ['find directories@' + mmscikit.get_hostname()]
+            PLACES = ['find directories@' + get_hostname()]
         if opt.find_find:
-            PLACES = ['find@' + mmscikit.get_hostname()]
+            PLACES = ['find@' + get_hostname()]
         if opt.find_tu:
-            PLACES = ['find here -t tu@' + mmscikit.get_hostname()]
+            PLACES = ['find here -t tu@' + get_hostname()]
         for p in PLACES:
-            mmscikit.hr_text( p + '...' )
+            hr_text(p + '...')
             #if method == 'locate_local':
             # @@@@
             # -e existing a co ze zdalnymi bazami?!?!
@@ -102,22 +197,28 @@ class main:
             # TODO word2
             #
             status = ''
-            
+
             if opt.pdf_find:
                 status = 'pdf searching...'
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i -r '" + words_rex + "pdf$'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + \
+                    wholename_or_basename + " -i -r '" + words_rex + "pdf$'"
             elif opt.document_find:
                 status = 'document searching...'
                 extensions = '$|'.join(config.EXTENSIONS_OF_DOCUMENTS)
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i --regex '" + words_rex + ".*(" + extensions + ")'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + \
+                    wholename_or_basename + " -i --regex '" + \
+                    words_rex + ".*(" + extensions + ")'"
             elif opt.find_media:
                 status = 'document searching...'
                 extensions = '$|'.join(config.EXTENSIONS_OF_MEDIA)
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i --regex '" + words_rex + ".*(" + extensions + ")'"
+                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + \
+                    wholename_or_basename + " -i --regex '" + \
+                    words_rex + ".*(" + extensions + ")'"
             elif opt.rex:
                 status = 'rex searching...'
-                word = args[0] # <--- !!!
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i --regex '" + word + "'"
+                word = arguments[0]  # <--- !!!
+                cmd = "locate -d " + PATH_DB + p + '.db' + " " + \
+                    wholename_or_basename + " -i --regex '" + word + "'"
 
             elif opt.find_tu:
                 status = 'finding here (tutaj)...'
@@ -127,18 +228,24 @@ class main:
                 cmd = "find ~ -iname '" + words + "'"
             elif opt.find_dir:
                 status = 'finding a dir /...'
-                cmd = "find ~ -iname '" + words + "' -type d" ## very slow :-(
+                cmd = "find ~ -iname '" + words + "' -type d"  # very slow :-(
 
-                if False:####what is it?????
+                if False:
                     if word.startswith('^'):
-                        word_without = word.replace('^','')
-                        cmd = "locate -d " + config.PATH_DB + p + '.db' + " -e -i -r  '/" + word_without +"*' | xargs file" #locate -r '/*python2.7*/' | less
+                        word_without = word.replace('^', '')
+                        cmd = "locate -d " + PATH_DB + p + '.db' + \
+                            " -e -i -r  '/" + word_without + \
+                            "*' | xarguments file"
+                            #locate -r '/*python2.7*/' | less
                     else:
-                        cmd = "locate -d " + config.PATH_DB + p + '.db' + " -e -i -r  '/*" + word +"*/'" #locate -r '/*python2.7*/' | less
+                        cmd = "locate -d " + PATH_DB + p + '.db' + \
+                            " -e -i -r  '/*" + word + "*/'" \
+                            #locate -r '/*python2.7*/' | less
                 ################################################33
             else:
                 status = 'basic search...'
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + wholename_or_basename + " -i '" + words + "'"
+                cmd = "locate -d " + PATH_DB + p + '.db' + \
+                    " " + wholename_or_basename + " -i '" + words + "'"
             if opt.un_grep:
                 cmd = cmd + " | grep -v '" + opt.un_grep + "'"
             # @@@@
@@ -147,22 +254,21 @@ class main:
                 print '# status:', status
                 print '# cmd', cmd
 
-            #out = mmscikit.shell(cmd)
+            #out = shell(cmd)
             #os.system(cmd)
-            out = commands.getoutput(cmd).strip()
+            out = getoutput(cmd).strip()
 
             if opt.dev:
-                mmscikit.hr_text('dev::out')
+                hr_text('dev::out')
                 print out
-                mmscikit.hr()
+                hr()
 
             if out and list_with_action:
-                #mmscikit.hr()
+                #hr()
                 c = 0
                 for item in out.strip().split('\n'):
-                    ########################################### @@ BUG @@ id = IDS[c]
-                    id = 'a' ### TO FIX
-
+                    ############################ @@ BUG @@ id = IDS[c]
+                    id = 'a'  # TO FIX
                     i = obj(id, item)
                     self.items.append(i)
                     i.check_filetype()
@@ -172,64 +278,13 @@ class main:
                     #print 'x'
                     #if not find_dir:
                     i.show(opt.show_hash, opt.less)
-                                            
                     c += 1
                 print
-            if opt.key and out:### and out becuase don't 'press key' for empty outputs
+            # and out becuase don't 'press key' for empty outputs
+            if opt.key and out:
                 raw_input('[press key]')
 
-    def get_command(self):
-        input = raw_input('What to do? [ids action] [abc o]:')
-        if not len(input.strip()):
-            print 'exit'
-            sys.exit(1)
 
-        # zaprogramuj przedzialy a-b, lub *, lub aegh
-
-        ids, action = input.split() ## 'abc o'
-
-        # *
-        if ids == '*': 
-            ids = IDS
-        # change a-c -> abc
-        if re.search('-',  ids):
-            start, end = ids.split('-')
-            print start, end
-            print IDS.index(start)
-            ids = IDS[ IDS.index(start): IDS.index(end)+1 ]
-            print ids
-        # ** end ** change a-c -> abc
-
-        print 'ids', ids
-        print 'action', action
-
-        for item in self.items: ## for each item
-            if re.search(item.id, ids):
-                if not item.is_empty:
-                    #item = self.items[ids.index(id)]
-
-                    #sys.exit(1)
-
-                    if action == 'g':
-                        cmd = 'cd ' + item.path
-
-                    if action == 'q' or id == '':
-                        print 'exit'
-                        sys.exit(1)
-
-                    if action == 'o':
-                        cmd = op[item.filetype] + ' ' + "'" + item.path + "' "
-                        print cmd
-                        cmd_text = "opening " + item.path + ' by ' + op[item.filetype] + ' ...'
-
-                    import shlex
-                    args = shlex.split(cmd)
-                    #print args
-                    print cmd_text
-                    subprocess.Popen(args)
-                    #subprocess.call(args)
-
-                #print out
 class obj:
     def __init__(self, id, path):
         self.path = path
@@ -240,124 +295,180 @@ class obj:
 
     def show(self, show_hash, less):
         #if not self.is_empty:
-            #out = '\t [' + self.filetype + '] ' + self.id + ") file://"+self.path.replace(' ','\ ')+""
-            #out = '\t [' + self.filetype + '] ' + self.id + ") file://"+self.path.replace(' ','%20')+""
-            mmscikit.print_red_and_blue('\t\'' + os.path.dirname(self.path).strip()+'/',''+os.path.basename(self.path)+"'")
-            out = ''
-            
-            ### 
-            dir_file = True
-            
-            if dir_file:
-                out = "\tfile://"+os.path.dirname(self.path).strip().replace(' ','%20')+"\n"
-            #out = '\t [' + self.filetype + '] ' + self.id + ") " + '' + " \t\tfile://"+self.path.replace(' ','%20')+""
-            out += "\tfile://"+self.path.replace(' ','%20')+""
-            if show_hash:
-                out += '\n\t'+ mmscikit.hash_file(self.path)[0]
-            #out = '\t [' + self.filetype + '] ' + self.id + ") file:'//"+self.path+"'" # NO
-            #out = '\t [' + self.filetype + '] ' + self.id + ") 'file://"+self.path+"'" # NO
-            if not less:
-                print out
+            # out = '\t [' + self.filetype + '] ' + self.id + ") \
+                # file://"+self.path.replace(' ','\ ')+""
+            #out = '\t [' + self.filetype + '] ' + self.id + ") \
+                # file://"+self.path.replace(' ','%20')+""
+        print_red_and_blue('\t\'' +
+                           path.dirname(self.path).strip() +
+                           '/', '' + path.basename(self.path) + "'")
+        out = ''
+        dir_file = True
+        if dir_file:
+            out = "\tfile://" + \
+                path.dirname(self.path).strip().replace(' ', '%20') + "\n"
+                #out = '\t [' + self.filetype + '] ' + \
+                #self.id + ") " + '' + " \t\tfile://"+
+                #self.path.replace(' ','%20')+""
+        out += "\tfile://" + self.path.replace(' ', '%20') + ""
+        if show_hash:
+            out += '\n\t' + hash_file(self.path)[0]
+        #out = '\t [' + self.filetype + '] ' + self.id + ") \
+            # file:'//"+self.path+"'" # NO
+        #out = '\t [' + self.filetype + '] ' + self.id + ") \
+            # 'file://"+self.path+"'" # NO
+        if not less:
+            print out
 
     def check_filetype(self):
         """
 
-        problem.. jezeli plik nie wpadnie w zadna z kategorii to (czyli self.filetype == '') to wtedy dostaje is_empty
+        problem.. jezeli plik nie wpadnie w zadna z kategorii
+        to (czyli self.filetype == '') to wtedy dostaje is_empty
 
-magnus@maximus:~/Dropbox/workspace/mmfinder$ file /home/magnus/Dropbox/workspace/myutil/backup_mysql_maximus.sh 
-/home/magnus/Dropbox/workspace/myutil/backup_mysql_maximus.sh: Bourne-Again shell script text executable
+magnus@maximus:~/Dropbox/workspace/mmfinder$ file
+/home/magnus/Dropbox/workspace/myutil/backup_mysql_maximus.sh
+/home/magnus/Dropbox/workspace/myutil/backup_mysql_maximus.sh:
+Bourne-Again shell script text executable
 
 
         """
-        if not os.path.isfile(self.path):
+        if not path.isfile(self.path):
             self.is_dir = True
             self.filetype = 'dir'
         else:
             self.is_dir = False
 
             cmd = "file '" + self.path + "'"
-            out = commands.getoutput(cmd)
+            out = getoutput(cmd)
             #print '# out',out
 
-            if re.search('ASCII text',out):
+            if search('ASCII text', out):
                 self.is_txt = True
                 self.filetype = 'txt'
 
-            if re.search('PDF document',out):
+            if search('PDF document', out):
                 self.is_pdf = True
                 self.filetype = 'pdf'
 
-            if re.search('OpenDocument Text',out):
+            if search('OpenDocument Text', out):
                 self.is_odt = True
                 self.filetype = 'odt'
 
-            if re.search('CDF V2 Document', out):
+            if search('CDF V2 Document', out):
                 self.is_doc = True
                 self.filetype = 'doc'
 
-            if self.filetype == '': ## if still '' ###### 
+            if self.filetype == '':  # if still ''
                 #print 'out'
                 #print out
                 self.filetype = 'empty'
                 self.is_empty = True
-                   
         #print '\t#filetype: ',self.filetype
+
 
 def option_parser():
     """
     """
-    description=''
-    version=VERSION
-    usage='%prog <options> word word word word'
+    description = ''
+    version = VERSION
+    usage = '%prog <options> word word word word'
     parser = OptionParser(description=description,
                               version=version,
                               usage=usage)
-    parser.add_option("-u", "--update_db", dest="update_db", default=False,help="force to update databases", action="store_true")
-    parser.add_option("-l", "--less", dest="less", default=False,help="less", action="store_true")
-    parser.add_option("-g", "--global_search", dest="global_search", default=False,help="search globally all PLACES", action="store_true")
-    parser.add_option("-d", "--find_dir", dest="find_dir", default=False,help="search only for directories", action="store_true")
-    parser.add_option("-f", "--find_find", dest="find_find", default=False,help="search only local via find ~", action="store_true")
-    parser.add_option("-p", "--pdf_find", dest="pdf_find", default=False,help="search only for PDFs", action="store_true")
-    parser.add_option("-s", "--show_hash", dest="show_hash", default=False,help="show_hash", action="store_true")
-    parser.add_option("-o", "--document_find", dest="document_find", default=False,help="document_find (documents are odt, doc)", action="store_true")
+    parser.add_option("-u", "--update_db", dest="update_db",
+                      default=False, help="force to update databases",
+                      action="store_true")
+    parser.add_option("-l", "--less", dest="less",
+                      default=False, help="less",
+                      action="store_true")
+    parser.add_option("-g", "--global_search", dest="global_search",
+                      default=False, help="search globally all PLACES",
+                      action="store_true")
+    parser.add_option("-d", "--find_dir", dest="find_dir",
+                      default=False, help="search only for directories",
+                      action="store_true")
+    parser.add_option("-f", "--find_find", dest="find_find",
+                      default=False, help="search only local via find ~",
+                      action="store_true")
+    parser.add_option("-p", "--pdf_find", dest="pdf_find",
+                      default=False, help="search only for PDFs",
+                      action="store_true")
+    parser.add_option("-s", "--show_hash", dest="show_hash",
+                      default=False, help="show_hash",
+                      action="store_true")
+    parser.add_option("-o", "--document_find", dest="document_find",
+                      default=False,
+                      help="document_find (documents are odt, doc)",
+                      action="store_true")
+    parser.add_option("-t", "--find_tu", dest="find_tu",
+                      default=False, help="find in a folder",
+                      action="store_true")
+    parser.add_option("-e", "--dev", dest="dev",
+                      default=False,
+                      help="development version.. lots of prints",
+                      action="store_true")
+    parser.add_option("-k", "--key", dest="key",
+                      default=False,
+                      help="press key every place",
+                      action="store_true")
+    parser.add_option("-m", "--find_media", dest="find_media",
+                      default=False,
+                      help="find media (mp3, avi, mp4 and so on)",
+                      action="store_true")
+    parser.add_option("-r", "--rex", dest="rex",
+                      default=False,
+                      help="--regex '.*ods$'", action="store_true")
+    parser.add_option("-x", "--un_grep", dest="un_grep",
+                      default=False, help="--regex '.*ods$'",
+                      action="store", type="string")
+    parser.add_option("-w", "--wholename", dest="wholename",
+                      default=False,
+                      help="-w -match only the whole path " +
+                      "name against the specified patterns",
+                      action="store_true")
+    parser.add_option("-b", "--bookmarks", dest="bookmarks",
+                      default=False, help="-b search firefox bookmarks'",
+                      action="store_true")
+    parser.add_option("-y", "--bookmarks_folder", dest="bookmarks_folder",
+                      default=False,
+                      help="-y search firefox bookmark folders'",
+                      action="store_true")
+    parser.add_option("-v", "--verbose", dest="verbose",
+                      default=False, help="-v verbose'",
+                      action="store_true")
+    parser.add_option("-i", "--invert", dest="invert",
+                      default=False,
+                      help="-i invert word1 word2 word3 --> word3 word2 word1",
+                      action="store_true")
 
-    parser.add_option("-t", "--find_tu", dest="find_tu", default=False,help="find in a folder", action="store_true")
-    parser.add_option("-e", "--dev", dest="dev", default=False,help="development version.. lots of prints", action="store_true")
-    parser.add_option("-k", "--key", dest="key", default=False,help="press key every place", action="store_true")
-    parser.add_option("-m", "--find_media", dest="find_media", default=False,help="find media (mp3, avi, mp4 and so on)", action="store_true")
-    parser.add_option("-r", "--rex", dest="rex", default=False,help="--regex '.*ods$'", action="store_true")
-    parser.add_option("-x", "--un_grep", dest="un_grep", default=False,help="--regex '.*ods$'", action="store", type="string")
-    parser.add_option("-w", "--wholename", dest="wholename", default=False,help="-w -match only the whole path name against the specified patterns'", action="store_true")
-    parser.add_option("-b", "--bookmarks", dest="bookmarks", default=False,help="-b search firefox bookmarks'", action="store_true")
-    parser.add_option("-v", "--verbose", dest="verbose", default=False,help="-v verbose'", action="store_true")
-    parser.add_option("-i", "--invert", dest="invert", default=False,help="-i invert word1 word2 word3 --> word3 word2 word1", action="store_true")
-    (opt, args) = parser.parse_args()
+    (opt, arguments) = parser.parse_args()
 
     #@@
-    #if not args:
+    #if not arguments:
     #    parser.print_help()
-    #    sys.exit(1)
-    
+    #    exit(1)
     if opt.update_db:
         print 'mmfinder_deamon start...'
         mmfinder_deamon.start()
-        mmscikit.hr()
+        hr()
         print 'mmfinder_deamon [done]'
         time.sleep(2)
 
     if opt.dev:
         print '# opt', opt
+    return arguments, opt
 
-    return args, opt
 
 def start():
-    mmscikit.banner2('mmfinder.py')
-    args, opt = option_parser()
-    # @@@
-    if args:
+    banner2('mmfinder.py')
+    arguments, opt = option_parser()
+
+    if arguments:
         m = main()
         if True:
-            m.search(args,opt)#show_hash, global_search,find_dir, find_find,pdf_find ,'')
+            #show_hash, global_search,find_dir, find_find,pdf_find ,'')
+            m.search(arguments, opt)
             #m.get_command()
         else:
             what_to_find = raw_input('>>> ')
