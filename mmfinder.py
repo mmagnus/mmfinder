@@ -15,7 +15,7 @@ from shlex import split
 
 #from ipdb import set_trace
 from optparse import OptionParser
-from mmfinder_deamon import start
+from mmfinder_deamon import start as start_deamon
 from django.conf import settings
 from subprocess import Popen
 
@@ -450,7 +450,7 @@ def option_parser():
     #    exit(1)
     if opt.update_db:
         print 'mmfinder_deamon start...'
-        mmfinder_deamon.start()
+        start_deamon()
         hr()
         print 'mmfinder_deamon [done]'
         time.sleep(2)
