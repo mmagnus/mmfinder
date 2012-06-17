@@ -16,7 +16,12 @@ from django.conf import settings
 
 settings.configure(DATABASES=DATABASES)
 
-phrase=sys.argv[1].strip()
+## default value test unless sys.argv is set
+if len(sys.argv) == 1:
+    phrase = 'test'
+else:
+    phrase = sys.argv[1].strip()
+
 print 'phrase:', phrase
 
 from orm.models import *
