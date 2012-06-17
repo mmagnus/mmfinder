@@ -3,7 +3,7 @@
 """
 mmfinder: the tool to find different types of files on many machines
 """
-from mmscikit import banner2, hr, get_hostname, hr_text, print_red_and_blue
+from myutilspy import banner2, hr, get_hostname, hr_text, print_red_and_blue
 from sys import exit, argv
 from string import ascii_letters
 from os import getcwd, path
