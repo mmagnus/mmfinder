@@ -1,13 +1,8 @@
-import sys
 ###
 ###   INIT & CONFIGURATION FILE
 ###
 PATH = '/home/magnus/Dropbox/workspace/mmfinder/'
 RUN_UPDATE = True
-
-sys.path.append(PATH)
-sys.path.append('/home/magnus/Dropbox/workspace/mmscikit/')
-
 
 # MMFINDER DEAMON
 ## LOCS ##################################
@@ -32,9 +27,7 @@ LOCS_HP = {
 LOCS_NETBOOK = {
     'netbook' : '/home/magnus/',
     'dropbox' : '/home/magnus/Dropbox',
-    'srv' : '/srv/',
     #'EON'     : '/media/EONVECTOR',
-
     #'1TB'     : '/media/1TB',
     'StoreJet'     : '/media/disk',
     }
@@ -48,7 +41,7 @@ HOSTS = {'maximus' : LOCS, 'netbook' : LOCS_NETBOOK, 'hp' : LOCS_HP}
 ########################################
 #list of db
 PLACES = ['dropbox','maximus', 'netbook', 'EON', '1TB', 'StoreJet', 'truecrypt'] 
-PLACES_LOCAL = ['dropbox','srv'] # + hostname
+PLACES_LOCAL = ['dropbox'] # + hostname
 
 PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'
 DONT_DB = [
