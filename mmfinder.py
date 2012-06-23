@@ -6,12 +6,10 @@ mmfinder: the tool to find different types of files on many machines
 from myutilspy import banner2, hr, get_hostname, hr_text, print_red_and_blue
 from sys import exit, argv
 from string import ascii_letters
-from os import getcwd, path
+from os import path
 from subprocess import Popen
 from commands import getoutput
 from re import compile, search, I
-from time import sleep
-from shlex import split
 
 #from ipdb import set_trace
 from optparse import OptionParser
