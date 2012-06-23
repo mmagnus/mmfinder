@@ -30,7 +30,7 @@ settings.configure(DATABASES=DATABASES)
 
 from orm.models import *
 
-from config import PLACES_LOCAL, PLACES, PATH_DB, FF_SQLITE_DATABASE
+from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE
 
 from pysqlite2 import dbapi2 as sqlite
 
@@ -170,10 +170,10 @@ class main:
         words_rex = '.*' + '.*'.join(arguments) + '.*'  # '.*a.*b*.c*'
 
         if opt.global_search:
-            PLACES = PLACES
+            places = PLACES_GLOBAL
         else:
-            PLACES = PLACES_LOCAL
-            PLACES.append(get_hostname())
+            places = PLACES_LOCAL
+            places.append(get_hostname())
 
         if opt.wholename:  # or basename
             wholename_or_basename = ' -w '
@@ -181,12 +181,12 @@ class main:
             wholename_or_basename = ' -b '
         #
         if opt.find_dir:
-            PLACES = ['find directories@' + get_hostname()]
+            places = ['find directories@' + get_hostname()]
         if opt.find_find:
-            PLACES = ['find@' + get_hostname()]
+            places = ['find@' + get_hostname()]
         if opt.find_tu:
-            PLACES = ['find here -t tu@' + get_hostname()]
-        for p in PLACES:
+            places = ['find here -t tu@' + get_hostname()]
+        for p in places:
             hr_text(p + '...')
             #if method == 'locate_local':
             # @@@@

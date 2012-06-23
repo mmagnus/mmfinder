@@ -40,7 +40,7 @@ HOSTS = {'maximus' : LOCS, 'netbook' : LOCS_NETBOOK, 'hp' : LOCS_HP}
 #MMFINDER
 ########################################
 #list of db
-PLACES = ['dropbox','maximus', 'netbook', 'EON', '1TB', 'StoreJet', 'truecrypt'] 
+PLACES_GLOBAL = ['dropbox','maximus', 'netbook', 'EON', '1TB', 'StoreJet', 'truecrypt'] 
 PLACES_LOCAL = ['dropbox'] # + hostname
 
 PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'
