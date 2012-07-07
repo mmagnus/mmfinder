@@ -469,17 +469,18 @@ def start():
             #show_hash, global_search,find_dir, find_find,pdf_find ,'')
             m.search(arguments, opt)
             #m.get_command()
-        else:
-            what_to_find = raw_input('>>> ')
-            if what_to_find == '':
-                pass
-            else:
-                if len(what_to_find.split()) == 2:
-                    what_to_find1, what_to_find2 = what_to_find.split()
-                    m.search(what_to_find1, what_to_find2)
-                else:
-                    m.search(what_to_find)
-                #m.get_command()
+        ###########################################################
+        ## else:
+        ##     what_to_find = raw_input('>>> ')
+        ##     if what_to_find == '':
+        ##         pass
+        ##     else:
+        ##         if len(what_to_find.split()) == 2:
+        ##             what_to_find1, what_to_find2 = what_to_find.split()
+        ##             m.search(what_to_find1, what_to_find2)
+        ##         else:
+        ##             m.search(what_to_find)
+        ##         #m.get_command()
 
 if __name__ == "__main__":
     start()
