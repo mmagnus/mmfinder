@@ -10,6 +10,7 @@ from os import path
 from subprocess import Popen
 from commands import getoutput
 from re import compile, search, I
+from time import sleep
 
 #from ipdb import set_trace
 from optparse import OptionParser
@@ -451,7 +452,7 @@ def option_parser():
         start_deamon()
         hr()
         print 'mmfinder_deamon [done]'
-        time.sleep(2)
+        sleep(2)
 
     if opt.dev:
         print '# opt', opt
