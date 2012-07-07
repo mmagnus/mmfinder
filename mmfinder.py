@@ -33,8 +33,6 @@ from orm.models import *
 
 from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE
 
-from pysqlite2 import dbapi2 as sqlite
-
 VERSION = '0.2'
 op = {}
 op['txt'] = 'gedit '
