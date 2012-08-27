@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import config
-import mmscikit
+import myutilspy
 import sys
 import string
 import os
@@ -34,31 +34,31 @@ class db:
             print cmd
             if config.RUN_UPDATE:
                 os.system(cmd)
-            mmscikit.print_green('# done')
+            myutilspy.print_green('# done')
             return True
         else:
-            mmscikit.print_red('# ERROR: No such file or directory')
+            myutilspy.print_red('# ERROR: No such file or directory')
             return False
 
     def print_statistics(self):
         cmd = "locate -S -d '" + self.filename_db + "'"
         out = commands.getoutput(cmd)
-        mmscikit.hr()
+        myutilspy.hr()
         print out
         self.statistics = out
-        mmscikit.hr()
+        myutilspy.hr()
         return 
         
 def start():
 
-    hostname = mmscikit.get_hostname()
+    hostname = myutilspy.get_hostname()
     locs = config.HOSTS[hostname]
 
     for l in locs:
-        mmscikit.hr_text(l)
+        myutilspy.hr_text(l)
         path = locs[l]
       
-        mmscikit.print_blue("# PATH: " + path)
+        myutilspy.print_blue("# PATH: " + path)
 
         filename_db = config.PATH_DB + l + '.db'
         print "# creating DB ... ", filename_db
@@ -69,7 +69,7 @@ def start():
 
     ## log
     f = open(config.PATH + '/log', 'aw')
-    f.write(mmscikit.get_datetime() + '\n')
+    f.write(myutilspy.get_datetime() + '\n')
     f.close(
 )
 if __name__ == "__main__":
