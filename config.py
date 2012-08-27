@@ -32,7 +32,13 @@ LOCS_NETBOOK = {
     'StoreJet'     : '/media/disk',
     }
 
-HOSTS = {'maximus' : LOCS, 'netbook' : LOCS_NETBOOK, 'hp' : LOCS_HP}
+LOCS_SL300 = {
+    'sl300' : '/home/magnus/',
+    'StoreJet'     : '/media/disk',
+    'dropbox' : '/home/magnus/Dropbox',
+    }
+
+HOSTS = {'maximus' : LOCS, 'netbook' : LOCS_NETBOOK, 'hp' : LOCS_HP, 'sl300' : LOCS_SL300}
 ## you can check a hostname by '$hostname'
 ########################################
 
