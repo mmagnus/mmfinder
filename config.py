@@ -9,8 +9,6 @@ RUN_UPDATE = True
 LOCS = {
 
     #name of db : path on that host'
-
-    'EON'      : '/media/EONVECTOR',
     'dropbox'  : '/home/magnus/Dropbox',
     'maximus'  : '/home/magnus/',
     '1TB'      : '/media/1TB',
@@ -27,7 +25,6 @@ LOCS_HP = {
 LOCS_NETBOOK = {
     'netbook' : '/home/magnus/',
     'dropbox' : '/home/magnus/Dropbox',
-    #'EON'     : '/media/EONVECTOR',
     #'1TB'     : '/media/1TB',
     'StoreJet'     : '/media/disk',
     }
@@ -46,7 +43,7 @@ HOSTS = {'maximus' : LOCS, 'netbook' : LOCS_NETBOOK, 'hp' : LOCS_HP, 'sl300' : L
 #MMFINDER
 ########################################
 #list of db
-PLACES_GLOBAL = ['dropbox','maximus', 'netbook', 'EON', '1TB', 'StoreJet', 'truecrypt', 'sl300'] 
+PLACES_GLOBAL = ['dropbox','maximus', 'netbook', '1TB', 'StoreJet', 'truecrypt', 'sl300'] 
 PLACES_LOCAL = ['dropbox'] # + hostname
 
 PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'
