@@ -291,6 +291,12 @@ class obj:
         self.is_empty = False
 
     def show(self, show_hash, less, noncolor):
+        """
+        * input:
+         - show_hash **is not used**
+         - less: True/False show only first line of a hit, dont show path file:///
+         - noncolor: True/False use color to show a path and a filename
+        """
         #if not self.is_empty:
             # out = '\t [' + self.filetype + '] ' + self.id + ") \
                 # file://"+self.path.replace(' ','\ ')+""
