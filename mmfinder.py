@@ -310,24 +310,27 @@ class obj:
             print_red_and_blue('\t\'' +
                            path.dirname(self.path) +
                            '/', '' + path.basename(self.path) + "'")
-        out = ''
-        dir_file = True
-        if dir_file:
-            out = "\tfile://" + \
-                path.dirname(self.path).strip().replace(' ', '%20') + "\n"
-                #out = '\t [' + self.filetype + '] ' + \
-                #self.id + ") " + '' + " \t\tfile://"+
-                #self.path.replace(' ','%20')+""
-        out += "\tfile://" + self.path.replace(' ', '%20') + ""
-        if show_hash:
-            out += '\n\t' + hash_file(self.path)[0]
-        #out = '\t [' + self.filetype + '] ' + self.id + ") \
-            # file:'//"+self.path+"'" # NO
-        #out = '\t [' + self.filetype + '] ' + self.id + ") \
-            # 'file://"+self.path+"'" # NO
+  
         if not less:
-            print out
+            out = ''
+            dir_file = True
+            if dir_file:
+                out = "\tfile://" + \
+                    path.dirname(self.path).strip().replace(' ', '%20') + "\n"
+                    #out = '\t [' + self.filetype + '] ' + \
+                    #self.id + ") " + '' + " \t\tfile://"+
+                    #self.path.replace(' ','%20')+""
+            out += "\tfile://" + self.path.replace(' ', '%20') + ""
+            # @todo
+            #if show_hash:
+            #    out += '\n\t' + hash_file(self.path)[0]
 
+            #out = '\t [' + self.filetype + '] ' + self.id + ") \
+                # file:'//"+self.path+"'" # NO
+            #out = '\t [' + self.filetype + '] ' + self.id + ") \
+            # 'file://"+self.path+"'" # NO
+            print out
+            
     def check_filetype(self):
         """
 
