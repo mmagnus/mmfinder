@@ -274,7 +274,7 @@ class main:
                     #    i.show()
                     #print 'x'
                     #if not find_dir:
-                    i.show(opt.show_hash, opt.less)
+                    i.show(opt.show_hash, opt.less, opt.noncolor)
                     c += 1
                 print
             # and out becuase don't 'press key' for empty outputs
@@ -290,14 +290,19 @@ class obj:
         self.is_pdf = False
         self.is_empty = False
 
-    def show(self, show_hash, less):
+    def show(self, show_hash, less, noncolor):
         #if not self.is_empty:
             # out = '\t [' + self.filetype + '] ' + self.id + ") \
                 # file://"+self.path.replace(' ','\ ')+""
             #out = '\t [' + self.filetype + '] ' + self.id + ") \
                 # file://"+self.path.replace(' ','%20')+""
-        print_red_and_blue('\t\'' +
-                           path.dirname(self.path).strip() +
+        if noncolor:
+            print '\t\'' + path.dirname(self.path) \
+                  + '/' + path.basename(self.path) + "'"
+                           
+        else:
+            print_red_and_blue('\t\'' +
+                           path.dirname(self.path) +
                            '/', '' + path.basename(self.path) + "'")
         out = ''
         dir_file = True
@@ -437,6 +442,10 @@ def option_parser():
     parser.add_option("-i", "--invert", dest="invert",
                       default=False,
                       help="-i invert word1 word2 word3 --> word3 word2 word1",
+                      action="store_true")
+    parser.add_option("-n", "--noncolor", dest="noncolor",
+                      default=False,
+                      help="dont show colors, useful if you pipe an output",
                       action="store_true")
 
     (opt, arguments) = parser.parse_args()
