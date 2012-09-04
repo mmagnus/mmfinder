@@ -30,8 +30,7 @@ settings.configure(DATABASES=DATABASES)
 
 from orm.models import *
 
-from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA
-
+from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD
 
 VERSION = '0.2'
 op = {}
@@ -185,8 +184,11 @@ class main:
             places = ['find@' + get_hostname()]
         if opt.find_tu:
             places = ['find here -t tu@' + get_hostname()]
+
+        html_hits = ''
         for p in places:
             hr_text(p + '...')
+            html_hits += '#' + p + '\n'
             #if method == 'locate_local':
             # @@@@
             # -e existing a co ze zdalnymi bazami?!?!
@@ -274,13 +276,33 @@ class main:
                     #    i.show()
                     #print 'x'
                     #if not find_dir:
-                    i.show(opt.show_hash, opt.less, opt.noncolor)
+                    hit = i.show(opt.show_hash, opt.less,
+                                 opt.noncolor, opt.firefox)
+                    if opt.firefox:
+                        html_hits += hit + '\n'
                     c += 1
                 print
+
             # and out becuase don't 'press key' for empty outputs
             if opt.key and out:
                 raw_input('[press key]')
 
+        if opt.firefox:
+            ### html part ###       
+            html_text = '<pre>'
+            html_text += html_hits.replace('\n', '</br>')
+            html_text += '<pre>'        
+
+            fn = HTML_FN
+            f = open(fn, 'w')
+            f.write(html_text)
+            f.close()
+
+            cmd = HTML_CMD + ' ' + fn
+            print cmd
+            system(cmd)
+            ### html ###
+        
 
 class obj:
     def __init__(self, id, path):
@@ -290,12 +312,13 @@ class obj:
         self.is_pdf = False
         self.is_empty = False
 
-    def show(self, show_hash, less, noncolor):
+    def show(self, show_hash, less, noncolor, firefox):
         """
         * input:
          - show_hash **is not used**
          - less: True/False show only first line of a hit, dont show path file:///
          - noncolor: True/False use color to show a path and a filename
+         - firefox: save the result as a html file and open it in firefox
         """
         #if not self.is_empty:
             # out = '\t [' + self.filetype + '] ' + self.id + ") \
@@ -305,12 +328,11 @@ class obj:
         if noncolor:
             print '\t\'' + path.dirname(self.path) \
                   + '/' + path.basename(self.path) + "'"
-                           
         else:
             print_red_and_blue('\t\'' +
                            path.dirname(self.path) +
                            '/', '' + path.basename(self.path) + "'")
-  
+
         if not less:
             out = ''
             dir_file = True
@@ -330,7 +352,15 @@ class obj:
             #out = '\t [' + self.filetype + '] ' + self.id + ") \
             # 'file://"+self.path+"'" # NO
             print out
-            
+
+        if firefox:
+            return '<a href="file://' + path.dirname(self.path) + '">' \
+                   + '[D]' + '</a>' + \
+                   '<a href="file://' + path.dirname(self.path) \
+                   + '/' + path.basename(self.path) + '">' \
+                   + path.dirname(self.path) + '/' + \
+                   path.basename(self.path) + '</a>' 
+   
     def check_filetype(self):
         """
 
@@ -455,6 +485,10 @@ def option_parser():
     parser.add_option("-n", "--noncolor", dest="noncolor",
                       default=False,
                       help="dont show colors, useful if you pipe an output",
+                      action="store_true")
+    parser.add_option("-a", "--firefox", dest="firefox",
+                      default=False,
+                      help="open an output in firefox",
                       action="store_true")
 
     (opt, arguments) = parser.parse_args()

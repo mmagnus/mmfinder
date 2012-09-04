@@ -4,6 +4,9 @@
 PATH = '/home/magnus/Dropbox/workspace/mmfinder/'
 RUN_UPDATE = True
 
+HTML_FN = '/tmp/a120c.html'
+HTML_CMD = '/home/magnus/opt/firefox13/firefox/firefox'
+
 # MMFINDER DEAMON
 ## LOCS ##################################
 LOCS = {
