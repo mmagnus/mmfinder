@@ -6,12 +6,11 @@ mmfinder: the tool to find different types of files on many machines
 from myutilspy import banner2, hr, get_hostname, hr_text, print_red_and_blue
 from sys import exit, argv
 from string import ascii_letters
-from os import path
+from os import path, getcwd, system
 from subprocess import Popen
 from commands import getoutput
 from re import compile, search, I
 from time import sleep
-
 #from ipdb import set_trace
 from optparse import OptionParser
 from mmfinder_deamon import start as start_deamon
@@ -31,7 +30,8 @@ settings.configure(DATABASES=DATABASES)
 
 from orm.models import *
 
-from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE
+from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA
+
 
 VERSION = '0.2'
 op = {}
@@ -197,18 +197,18 @@ class main:
 
             if opt.pdf_find:
                 status = 'pdf searching...'
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + \
+                cmd = "locate -d " + PATH_DB + p + '.db' + " " + \
                     wholename_or_basename + " -i -r '" + words_rex + "pdf$'"
             elif opt.document_find:
                 status = 'document searching...'
-                extensions = '$|'.join(config.EXTENSIONS_OF_DOCUMENTS)
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + \
+                extensions = '$|'.join(EXTENSIONS_OF_DOCUMENTS)
+                cmd = "locate -d " + PATH_DB + p + '.db' + " " + \
                     wholename_or_basename + " -i --regex '" + \
                     words_rex + ".*(" + extensions + ")'"
             elif opt.find_media:
                 status = 'document searching...'
-                extensions = '$|'.join(config.EXTENSIONS_OF_MEDIA)
-                cmd = "locate -d " + config.PATH_DB + p + '.db' + " " + \
+                extensions = '$|'.join(EXTENSIONS_OF_MEDIA)
+                cmd = "locate -d " + PATH_DB + p + '.db' + " " + \
                     wholename_or_basename + " -i --regex '" + \
                     words_rex + ".*(" + extensions + ")'"
             elif opt.rex:
@@ -219,7 +219,7 @@ class main:
 
             elif opt.find_tu:
                 status = 'finding here (tutaj)...'
-                cmd = "find '" + os.getcwd() + "' -iname '" + words + "'"
+                cmd = "find '" + getcwd() + "' -iname '" + words + "'"
             elif opt.find_find:
                 status = 'finding /home/...'
                 cmd = "find ~ -iname '" + words + "'"
