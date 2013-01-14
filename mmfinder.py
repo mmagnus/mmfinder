@@ -32,14 +32,7 @@ settings.configure(DATABASES=DATABASES)
 from orm.models import *
 
 VERSION = '0.2'
-op = {}
-op['txt'] = 'gedit '
-op['pdf'] = 'mmpdf.sh '
-op['odt'] = 'oowriter '
-op['doc'] = 'oowriter '
-
 IDS = ascii_letters
-
 
 class main:
 
@@ -48,14 +41,21 @@ class main:
 
     def get_command(self):
         """
-        not used in this VERSION
+        !!! not used in this VERSION !!!
         """
+        op = {}
+        op['txt'] = 'gedit '
+        op['pdf'] = 'mmpdf.sh '
+        op['odt'] = 'oowriter '
+        op['doc'] = 'oowriter '
+
+
         input = raw_input('What to do? [ids action] [abc o]:')
         if not len(input.strip()):
             print 'exit'
             exit(1)
 
-        # zaprogramuj przedzialy a-b, lub *, lub aegh
+        # program selection a-b, or *, or aegh
 
         ids, action = input.split()  # 'abc o'
 
