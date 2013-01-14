@@ -17,6 +17,8 @@ from mmfinder_deamon import start as start_deamon
 from django.conf import settings
 from subprocess import Popen
 
+from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -29,8 +31,6 @@ DATABASES = {
 settings.configure(DATABASES=DATABASES)
 
 from orm.models import *
-
-from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD
 
 VERSION = '0.2'
 op = {}
