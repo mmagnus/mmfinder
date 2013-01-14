@@ -19,18 +19,6 @@ from subprocess import Popen
 
 from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME':  FF_SQLITE_DATABASE,
-        'HOST': '',
-        'PORT': '',
-        }
-    }
-settings.configure(DATABASES=DATABASES)
-
-from orm.models import *
-
 VERSION = '0.2'
 IDS = ascii_letters
 
@@ -135,6 +123,18 @@ class main:
             """
             very rough but works
             """
+            DATABASES = {
+                'default': {
+                    'ENGINE': 'django.db.backends.sqlite3',
+                    'NAME':  FF_SQLITE_DATABASE,
+                    'HOST': '',
+                    'PORT': '',
+                    }
+                }
+            settings.configure(DATABASES=DATABASES)
+
+            from orm.models import MozAnnoAttributes, MozAnnos, MozBookmarks, MozBookmarksRoots, MozFavicons, MozHistoryvisits, MozInputhistory, MozItemsAnnos, MozKeywords, MozPlaces, SqliteStat1
+
             show_path = False
 
             phrase = argv[2].strip()
