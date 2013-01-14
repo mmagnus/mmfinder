@@ -22,8 +22,7 @@ from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXT
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME':
-            '/home/magnus/.mozilla/firefox/ssfbppfu.default/places.sqlite',
+        'NAME':  FF_SQLITE_DATABASE,
         'HOST': '',
         'PORT': '',
         }
