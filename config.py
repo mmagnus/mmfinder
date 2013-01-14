@@ -1,53 +1,29 @@
-###
-###   INIT & CONFIGURATION FILE
-###
+## init & configuration file
 PATH = '/home/magnus/Dropbox/workspace/mmfinder/'
 RUN_UPDATE = True
 
-HTML_FN = '/tmp/a120c.html'
-HTML_CMD = '/home/magnus/opt/firefox13/firefox/firefox'
+## list of disk
+PLACES_LOCAL = ['dropbox']
+PLACES_GLOBAL = ['dropbox','maximus', '1TB', 'StoreJet', 'truecrypt', 'debian'] 
 
-# MMFINDER DEAMON
-## LOCS ##################################
-LOCS = {
-
-    #name of db : path on that host'
+## setup computers
+## name of db : path on that host'
+computer1 = {
     'dropbox'  : '/home/magnus/Dropbox',
     'maximus'  : '/home/magnus/',
     '1TB'      : '/media/1TB',
     'StoreJet' : '/media/StoreJet',
     'truecrypt': '/media/truecrypt1/',
-
     }
 
-LOCS_HP = {
-    'hp' : '/home/magnus/',
+computer2 = {
     'dropbox' : '/home/magnus/Dropbox',
-}
-
-LOCS_NETBOOK = {
-    'netbook' : '/home/magnus/',
-    'dropbox' : '/home/magnus/Dropbox',
-    #'1TB'     : '/media/1TB',
-    'StoreJet'     : '/media/disk',
+    'debian'  : '/home/magnus/',
+    'StoreJet': '/media/StoreJet',
     }
 
-LOCS_SL300 = {
-    'sl300' : '/home/magnus/',
-    'StoreJet'     : '/media/disk',
-    'dropbox' : '/home/magnus/Dropbox',
-    }
-
-HOSTS = {'maximus' : LOCS, 'netbook' : LOCS_NETBOOK, 'hp' : LOCS_HP, 'sl300' : LOCS_SL300}
-## you can check a hostname by '$hostname'
-########################################
-
-
-#MMFINDER
-########################################
-#list of db
-PLACES_GLOBAL = ['dropbox','maximus', 'netbook', '1TB', 'StoreJet', 'truecrypt', 'sl300'] 
-PLACES_LOCAL = ['dropbox'] # + hostname
+## map computer to hostname
+HOSTS = {'maximus' : computer1, 'debian' : computer2}
 
 PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'
 DONT_DB = [
@@ -59,9 +35,17 @@ DONT_DB = [
     '.dropbox.cache'
     ]
 
-#
+## firefox bookmarks (optional)
+FF_SQLITE_DATABASE = '/home/magnus/.mozilla/firefox/ssfbppfu.default/places.sqlite'
+
+## extensios of documents and media
 EXTENSIONS_OF_DOCUMENTS = ['rtf','doc','odt', 'ppt', 'odp', 'ods', 'xls']
 EXTENSIONS_OF_MEDIA = ['avi', 'mp4']
 
-#FF BOOKMARK SEARCHER
-FF_SQLITE_DATABASE = '/home/magnus/.mozilla/firefox/ssfbppfu.default/places.sqlite'
+## html mode to present results
+HTML_FN = '/tmp/a120c.html'
+HTML_CMD = '/home/magnus/opt/firefox13/firefox/firefox'
+
+
+
+
