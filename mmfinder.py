@@ -92,8 +92,10 @@ class main:
         list_with_action = True
         hr()
 
+        import sqlite3
+        
         if opt.bookmarks:
-            conn = sqlite.connect(FF_SQLITE_DATABASE)
+            conn = sqlite3.connect(FF_SQLITE_DATABASE)
             c = conn.cursor()
             c.execute("select title, url from moz_places;")
             conn.commit()
