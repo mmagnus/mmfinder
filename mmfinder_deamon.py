@@ -22,12 +22,10 @@ class db:
     """
     def __init__(self, path_to_scan, filename_db):
         self.path_to_scan = path_to_scan
-        self.filename_db = filename_db ### ~/Dropbox/db/netbook.db ## ~/Dropbox/db/maximus.db # 1TB.db # hp.db
+        self.filename_db = filename_db
         self.statistics = ''
         self.scan_done = False
     def scan(self):
-        #cmd = "updatedb -l 0 -U '" + /home/magnus -o magnus.db
-        #
         if os.path.exists(self.path_to_scan):
             dont_db = ' '.join(config.DONT_DB)
             cmd = "updatedb -l 0 -U '" + self.path_to_scan + "' -n '" + dont_db + "' -o '" + self.filename_db + "'"

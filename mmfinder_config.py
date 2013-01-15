@@ -5,6 +5,7 @@ RUN_UPDATE = True
 PLACES_LOCAL = ['dropbox']
 PLACES_GLOBAL = ['dropbox','maximus', '1TB', 'StoreJet', 'truecrypt', 'debian'] 
 
+PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'
 ## setup computers
 ## name of db : path on that host'
 computer1 = {
@@ -24,7 +25,6 @@ computer2 = {
 ## map computer to hostname
 HOSTS = {'maximus' : computer1, 'debian' : computer2}
 
-PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'
 DONT_DB = [
     'Dropbox',
     ' Trash',
