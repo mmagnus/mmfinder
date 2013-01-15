@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 #-*-coding: utf-8 -*-
 """
-mmfinder: the tool to find different types of files on many machines
+mmfinder: a tool for finding your files across different machines!
+
+not pretty.. full of quick-and-dirty hacks .. but works :-)
 """
+VERSION = '0.9'
+
 from myutilspy import banner2, hr, get_hostname, hr_text, print_red_and_blue
 from sys import exit, argv
 from string import ascii_letters
@@ -19,7 +23,6 @@ from getpass import getuser
 
 from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD, GREP_CMD
 
-VERSION = '0.2'
 IDS = ascii_letters
 
 class main:
