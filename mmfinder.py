@@ -16,10 +16,12 @@ from commands import getoutput
 from re import compile, search, I
 from time import sleep
 from optparse import OptionParser
-from mmfinder_deamon import start as start_deamon
-from django.conf import settings
 from subprocess import Popen
 from getpass import getuser
+
+from django.conf import settings
+
+from mmfinder_deamon import start as start_deamon
 
 from lib.utils import banner2, hr, get_hostname, hr_text, print_red_and_blue
 from mmfinder_config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD, GREP_CMD
