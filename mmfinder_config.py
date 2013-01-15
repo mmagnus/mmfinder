@@ -4,24 +4,25 @@ PLACES_LOCAL = ['dropbox']
 PLACES_GLOBAL = ['dropbox','maximus', '1TB', 'StoreJet', 'truecrypt', 'debian'] 
 
 PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'
+
 ## setup computers
 ## name of db : path on that host'
 computer1 = {
-    'dropbox'  : '/home/magnus/Dropbox',
-    'maximus'  : '/home/magnus/',
-    '1TB'      : '/media/1TB',
-    'StoreJet' : '/media/StoreJet',
-    'truecrypt': '/media/truecrypt1/',
-    }
-
-computer2 = {
     'dropbox' : '/home/magnus/Dropbox',
     'debian'  : '/home/magnus/',
     'StoreJet': '/media/StoreJet',
+    '1TB'      : '/media/1TB',
+    'StoreJet' : '/media/StoreJet',
+    }
+
+computer2 = {
+    'dropbox'  : '/home/magnus/Dropbox',
+    'maximus'  : '/home/magnus/',
+    'truecrypt': '/media/truecrypt1/',
     }
 
 ## map computer to hostname
-HOSTS = {'maximus' : computer1, 'debian' : computer2}
+HOSTS = {'debian' : computer1, 'maximus' : computer2}
 
 DONT_DB = [
     'Dropbox',
