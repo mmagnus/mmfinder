@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import config
+import mmfinder_config as config
 import myutilspy
 import sys
 import string

@@ -21,7 +21,7 @@ from django.conf import settings
 from subprocess import Popen
 from getpass import getuser
 
-from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD, GREP_CMD
+from mmfinder_config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD, GREP_CMD
 
 IDS = ascii_letters
 
