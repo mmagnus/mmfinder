@@ -219,6 +219,7 @@ class main:
             places = ['find here -t tu@' + get_hostname()]
 
         html_hits = ''
+        c = 1
         for p in places:
             hr_text(p + '...')
             html_hits += '#' + p + '\n'
