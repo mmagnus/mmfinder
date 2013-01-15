@@ -168,11 +168,42 @@ class main:
         words = '*' + '*'.join(arguments) + '*'  # '*a*b*c*'
         words_rex = '.*' + '.*'.join(arguments) + '.*'  # '.*a.*b*.c*'
 
+
         if opt.global_search:
             places = PLACES_GLOBAL
         else:
             places = PLACES_LOCAL
             places.append(get_hostname())
+
+        if opt.grep_here:
+            places = ['current dir']
+            status = 'grepping the current directory'
+            cmd = GREP_CMD + " '" + words.replace('*','') + "' *"
+            if opt.verbose: print 'cmd: ', cmd
+            out = getoutput(cmd).strip()
+            for l in out.split('\n'):
+                if l.find(':')>-1:
+                    try:
+                        filename, text = l.split(':')
+                        filename += ':'
+                    except:
+                        items = l.split(':')
+                        filename = items[0]
+                        text = ':'.join(items[1:])
+                    print_red_and_blue(filename, text)
+
+                elif l.find('-')>-1:
+                    try:
+                        filename, text = l.split('-')
+                        filename += '-'
+                    except:
+                        items = l.split('-')
+                        filename = items[0]
+                        text = '-'.join(items[1:])
+                    print_red_and_blue(filename, text)
+                else:
+                    print l
+            exit(1)
 
         if opt.wholename:  # or basename
             wholename_or_basename = ' -w '
@@ -482,6 +513,10 @@ def option_parser():
     parser.add_option("-i", "--invert", dest="invert",
                       default=False,
                       help="-i invert word1 word2 word3 --> word3 word2 word1",
+                      action="store_true")
+    parser.add_option("-c", "--grep_here", dest="grep_here",
+                      default=False,
+                      help="run grep search in the current folder",
                       action="store_true")
     parser.add_option("-n", "--noncolor", dest="noncolor",
                       default=False,
