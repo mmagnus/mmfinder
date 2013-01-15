@@ -44,9 +44,9 @@ EXTENSIONS_OF_MEDIA = ['avi', 'mp4']
 
 ## html mode to present results
 HTML_FN = '/tmp/a120c.html'
-HTML_CMD = '/home/magnus/opt/firefox13/firefox/firefox'
+HTML_CMD = '/usr/bin/firefox'
 
 ## grep cmd
-GREP_CMD = 'grep -C 2 -r' # -C 1
+GREP_CMD = 'grep -C 2 -r ' # -C 1
 
 
