@@ -545,8 +545,9 @@ def option_parser():
 
     #@@
     if not arguments:
-        parser.print_help()
-        exit(1)
+        if not opt.update_db:
+            parser.print_help()
+            exit(1)
     if opt.update_db:
         print 'mmfinder_deamon start...'
         start_deamon()
