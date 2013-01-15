@@ -17,7 +17,8 @@ from mmfinder_deamon import start as start_deamon
 from django.conf import settings
 from subprocess import Popen
 
-from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD
+
+from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD, GREP_CMD
 
 VERSION = '0.2'
 IDS = ascii_letters
@@ -296,7 +297,6 @@ class main:
 
             if out and list_with_action:
                 #hr()
-                c = 0
                 for item in out.strip().split('\n'):
                     ############################ @@ BUG @@ id = IDS[c]
                     id = 'a'  # TO FIX
@@ -309,7 +309,7 @@ class main:
                     #print 'x'
                     #if not find_dir:
                     hit = i.show(opt.show_hash, opt.less,
-                                 opt.noncolor, opt.firefox)
+                                 opt.noncolor, opt.firefox, c)
                     if opt.firefox:
                         html_hits += hit + '\n'
                     c += 1
@@ -344,7 +344,7 @@ class obj:
         self.is_pdf = False
         self.is_empty = False
 
-    def show(self, show_hash, less, noncolor, firefox):
+    def show(self, show_hash, less, noncolor, firefox, c):
         """
         * input:
          - show_hash **is not used**
