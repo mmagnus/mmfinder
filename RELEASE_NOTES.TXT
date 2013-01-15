@@ -1,0 +1,25 @@
+Release notes for mmfinder
+
+version 0.9! (Janary 2013)
+
+ * bash plugin added
+ * many, many, many changes (see git!)
+
+version 0.09
+
+ * -s show hash
+ * word, word2
+ * -d document odt|doc
+ * -u in crontab
+
+version 0.05
+
+ * -p search for pdfs only
+ * small changes in if-s
+
+version 0.04
+
+ * -g global.. opcja przeszukiwania lokalnego staje sie domyslna
+ * add StoreJet
+
+version 0.01 (July 2011)
