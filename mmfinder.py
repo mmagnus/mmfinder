@@ -15,7 +15,7 @@ from optparse import OptionParser
 from mmfinder_deamon import start as start_deamon
 from django.conf import settings
 from subprocess import Popen
-
+from getpass import getuser
 
 from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD, GREP_CMD
 
@@ -216,6 +216,13 @@ class main:
         if opt.find_tu:
             places = ['find here -t tu@' + get_hostname()]
 
+        ## reset file
+        paths_text_file = open('/home/' + getuser() + '/.mmfinder-paths','w')
+        paths_text_file_to_open = open('/home/' + getuser() + '/.mmfinder-paths-to-open','w')
+
+        mmterminalpathtext = ''
+        mmterminalpathtext_to_open = ''
+
         html_hits = ''
         c = 1
         for p in places:
@@ -308,6 +315,9 @@ class main:
                                  opt.noncolor, opt.www_browser, c)
                     if opt.www_browser:
                         html_hits += hit + '\n'
+                    else:
+                        mmterminalpathtext += hit.split('\n')[0].strip() + ' #' + str(c) + '\n'
+                        mmterminalpathtext_to_open += hit.split('\n')[1].strip() + ' #' + str(c) + '\n'
                     c += 1
                 print
 
