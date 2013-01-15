@@ -309,9 +309,9 @@ class main:
                     #    i.show()
                     #print 'x'
                     #if not find_dir:
-                    hit = i.show(opt.show_hash, opt.less,
-                                 opt.noncolor, opt.firefox, c)
-                    if opt.firefox:
+                    hit = i.show(opt.show_hash, opt.not_less,
+                                 opt.noncolor, opt.www_browser, c)
+                    if opt.www_browser:
                         html_hits += hit + '\n'
                     c += 1
                 print
@@ -320,11 +320,11 @@ class main:
             if opt.key and out:
                 raw_input('[press key]')
 
-        if opt.firefox:
-            ### html part ###       
+        if opt.www_browser:
+
             html_text = '<pre>'
             html_text += html_hits.replace('\n', '</br>')
-            html_text += '<pre>'        
+            html_text += '<pre>'
 
             fn = HTML_FN
             f = open(fn, 'w')
@@ -334,8 +334,11 @@ class main:
             cmd = HTML_CMD + ' ' + fn
             print cmd
             system(cmd)
-            ### html ###
-        
+
+        ##
+        paths_text_file.write(mmterminalpathtext)
+        paths_text_file_to_open.write(mmterminalpathtext_to_open)
+        paths_text_file.close()
 
 class obj:
     def __init__(self, id, path):
@@ -345,13 +348,18 @@ class obj:
         self.is_pdf = False
         self.is_empty = False
 
-    def show(self, show_hash, less, noncolor, firefox, c):
+    def show(self, show_hash, not_less, noncolor, www_browser, c):
         """
         * input:
          - show_hash **is not used**
          - less: True/False show only first line of a hit, dont show path file:///
          - noncolor: True/False use color to show a path and a filename
-         - firefox: save the result as a html file and open it in firefox
+         - www_browser: save the result as a html file and open it in www_browser
+
+        * output:
+        - '\tfile:///home/magnus/Dropbox/pdf\n\tfile:///home/magnus/Dropbox/pdf/XXXXXXX.pdf'
+        or
+        html code for opening in www_browser
         """
         #if not self.is_empty:
             # out = '\t [' + self.filetype + '] ' + self.id + ") \
@@ -362,20 +370,19 @@ class obj:
             print '\t\'' + path.dirname(self.path) \
                   + '/' + path.basename(self.path) + "'"
         else:
-            print_red_and_blue('\t\'' +
-                           path.dirname(self.path) +
-                           '/', '' + path.basename(self.path) + "'")
-
-        if not less:
-            out = ''
-            dir_file = True
-            if dir_file:
-                out = "\tfile://" + \
-                    path.dirname(self.path).strip().replace(' ', '%20') + "\n"
-                    #out = '\t [' + self.filetype + '] ' + \
-                    #self.id + ") " + '' + " \t\tfile://"+
-                    #self.path.replace(' ','%20')+""
-            out += "\tfile://" + self.path.replace(' ', '%20') + ""
+            print_red_and_blue(str(c) + '\t\'' + \
+                               path.dirname(self.path) + \
+                               '/', '' + path.basename(self.path) + "'")
+        ## hack #1
+        out = ''
+        dir_file = True
+        if dir_file:
+            out = "\tfile://" + \
+                path.dirname(self.path).strip().replace(' ', '%20') + "\n"
+                #out = '\t [' + self.filetype + '] ' + \
+                #self.id + ") " + '' + " \t\tfile://"+
+                #self.path.replace(' ','%20')+""
+        out += "\tfile://" + self.path.replace(' ', '%20') + ""
             # @todo
             #if show_hash:
             #    out += '\n\t' + hash_file(self.path)[0]
@@ -384,16 +391,11 @@ class obj:
                 # file:'//"+self.path+"'" # NO
             #out = '\t [' + self.filetype + '] ' + self.id + ") \
             # 'file://"+self.path+"'" # NO
+        if not_less:
             print out
+        return out.replace('file://', '').replace('%20',' ')
 
-        if firefox:
-            return '<a href="file://' + path.dirname(self.path) + '">' \
-                   + '[D]' + '</a>' + \
-                   '<a href="file://' + path.dirname(self.path) \
-                   + '/' + path.basename(self.path) + '">' \
-                   + path.dirname(self.path) + '/' + \
-                   path.basename(self.path) + '</a>' 
-   
+
     def check_filetype(self):
         """
 
@@ -453,8 +455,8 @@ def option_parser():
     parser.add_option("-u", "--update_db", dest="update_db",
                       default=False, help="force to update databases",
                       action="store_true")
-    parser.add_option("-l", "--less", dest="less",
-                      default=False, help="less",
+    parser.add_option("-l", "--not_less", dest="not_less",
+                      default=False, help="not_less, print extra lines",
                       action="store_true")
     parser.add_option("-g", "--global_search", dest="global_search",
                       default=False, help="search globally all PLACES",
@@ -523,9 +525,9 @@ def option_parser():
                       default=False,
                       help="dont show colors, useful if you pipe an output",
                       action="store_true")
-    parser.add_option("-a", "--firefox", dest="firefox",
+    parser.add_option("-a", "--www_browser", dest="www_browser",
                       default=False,
-                      help="open an output in firefox",
+                      help="open an output in www browser",
                       action="store_true")
 
     (opt, arguments) = parser.parse_args()
