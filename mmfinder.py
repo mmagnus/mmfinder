@@ -11,7 +11,6 @@ from subprocess import Popen
 from commands import getoutput
 from re import compile, search, I
 from time import sleep
-#from ipdb import set_trace
 from optparse import OptionParser
 from mmfinder_deamon import start as start_deamon
 from django.conf import settings
