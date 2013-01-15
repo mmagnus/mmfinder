@@ -1,8 +1,7 @@
-## init & configuration file
+## BASIC (REQUIRED) CONFIGURATION
 PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'
 
-## setup computers
-## name of db : path on that host'
+## setup computers, ## name of db : path on that host'
 computer1 = {
     'dropbox' : '/home/magnus/Dropbox',
     'debian'  : '/home/magnus/',
