@@ -68,10 +68,10 @@ def start():
             dbf.print_statistics()
 
     ## log
-    f = open(config.PATH + '/log', 'aw')
+    f = open(config.PATH_LOGFILE, 'aw')
     f.write(myutilspy.get_datetime() + '\n')
-    f.close(
-)
+    f.close()
+
 if __name__ == "__main__":
     start()
 

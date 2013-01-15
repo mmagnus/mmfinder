@@ -1,5 +1,4 @@
 ## init & configuration file
-PATH = '/home/magnus/Dropbox/workspace/mmfinder/'
 RUN_UPDATE = True
 
 ## list of disk
@@ -45,6 +44,9 @@ EXTENSIONS_OF_MEDIA = ['avi', 'mp4']
 ## html mode to present results
 HTML_FN = '/tmp/a120c.html'
 HTML_CMD = '/usr/bin/firefox'
+
+## logfile
+PATH_LOGFILE = PATH_DB + '/log'
 
 ## grep cmd
 GREP_CMD = 'grep -C 2 -r ' # -C 1
