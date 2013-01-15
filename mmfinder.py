@@ -110,21 +110,20 @@ class main:
                         title = ''
                     line = title + r[1]
 
-                    #stupid way
+                    ## stupid way
                     word = arguments[0]
                     try:
                         word2 = arguments[1]
                     except IndexError:
                         word2 = ''
 
-                    if compile(word, I).search(line) and \
-                    compile(word2, I).search(line):
+                    if compile(word, I).search(line) and compile(word2, I).search(line):
                         print_red_and_blue(title, ' ' + r[1])
                 exit(1)
 
         if opt.bookmarks_folder:
             """
-            very rough but works
+            dirty but works
             """
             DATABASES = {
                 'default': {
@@ -144,6 +143,7 @@ class main:
             print 'phrase:', phrase, '\n'
 
             bookmarks = MozBookmarks.objects.all()
+
             c = 0
             for b in bookmarks:
                 if b.fk is None and b.title != '':  # b.fk = has bookmarks
@@ -159,7 +159,6 @@ class main:
                         print path
                     if path.lower().find(phrase.lower()) > -1:
                         print path
-                        #assert False, 'found:'+path
                 c += 1
             exit(1)
 
@@ -274,30 +273,27 @@ class main:
                         cmd = "locate -d " + PATH_DB + p + '.db' + \
                             " -e -i -r  '/*" + word + "*/'" \
                             #locate -r '/*python2.7*/' | less
-                ################################################33
             else:
+
                 status = 'basic search...'
                 cmd = "locate -d " + PATH_DB + p + '.db' + \
                     " " + wholename_or_basename + " -i '" + words + "'"
             if opt.un_grep:
                 cmd = cmd + " | grep -v '" + opt.un_grep + "'"
-            # @@@@
-            if opt.verbose:
 
+            if opt.verbose:
                 print '# status:', status
                 print '# cmd', cmd
 
-            #out = shell(cmd)
-            #os.system(cmd)
+            ## execute!
             out = getoutput(cmd).strip()
-
+            
             if opt.dev:
                 hr_text('dev::out')
                 print out
                 hr()
 
             if out and list_with_action:
-                #hr()
                 for item in out.strip().split('\n'):
                     ############################ @@ BUG @@ id = IDS[c]
                     id = 'a'  # TO FIX
