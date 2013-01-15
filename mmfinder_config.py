@@ -1,6 +1,4 @@
 ## init & configuration file
-RUN_UPDATE = True
-
 ## list of disk
 PLACES_LOCAL = ['dropbox']
 PLACES_GLOBAL = ['dropbox','maximus', '1TB', 'StoreJet', 'truecrypt', 'debian'] 
@@ -51,4 +49,6 @@ PATH_LOGFILE = PATH_DB + '/log'
 ## grep cmd
 GREP_CMD = 'grep -C 2 -r ' # -C 1
 
+## run update, --mm but what for???
+RUN_UPDATE = True
 
