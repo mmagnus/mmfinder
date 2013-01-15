@@ -7,7 +7,7 @@ not pretty.. full of quick-and-dirty hacks .. but works :-)
 """
 VERSION = '0.9'
 
-from myutilspy import banner2, hr, get_hostname, hr_text, print_red_and_blue
+
 from sys import exit, argv
 from string import ascii_letters
 from os import path, getcwd, system
@@ -21,6 +21,7 @@ from django.conf import settings
 from subprocess import Popen
 from getpass import getuser
 
+from lib.utils import banner2, hr, get_hostname, hr_text, print_red_and_blue
 from mmfinder_config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD, GREP_CMD
 
 IDS = ascii_letters
