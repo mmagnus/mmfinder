@@ -1,8 +1,4 @@
 ## init & configuration file
-## list of disk
-PLACES_LOCAL = ['dropbox']
-PLACES_GLOBAL = ['dropbox','maximus', '1TB', 'StoreJet', 'truecrypt', 'debian'] 
-
 PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'
 
 ## setup computers
@@ -24,6 +20,21 @@ computer2 = {
 ## map computer to hostname
 HOSTS = {'debian' : computer1, 'maximus' : computer2}
 
+
+## ADVANCED CONFIGURATION ##
+
+## list of disk
+PLACES_LOCAL = ['dropbox']
+
+databases_of_computers = [h.keys() for h in HOSTS.values()];
+global_places = [];
+for db in databases_of_computers:
+    for i in db:
+        if i not in global_places:
+            global_places.append(i)
+PLACES_GLOBAL = global_places
+
+## 
 DONT_DB = [
     'Dropbox',
     ' Trash',
