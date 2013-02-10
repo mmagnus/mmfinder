@@ -40,7 +40,8 @@ DONT_DB = [
     'english-lingXwavsOnline',
     'backups-snapshots',
     '.libreoffice',
-    '.dropbox.cache'
+    '.dropbox.cache',
+    'pubmex-all-pdfs-shit-test',
     ]
 
 ## firefox bookmarks (optional)
