@@ -52,11 +52,13 @@ Next, imagine that at work, you will never mount ``StoreJet``, but you want to c
         'truecrypt': '/media/truecrypt1/',
         }
 
-My recommendation is to put ``mmfinder`` (``~/Dropbox/opt/mmfinder/``) and set the path to your databases (``~/Dropbox/opt/mmfinder/db``) in Dropbox (https://www.dropbox.com/home) or anything else (http://alternativeto.net/software/dropbox/)
+My recommendation is to use Dropbox (https://www.dropbox.com/home) to put ``mmfinder`` directory (``~/Dropbox/opt/mmfinder/``) and set the path to your databases (``~/Dropbox/opt/mmfinder/db``).
+
+You can also use anything else (http://alternativeto.net/software/dropbox/) but then you need slightly change configuration file.
 
 ## Bash plugin
 
-What is cool about ``mmfinder`` is that you can have pretty nice functionality if you add to your environment ``bash-plugin.sh``. You can g(o) to hits, r(un) it, e(emacs it = open in emacs), o(pen it).. see ``bash-plugin.sh``
+What is cool about ``mmfinder`` is that you can have pretty nice functionality if you add to your environment ``bash-plugin.sh``. You can g(o) to hit of result, r(un) it, e(emacs it = open in emacs), o(pen it).. see ``bash-plugin.sh``
 
 2. INSTALLATION
 =======================================
@@ -85,7 +87,7 @@ to use ``bash-plugin`` add ..
 
 .. to your ``.bashrc``
 
-[i] For ``mmfinder_deamon.py`` you might want to use ``cron`` as follows ..
+For ``mmfinder_deamon.py`` you might want to use ``cron`` as follows ..
 
     00 * * * * /home/magnus/Dropbox/workspace/mmfinder/mmfinder.py_deamon.py
 
@@ -105,9 +107,14 @@ Report bugs to the author.
 6. TODO
 =======================================
 
+- [ ] make a deb pkg
 - [ ] get old TODO from git repo with some TODOs :-)
 - [ ] check if all options works
 - [ ] write test script
+
+- [ ] how to promote the tool
+- [ ] add `tracker-search`
+- [ ] find similar tools and compare
 
 7. COPYRIGHT AND LICENCE
 =======================================
@@ -117,7 +124,7 @@ Report bugs to the author.
     This program is free software; you can redistribute it and/or modify it
     under the same terms as GLP
 
-X. AUTHOR INFORMATION
+8. AUTHOR INFORMATION
 =======================================
 
 Marcin Magnus, m.magnus@o2.pl
