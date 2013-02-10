@@ -7,6 +7,8 @@
 
 --------------------------------------------------------------------------------
 
+<iframe width="853" height="480" src="http://www.youtube.com/embed/-oQ998IWwTc" frameborder="0" allowfullscreen></iframe>
+
 TABLE OF CONTENTS
 -----------------
 
@@ -21,8 +23,6 @@ TABLE OF CONTENTS
 
 1. DESCRIPTION
 =======================================
-
-video..
 
 ``mmfinder.py`` is a wrapper to *nix commands like ``locate``, ``updatedb``, ``grep``, ``find`` to help you with searching files across several machines (computers). 
 
