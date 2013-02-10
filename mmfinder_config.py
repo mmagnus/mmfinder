@@ -52,7 +52,8 @@ EXTENSIONS_OF_MEDIA = ['avi', 'mp4']
 
 ## html mode to present results
 HTML_FN = '/tmp/a120c.html'
-HTML_CMD = '/usr/bin/firefox'
+#HTML_CMD = '/usr/bin/firefox'
+HTML_CMD = '/usr/bin/x-www-browser'
 
 ## logfile
 PATH_LOGFILE = PATH_DB + '/log'
