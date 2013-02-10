@@ -8,7 +8,6 @@
 --------------------------------------------------------------------------------
 
 <video style="width:500px" src="http://dl.dropbox.com/u/472680/mmfinder_demo_v2.ogg" controls>
-  Your browser does not support the <code>video</code> element.
 </video>
 
 See also: http://www.youtube.com/watch?v=-oQ998IWwTc
