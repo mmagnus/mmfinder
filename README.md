@@ -7,10 +7,9 @@
 
 --------------------------------------------------------------------------------
 
-<video style="width:500px" src="http://dl.dropbox.com/u/472680/mmfinder_demo_v2.ogg" controls>
-</video>
+<a href="http://www.youtube.com/embed/-oQ998IWwTc"><img src="demo.png"></a>
 
-See also: http://www.youtube.com/watch?v=-oQ998IWwTc
+See http://www.youtube.com/watch?v=-oQ998IWwTc
 
 TABLE OF CONTENTS
 -----------------
