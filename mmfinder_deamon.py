@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import mmfinder_config as config
-import myutilspy
+import utils as myutilspy
 import sys
 import string
 import os
