@@ -19,8 +19,6 @@ from optparse import OptionParser
 from subprocess import Popen
 from getpass import getuser
 
-from django.conf import settings
-
 from mmfinder_deamon import start as start_deamon
 
 from lib.utils import banner2, hr, get_hostname, hr_text, print_red_and_blue
@@ -130,6 +128,8 @@ class main:
             """
             dirty but works
             """
+            from django.conf import settings
+
             DATABASES = {
                 'default': {
                     'ENGINE': 'django.db.backends.sqlite3',
