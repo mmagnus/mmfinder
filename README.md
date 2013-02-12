@@ -1,6 +1,6 @@
 # mmfinder
 
-     updated Jan 2012
+     updated Feb 2013
      version 0.9
      author  Marcin Magnus (mag_dex@o2.pl) 
 	 license GNU
