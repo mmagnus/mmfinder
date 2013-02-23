@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import mmfinder_config as config
-import utils as myutilspy
 import sys
 import string
 import os
@@ -11,6 +10,7 @@ import re
 import time
 import os.path
 
+from lib.utils import banner2, hr, get_hostname, hr_text, print_red_and_blue, print_green, print_red, print_blue, get_datetime
 
 class db:
     """
@@ -32,31 +32,31 @@ class db:
             print cmd
             if config.RUN_UPDATE:
                 os.system(cmd)
-            myutilspy.print_green('# done')
+            print_green('# done')
             return True
         else:
-            myutilspy.print_red('# ERROR: No such file or directory')
+            print_red('# ERROR: No such file or directory')
             return False
 
     def print_statistics(self):
         cmd = "locate -S -d '" + self.filename_db + "'"
         out = commands.getoutput(cmd)
-        myutilspy.hr()
+        hr()
         print out
         self.statistics = out
-        myutilspy.hr()
+        hr()
         return 
         
 def start():
 
-    hostname = myutilspy.get_hostname()
+    hostname = get_hostname()
     locs = config.HOSTS[hostname]
 
     for l in locs:
-        myutilspy.hr_text(l)
+        hr_text(l)
         path = locs[l]
       
-        myutilspy.print_blue("# PATH: " + path)
+        print_blue("# PATH: " + path)
 
         filename_db = config.PATH_DB + l + '.db'
         print "# creating DB ... ", filename_db
@@ -67,7 +67,7 @@ def start():
 
     ## log
     f = open(config.PATH_LOGFILE, 'aw')
-    f.write(myutilspy.get_datetime() + '\n')
+    f.write(get_datetime() + '\n')
     f.close()
 
 if __name__ == "__main__":
