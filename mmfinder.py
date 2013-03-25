@@ -1,12 +1,19 @@
 #!/usr/bin/env python
 #-*-coding: utf-8 -*-
 """
-mmfinder: a tool for finding your files across different machines!
+
+a tool for finding your files across different machines!
 
 not pretty.. full of quick-and-dirty hacks .. but works :-)
-"""
-VERSION = '0.9'
 
+"""
+__author__ = "Marcin Magnus"
+__copyright__ = "Copyright 2010, Marcin Magnus"
+__license__ = "GPL"
+__maintainer__ = "Marcin Magnus"
+__email__ = "mag_dex@o2.pl"
+__status__ = "Development"
+__version__ = '0.98 alpha'
 
 from sys import exit, argv
 from string import ascii_letters
@@ -16,89 +23,47 @@ from commands import getoutput
 from re import compile, search, I
 from time import sleep
 from optparse import OptionParser
-from subprocess import Popen
 from getpass import getuser
 
 from mmfinder_deamon import start as start_deamon
 
 from lib.utils import banner2, hr, get_hostname, hr_text, print_red_and_blue
-from mmfinder_config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD, GREP_CMD
+from mmfinder_config import PLACES_LOCAL, PLACES_GLOBAL,\
+PATH_DB, FF_SQLITE_DATABASE,\
+EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD, GREP_CMD
 
 IDS = ascii_letters
 
-class main:
 
+class App:
+    """
+    Class for the main app
+    """
     def __init__(self):
+        """
+        Inits the main app.
+        """
         self.items = []
 
-    def get_command(self):
+    def search(self, arguments, opt):
         """
-        !!! not used in this VERSION !!!
+        This searches :-)
+
+        This function is way too big and should be split up
+        (it has 267 lines and up to 45 local variables!)
+
+        * input:
+
+        - arguments & opt based on cmd input by user
         """
-        op = {}
-        op['txt'] = 'gedit '
-        op['pdf'] = 'mmpdf.sh '
-        op['odt'] = 'oowriter '
-        op['doc'] = 'oowriter '
-
-
-        input = raw_input('What to do? [ids action] [abc o]:')
-        if not len(input.strip()):
-            print 'exit'
-            exit(1)
-
-        # program selection a-b, or *, or aegh
-
-        ids, action = input.split()  # 'abc o'
-
-        # *
-        if ids == '*':
-            ids = IDS
-        # change a-c -> abc
-        if search('-',  ids):
-            start, end = ids.split('-')
-            print start, end
-            print IDS.index(start)
-            ids = IDS[IDS.index(start):IDS.index(end) + 1]
-            print ids
-        # ** end ** change a-c -> abc
-
-        print 'ids', ids
-        print 'action', action
-
-        for item in self.items:  # for each item
-            if search(item.id, ids):
-                if not item.is_empty:
-                    #item = self.items[ids.index(id)]
-
-                    #exit(1)
-
-                    if action == 'g':
-                        cmd = 'cd ' + item.path
-
-                    if action == 'q' or id == '':
-                        print 'exit'
-                        exit(1)
-
-                    if action == 'o':
-                        cmd = op[item.filetype] + ' ' + "'" + item.path + "' "
-                        print cmd
-                        cmd_text = "opening " + item.path + ' by ' + \
-                            op[item.filetype] + ' ...'
-                    arguments = shlex.split(cmd)
-                    #print arguments
-                    print cmd_text
-                    Popen(arguments)
-                    #subprocess.call(arguments)
-
-    def search(self, arguments,
-               opt, ext='', method='find', verbose=True):
         list_with_action = True
+
         hr()
 
-        import sqlite3
-        
+        # if x 2 related to firefox's bookmarks
         if opt.bookmarks:
+            # sqlite3 is required!
+            import sqlite3
             conn = sqlite3.connect(FF_SQLITE_DATABASE)
             c = conn.cursor()
             c.execute("select title, url from moz_places;")
@@ -113,21 +78,21 @@ class main:
                         title = ''
                     line = title + r[1]
 
-                    ## stupid way
+                    # a stupid way
                     word = arguments[0]
                     try:
                         word2 = arguments[1]
                     except IndexError:
                         word2 = ''
 
-                    if compile(word, I).search(line) and compile(word2, I).search(line):
+                    if compile(word, I).search(line) \
+                        and compile(word2, I).search(line):
                         print_red_and_blue(title, ' ' + r[1])
                 exit(1)
 
         if opt.bookmarks_folder:
-            """
-            dirty but works
-            """
+            # dirty but works
+            # django required!
             from django.conf import settings
 
             DATABASES = {
@@ -140,11 +105,12 @@ class main:
                 }
             settings.configure(DATABASES=DATABASES)
 
-            from orm.models import MozAnnoAttributes, MozAnnos, MozBookmarks, MozBookmarksRoots, MozFavicons, MozHistoryvisits, MozInputhistory, MozItemsAnnos, MozKeywords, MozPlaces, SqliteStat1
+            from orm.models import MozBookmarks
 
             show_path = False
 
             phrase = argv[2].strip()
+
             print 'phrase:', phrase, '\n'
 
             bookmarks = MozBookmarks.objects.all()
@@ -170,9 +136,9 @@ class main:
         if opt.invert:
             arguments.reverse()
 
+        # main search body
         words = '*' + '*'.join(arguments) + '*'  # '*a*b*c*'
         words_rex = '.*' + '.*'.join(arguments) + '.*'  # '.*a.*b*.c*'
-
 
         if opt.global_search:
             places = PLACES_GLOBAL
@@ -183,11 +149,12 @@ class main:
         if opt.grep_here:
             places = ['current dir']
             status = 'grepping the current directory'
-            cmd = GREP_CMD + " '" + words.replace('*','') + "' *"
-            if opt.verbose: print 'cmd: ', cmd
+            cmd = GREP_CMD + " '" + words.replace('*', '') + "' *"
+            if opt.verbose:
+                print 'cmd: ', cmd
             out = getoutput(cmd).strip()
             for l in out.split('\n'):
-                if l.find(':')>-1:
+                if l.find(':') > -1:
                     try:
                         filename, text = l.split(':')
                         filename += ':'
@@ -197,7 +164,7 @@ class main:
                         text = ':'.join(items[1:])
                     print_red_and_blue(filename, text)
 
-                elif l.find('-')>-1:
+                elif l.find('-') > -1:
                     try:
                         filename, text = l.split('-')
                         filename += '-'
@@ -214,7 +181,7 @@ class main:
             wholename_or_basename = ' -w '
         else:
             wholename_or_basename = ' -b '
-        #
+
         if opt.find_dir:
             places = ['find directories@' + get_hostname()]
         if opt.find_find:
@@ -222,9 +189,11 @@ class main:
         if opt.find_tu:
             places = ['find here -t tu@' + get_hostname()]
 
-        ## reset file
-        paths_text_file = open('/home/' + getuser() + '/.mmfinder-paths','w')
-        paths_text_file_to_open = open('/home/' + getuser() + '/.mmfinder-paths-to-open','w')
+        # reset file
+        paths_text_file = open('/home/' + getuser() + '/.mmfinder-paths', 'w')
+        paths_text_file_to_open = open('/home/' +
+                                        getuser() +
+                                        '/.mmfinder-paths-to-open', 'w')
 
         mmterminalpathtext = ''
         mmterminalpathtext_to_open = ''
@@ -234,30 +203,28 @@ class main:
         for p in places:
             hr_text(p + '...')
             html_hits += '#' + p + '\n'
-            #if method == 'locate_local':
-            # @@@@
-            # -e existing a co ze zdalnymi bazami?!?!
-            #
-            # TODO word2
-            #
+
             status = ''
 
             if opt.pdf_find:
                 status = 'pdf searching...'
                 cmd = "locate -d " + PATH_DB + p + '.db' + " " + \
-                    wholename_or_basename + " -i -r '" + words_rex + "pdf$'"
+                    wholename_or_basename + " -i -r '" + words_rex + "pdf
+
             elif opt.document_find:
                 status = 'document searching...'
                 extensions = '$|'.join(EXTENSIONS_OF_DOCUMENTS)
                 cmd = "locate -d " + PATH_DB + p + '.db' + " " + \
                     wholename_or_basename + " -i --regex '" + \
                     words_rex + ".*(" + extensions + ")'"
+
             elif opt.find_media:
                 status = 'document searching...'
                 extensions = '$|'.join(EXTENSIONS_OF_MEDIA)
                 cmd = "locate -d " + PATH_DB + p + '.db' + " " + \
                     wholename_or_basename + " -i --regex '" + \
                     words_rex + ".*(" + extensions + ")'"
+
             elif opt.rex:
                 status = 'rex searching...'
                 word = arguments[0]  # <--- !!!
@@ -267,9 +234,11 @@ class main:
             elif opt.find_tu:
                 status = 'finding here (tutaj)...'
                 cmd = "find '" + getcwd() + "' -iname '" + words + "'"
+
             elif opt.find_find:
                 status = 'finding /home/...'
                 cmd = "find ~ -iname '" + words + "'"
+
             elif opt.find_dir:
                 status = 'finding a dir /...'
                 cmd = "find ~ -iname '" + words + "' -type d"  # very slow :-(
@@ -290,6 +259,7 @@ class main:
                 status = 'basic search...'
                 cmd = "locate -d " + PATH_DB + p + '.db' + \
                     " " + wholename_or_basename + " -i '" + words + "'"
+
             if opt.un_grep:
                 cmd = cmd + " | grep -v '" + opt.un_grep + "'"
 
@@ -297,9 +267,9 @@ class main:
                 print '# status:', status
                 print '# cmd', cmd
 
-            ## execute!
+            # execute!
             out = getoutput(cmd).strip()
-            
+
             if opt.dev:
                 hr_text('dev::out')
                 print out
@@ -307,23 +277,25 @@ class main:
 
             if out and list_with_action:
                 for item in out.strip().split('\n'):
-                    ############################ @@ BUG @@ id = IDS[c]
+                    # @@ BUG @@ id = IDS[c]
                     id = 'a'  # TO FIX
-                    i = obj(id, item)
-                    self.items.append(i)
-                    i.check_filetype()
+                    h = Hit(id, item)
+                    self.items.append(h)
+                    h.check_filetype()
                     #print i.is_dir
                     #if i.is_dir and find_dir:
                     #    i.show()
                     #print 'x'
                     #if not find_dir:
-                    hit = i.show(opt.show_hash, opt.not_less,
-                                 opt.noncolor, opt.www_browser, c)
+                    hit = h.show(opt.not_less,
+                                 opt.noncolor, c)
                     if opt.www_browser:
                         html_hits += hit + '\n'
                     else:
-                        mmterminalpathtext += hit.split('\n')[0].strip() + ' #' + str(c) + '\n'
-                        mmterminalpathtext_to_open += hit.split('\n')[1].strip() + ' #' + str(c) + '\n'
+                        mmterminalpathtext += hit.split('\n')[0].strip() \
+                        + ' #' + str(c) + '\n'
+                        mmterminalpathtext_to_open += hit.split('\n')[1].strip() \
+                        + ' #' + str(c) + '\n'
                     c += 1
                 print
 
@@ -332,7 +304,6 @@ class main:
                 raw_input('[press key]')
 
         if opt.www_browser:
-
             html_text = '<pre>'
             html_text += html_hits.replace('\n', '</br>')
             html_text += '<pre>'
@@ -346,12 +317,15 @@ class main:
             print cmd
             system(cmd)
 
-        ##
         paths_text_file.write(mmterminalpathtext)
         paths_text_file_to_open.write(mmterminalpathtext_to_open)
         paths_text_file.close()
 
-class obj:
+
+class Hit:
+    """
+    Class for a hit of search.
+    """
     def __init__(self, id, path):
         self.path = path
         self.id = id
@@ -359,18 +333,22 @@ class obj:
         self.is_pdf = False
         self.is_empty = False
 
-    def show(self, show_hash, not_less, noncolor, www_browser, c):
+    def show(self, not_less, noncolor, c):
         """
+        Shows (print/save to html) one hit.
+
         * input:
+
          - show_hash **is not used**
          - less: True/False show only first line of a hit, dont show path file:///
          - noncolor: True/False use color to show a path and a filename
          - www_browser: save the result as a html file and open it in www_browser
 
         * output:
+
         - '\tfile:///home/magnus/Dropbox/pdf\n\tfile:///home/magnus/Dropbox/pdf/XXXXXXX.pdf'
-        or
-        html code for opening in www_browser
+           or
+           html code for opening in www_browser
         """
         #if not self.is_empty:
             # out = '\t [' + self.filetype + '] ' + self.id + ") \
@@ -378,13 +356,13 @@ class obj:
             #out = '\t [' + self.filetype + '] ' + self.id + ") \
                 # file://"+self.path.replace(' ','%20')+""
         if noncolor:
-            print '\t\'' + path.dirname(self.path) \
-                  + '/' + path.basename(self.path) + "'"
+            print '\t\'' + path.dirname(self.path) + \
+                  '/' + path.basename(self.path) + "'"
         else:
-            print_red_and_blue(str(c) + '\t\'' + \
-                               path.dirname(self.path) + \
+            print_red_and_blue(str(c) + '\t\'' +
+                               path.dirname(self.path) +
                                '/', '' + path.basename(self.path) + "'")
-        ## hack #1
+        # hack #1
         out = ''
         dir_file = True
         if dir_file:
@@ -404,21 +382,11 @@ class obj:
             # 'file://"+self.path+"'" # NO
         if not_less:
             print out
-        return out.replace('file://', '').replace('%20',' ')
+        return out.replace('file://', '').replace('%20', ' ')
 
-
-    def check_filetype(self):
+    def check_filetype(self, verbose=False):
         """
-
-        problem.. jezeli plik nie wpadnie w zadna z kategorii
-        to (czyli self.filetype == '') to wtedy dostaje is_empty
-
-magnus@maximus:~/Dropbox/workspace/mmfinder$ file
-/home/magnus/Dropbox/workspace/myutil/backup_mysql_maximus.sh
-/home/magnus/Dropbox/workspace/myutil/backup_mysql_maximus.sh:
-Bourne-Again shell script text executable
-
-
+        Checks filetype of a hit.
         """
         if not path.isfile(self.path):
             self.is_dir = True
@@ -428,7 +396,8 @@ Bourne-Again shell script text executable
 
             cmd = "file '" + self.path + "'"
             out = getoutput(cmd)
-            #print '# out',out
+            if verbose:
+                print '# out', out
 
             if search('ASCII text', out):
                 self.is_txt = True
@@ -447,18 +416,19 @@ Bourne-Again shell script text executable
                 self.filetype = 'doc'
 
             if self.filetype == '':  # if still ''
-                #print 'out'
-                #print out
                 self.filetype = 'empty'
                 self.is_empty = True
-        #print '\t#filetype: ',self.filetype
+
+        if verbose:
+            print '\t#filetype: ', self.filetype
 
 
 def option_parser():
     """
+    This shows and gets options.
     """
     description = ''
-    version = VERSION
+    version = __version__
     usage = '%prog <options> word word word word'
     parser = OptionParser(description=description,
                               version=version,
@@ -543,7 +513,6 @@ def option_parser():
 
     (opt, arguments) = parser.parse_args()
 
-    #@@
     if not arguments:
         if not opt.update_db:
             parser.print_help()
@@ -561,27 +530,14 @@ def option_parser():
 
 
 def start():
+    """
+    This runs the main program.
+    """
     banner2('mmfinder.py')
     arguments, opt = option_parser()
-
     if arguments:
-        m = main()
-        if True:
-            #show_hash, global_search,find_dir, find_find,pdf_find ,'')
-            m.search(arguments, opt)
-            #m.get_command()
-        ###########################################################
-        ## else:
-        ##     what_to_find = raw_input('>>> ')
-        ##     if what_to_find == '':
-        ##         pass
-        ##     else:
-        ##         if len(what_to_find.split()) == 2:
-        ##             what_to_find1, what_to_find2 = what_to_find.split()
-        ##             m.search(what_to_find1, what_to_find2)
-        ##         else:
-        ##             m.search(what_to_find)
-        ##         #m.get_command()
+        m = App()
+        m.search(arguments, opt)
 
 if __name__ == "__main__":
     start()
