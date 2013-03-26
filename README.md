@@ -66,13 +66,8 @@ You can also use anything else (http://alternativeto.net/software/dropbox/) but 
 What is realy cool about ``mmfinder`` is that you can have pretty nice functionality!
 You can g(o) to hit of result, r(un) it, e(emacs it = open in emacs), o(pen it).. see ``bash-plugin.sh``
 
-To enable the bash plugin and the following code to your `.bashrc` ..
+See **3 .CONFIGURATION** for more!
 
-    case $- in *i*) 
-        source /home/magnus/mmfinder/bash-plugin.sh
-    esac
-
-Of course, you must change the path :-)
 2. INSTALLATION
 =======================================
 To install run:
@@ -86,15 +81,15 @@ or
 	
 3. CONFIGURATION
 =======================================
-Go to ``~/.mmfinder-config.py`` ..
+To configure the program edit ``~/.mmfinder-config.py``.
 
-to use ``bash-plugin`` add .. 
+To use **bash plugin** (`bash-plugin.sh`) add ..
 
 	case $- in *i*) 
-    source /home/magnus/Dropbox/workspace/mmfinder/bash-plugin.sh
+       source /home/magnus/Dropbox/workspace/mmfinder/bash-plugin.sh
 	esac
 	
-.. to your ``.bashrc``
+.. to your ``.bashrc``.
 
 For ``mmfinder-deamon`` you might want to use ``cron`` as follows ..
 
@@ -112,10 +107,19 @@ etc..
 =======================================
 
 Report bugs to the author.
-	
+
+**BUGS**
+
+<pre>
+- [ ] [!] problem with config loading when you use version from github
+- [ ] problem with filenames with spaces
+- [ ] if a folder is found if you hit 'g' you will not get to the folder but to one folder up
+</pre>
+
 6. TODO
 =======================================
 
+<pre>
 - [ ] make a deb pkg
 - [ ] get old TODO from git repo with some TODOs :-)
 - [ ] check if all options works
@@ -124,11 +128,7 @@ Report bugs to the author.
 - [ ] how to promote the tool
 - [ ] add `tracker-search`
 - [ ] find similar tools and compare
-
-**BUGS**
-
-- [ ] problem with filenames with spaces
-- [ ] if a folder is found if you hit 'g' you will not get to the folder but to one folder up
+</pre>
 
 7. COPYRIGHT AND LICENCE
 =======================================
