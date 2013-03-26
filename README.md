@@ -12,6 +12,8 @@
 
 See http://www.youtube.com/watch?v=-oQ998IWwTc
 
+See mmfinder in PyPi https://pypi.python.org/pypi/mmfinder
+
 TABLE OF CONTENTS
 -----------------
 
