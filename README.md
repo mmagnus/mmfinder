@@ -63,8 +63,16 @@ You can also use anything else (http://alternativeto.net/software/dropbox/) but 
 
 ## Bash plugin
 
-What is realy cool about ``mmfinder`` is that you can have pretty nice functionality if you add to your environment ``bash-plugin.sh``. You can g(o) to hit of result, r(un) it, e(emacs it = open in emacs), o(pen it).. see ``bash-plugin.sh``
+What is realy cool about ``mmfinder`` is that you can have pretty nice functionality!
+You can g(o) to hit of result, r(un) it, e(emacs it = open in emacs), o(pen it).. see ``bash-plugin.sh``
 
+To enable the bash plugin and the following code to your `.bashrc` ..
+
+    case $- in *i*) 
+        source /home/magnus/mmfinder/bash-plugin.sh
+    esac
+
+Of course, you must change the path :-)
 2. INSTALLATION
 =======================================
 To install run:
