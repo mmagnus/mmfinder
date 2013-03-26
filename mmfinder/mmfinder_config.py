@@ -1,5 +1,7 @@
-## BASIC (REQUIRED) CONFIGURATION
-PATH_DB = '/home/magnus/Dropbox/workspace/mmfinder/db/'
+################################################################################
+##                     BASIC (REQUIRED) CONFIGURATION                         ##
+################################################################################
+PATH_DB = '/home/magnus/Dropbox/data/mmfinder-db/'
 
 ## setup computers, ## name of db : path on that host'
 computer1 = {
@@ -20,7 +22,9 @@ computer2 = {
 HOSTS = {'debian': computer1, 'maximus': computer2}
 
 
-## ADVANCED CONFIGURATION ##
+################################################################################
+##                     ADVANCED CONFIGURATION                                 ##
+################################################################################
 
 ## list of disk
 PLACES_LOCAL = ['dropbox']

@@ -1,9 +1,10 @@
 # mmfinder
 
      updated Feb 2013
-     version 0.9
+     version 0.98 alpha
      author  Marcin Magnus (mag_dex@o2.pl) 
-	 license GNU
+	 license GPLv3
+     https://github.com/m4rx9/mmfinder
 
 --------------------------------------------------------------------------------
 
@@ -26,9 +27,9 @@ TABLE OF CONTENTS
 1. DESCRIPTION
 =======================================
 
-``mmfinder.py`` is a wrapper to *nix commands like ``locate``, ``updatedb``, ``grep``, ``find`` to help you with searching files across several machines (computers). 
+``mmfinder`` is a wrapper to *nix commands like ``locate``, ``updatedb``, ``grep``, ``find`` to help you with searching files across several machines (computers). 
 
-Firstly, ``updatedb`` is used by ``mmfinder_deamon.py`` to create databases. You can define as many "databases" as you want in ``mmfinder_config.py`` file.
+Firstly, ``updatedb`` is used by ``mmfinder-deamon`` to create databases. You can define as many "databases" as you want in ``~/.mmfinder-config.py`` file.
 
 The syntax is as follows:
 
@@ -44,7 +45,7 @@ The syntax is as follows:
         'StoreJet': '/media/StoreJet',
          }
 
-.. for example, if I have the ``StoreJet`` connected to my computer and I run ``mmfinder_deamon.py``, a database ``StoreJet`` will be created that includes data from ``/media/StoreJet`` directory.
+.. for example, if I have the ``StoreJet`` connected to my computer and I run ``mmfinder-deamon``, a database ``StoreJet`` will be created that includes data from ``/media/StoreJet`` directory.
 
 Next, imagine that at work, you will never mount ``StoreJet``, but you want to create a database for your ``/home`` directory at work. You define another computer (for example, ``computer02 ``) as follows..
 
@@ -54,50 +55,46 @@ Next, imagine that at work, you will never mount ``StoreJet``, but you want to c
         'truecrypt': '/media/truecrypt1/',
         }
 
-My recommendation is to use Dropbox (https://www.dropbox.com/home) to put ``mmfinder`` directory (``~/Dropbox/opt/mmfinder/``) and set the path to your databases (``~/Dropbox/opt/mmfinder/db``).
+My recommendation is to use Dropbox (https://www.dropbox.com/home) to put your config file there and make a link (`ln -s`) to your home directory and set the path to your databases like `~/Dropbox/opt/mmfinder/db`. You can share your settings and databases among many computer!
 
 You can also use anything else (http://alternativeto.net/software/dropbox/) but then you need slightly change configuration file.
 
 ## Bash plugin
 
-What is cool about ``mmfinder`` is that you can have pretty nice functionality if you add to your environment ``bash-plugin.sh``. You can g(o) to hit of result, r(un) it, e(emacs it = open in emacs), o(pen it).. see ``bash-plugin.sh``
+What is realy cool about ``mmfinder`` is that you can have pretty nice functionality if you add to your environment ``bash-plugin.sh``. You can g(o) to hit of result, r(un) it, e(emacs it = open in emacs), o(pen it).. see ``bash-plugin.sh``
 
 2. INSTALLATION
 =======================================
-If you want to use "banners" ..
+To install run:
 
-    sudo apt-get install figlet
+	sudo pip install mmfinder
+	# if you don't have `pip` -> sudo apt-get install python-pip
 	
-.. nothing extra is needed.. do you have python? if not, then install it!
+or
 
-	sudo apt-get install python
-
-.. although if you want to search for firefox bookmarks install ..
-
-	sudo apt-get install python-django
-	(or pip install django) # you need python-pip for that!
-
-	sudo apt-get install python-sqlite
+	sudo python setup.py install
 	
 3. CONFIGURATION
 =======================================
-Go to ``mmfinder_config.py`` ..
+Go to ``~/.mmfinder-config.py`` ..
 
 to use ``bash-plugin`` add .. 
 
+	case $- in *i*) 
     source /home/magnus/Dropbox/workspace/mmfinder/bash-plugin.sh
-
+	esac
+	
 .. to your ``.bashrc``
 
-For ``mmfinder_deamon.py`` you might want to use ``cron`` as follows ..
+For ``mmfinder-deamon`` you might want to use ``cron`` as follows ..
 
-    00 * * * * /home/magnus/Dropbox/workspace/mmfinder/mmfinder.py_deamon.py
+    00 * * * * /usr/local/bin/mmfinder-deamon
 
 4. HOW TO USE IT
 =======================================
 Start with configuration, then ``mmfinder.py -u`` or ``mmfinder_deamon.py`` and search ..
 
-      mmfinder.py -g .bashrc # search for .bashrc across all defined machines
+      mmfinder -g .bashrc # search for .bashrc across all defined machines
 
 etc..
 
@@ -118,6 +115,11 @@ Report bugs to the author.
 - [ ] add `tracker-search`
 - [ ] find similar tools and compare
 
+**BUGS**
+
+- [ ] problem with filenames with spaces
+- [ ] if a folder is found if you hit 'g' you will not get to the folder but to one folder up
+
 7. COPYRIGHT AND LICENCE
 =======================================
 
@@ -129,4 +131,4 @@ Report bugs to the author.
 8. AUTHOR INFORMATION
 =======================================
 
-Marcin Magnus, m.magnus@o2.pl
+Marcin Magnus, mag_dex@o2.pl

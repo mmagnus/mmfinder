@@ -17,7 +17,7 @@ __version__ = '0.98 alpha'
 
 from sys import exit, argv
 from string import ascii_letters
-from os import path, getcwd, system
+from os import path, getcwd, system, sep
 from subprocess import Popen
 from commands import getoutput
 from re import compile, search, I
@@ -25,9 +25,12 @@ from time import sleep
 from optparse import OptionParser
 from getpass import getuser
 
+import getpass
+
+
 from mmfinder_deamon import start as start_deamon
 
-from lib.utils import banner2, hr, get_hostname, hr_text, print_red_and_blue
+from lib.utils import banner2, hr, get_hostname, hr_text, print_red_and_blue, check_user_configuration
 from mmfinder_config import PLACES_LOCAL, PLACES_GLOBAL,\
 PATH_DB, FF_SQLITE_DATABASE,\
 EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD, GREP_CMD
@@ -93,8 +96,12 @@ class App:
         if opt.bookmarks_folder:
             # dirty but works
             # django required!
-            from django.conf import settings
-
+            try:
+                from django.conf import settings
+            except ImportError:
+                print 'ImportError: Install python-django to run this feature: sudo apt-get install python-django or sudo pip install django'
+                exit(1)
+                
             DATABASES = {
                 'default': {
                     'ENGINE': 'django.db.backends.sqlite3',
@@ -209,7 +216,7 @@ class App:
             if opt.pdf_find:
                 status = 'pdf searching...'
                 cmd = "locate -d " + PATH_DB + p + '.db' + " " + \
-                    wholename_or_basename + " -i -r '" + words_rex + "pdf
+                    wholename_or_basename + " -i -r '" + words_rex + "pdf"
 
             elif opt.document_find:
                 status = 'document searching...'
@@ -529,10 +536,13 @@ def option_parser():
     return arguments, opt
 
 
+
+
 def start():
     """
     This runs the main program.
     """
+    config = check_user_configuration()
     banner2('mmfinder.py')
     arguments, opt = option_parser()
     if arguments:

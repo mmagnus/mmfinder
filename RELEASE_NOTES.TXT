@@ -1,6 +1,6 @@
 Release notes for mmfinder
 
-version 0.9! (Janary 2013)
+version 0.98 alpha (Mar 2013)
 
  * bash plugin added
  * many, many, many changes (see git!)
