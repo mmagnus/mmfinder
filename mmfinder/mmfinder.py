@@ -25,11 +25,11 @@ from getpass import getuser
 from mmfinder_deamon import start as start_deamon
 
 from lib.utils import banner2, hr, get_hostname, hr_text, print_red_and_blue, check_user_configuration
-from mmfinder_config import PLACES_LOCAL, PLACES_GLOBAL,\
-PATH_DB, FF_SQLITE_DATABASE,\
-EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD, GREP_CMD
 
 IDS = ascii_letters
+
+config = check_user_configuration()
+from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD, GREP_CMD
 
 
 class App:
@@ -534,7 +534,6 @@ def start():
     """
     This runs the main program.
     """
-    config = check_user_configuration()
     banner2('mmfinder.py')
     arguments, opt = option_parser()
     if arguments:

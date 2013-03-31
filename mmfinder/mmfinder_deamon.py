@@ -19,10 +19,9 @@ import os
 import commands
 import os.path
 
-import mmfinder_config as config
+from lib.utils import banner2, hr, get_hostname, hr_text, print_red_and_blue, print_green, print_red, print_blue, get_datetime, check_user_configuration
 
-from lib.utils import banner2, hr, get_hostname, hr_text, print_red_and_blue, print_green, print_red, print_blue, get_datetime
-
+config = check_user_configuration()
 
 class Database:
     """
