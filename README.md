@@ -31,7 +31,7 @@ TABLE OF CONTENTS
 
 ``mmfinder`` is a wrapper to *nix commands like ``locate``, ``updatedb``, ``grep``, ``find`` to help you with searching files across several machines (computers). 
 
-Firstly, ``updatedb`` is used by ``mmfinder-deamon`` to create databases. You can define as many "databases" as you want in ``~/.mmfinder-config.py`` file.
+First, ``updatedb`` is used by ``mmfinder-deamon`` to create databases. You can define as many "databases" as you want in the ``~/.mmfinder-config.py`` file.
 
 The syntax is as follows:
 
@@ -39,7 +39,7 @@ The syntax is as follows:
 		'name_of_database' : 'path_to_folder_for_database'
 	}
 
-.. real-world working example ..	
+.. a real-world working example ..	
 
     computer1 = {
         'dropbox' : '/home/magnus/Dropbox',
@@ -47,7 +47,7 @@ The syntax is as follows:
         'StoreJet': '/media/StoreJet',
          }
 
-.. for example, if I have the ``StoreJet`` connected to my computer and I run ``mmfinder-deamon``, a database ``StoreJet`` will be created that includes data from ``/media/StoreJet`` directory.
+.. which means if I have the ``StoreJet`` connected to my computer and I run ``mmfinder-deamon``, a database ``StoreJet`` will be created that includes data from ``/media/StoreJet`` directory.
 
 Next, imagine that at work, you will never mount ``StoreJet``, but you want to create a database for your ``/home`` directory at work. You define another computer (for example, ``computer02 ``) as follows..
 
@@ -57,14 +57,28 @@ Next, imagine that at work, you will never mount ``StoreJet``, but you want to c
         'truecrypt': '/media/truecrypt1/',
         }
 
+I hope know you get to know how to use it.
+
+For a working example (and advance options) see ``config_example/mmfinder_config.py``.
+
+--------------------------------------------------------------------------------
+
 My recommendation is to use Dropbox (https://www.dropbox.com/home) to put your config file there and make a link (`ln -s`) to your home directory and set the path to your databases like `~/Dropbox/opt/mmfinder/db`. You can share your settings and databases among many computer!
 
 You can also use anything else (http://alternativeto.net/software/dropbox/) but then you need slightly change configuration file.
 
 ## Bash plugin
 
-What is realy cool about ``mmfinder`` is that you can have pretty nice functionality!
-You can g(o) to hit of result, r(un) it, e(emacs it = open in emacs), o(pen it).. see ``bash-plugin.sh``
+What is realy cool about ``mmfinder`` is that you can have pretty nice functionality related to hits of your searches.
+
+You can:
+
+- g(o) to a directory of hit of search,
+- r(un) it,
+- e(emacs it = open in emacs), 
+- o(pen it)
+
+See ``bash-plugin.sh``.
 
 See **3 .CONFIGURATION** for more!
 
@@ -75,29 +89,31 @@ To install run:
 	sudo pip install mmfinder
 	# if you don't have `pip` -> sudo apt-get install python-pip
 	
-or
+or use the source code:
 
+    git clone git://github.com/m4rx9/mmfinder.git # git is required
+	cd mmfinder
 	sudo python setup.py install
-	
+
 3. CONFIGURATION
 =======================================
-To configure the program edit ``~/.mmfinder-config.py``.
+Edit ``~/.mmfinder-config.py`` to configure the program. 
 
 To use **bash plugin** (`bash-plugin.sh`) add ..
 
 	case $- in *i*) 
-       source /home/magnus/Dropbox/workspace/mmfinder/bash-plugin.sh
+       source /home/magnus/Dropbox/workspace/mmfinder/bash_plugin/bash-plugin.sh
 	esac
 	
 .. to your ``.bashrc``.
 
-For ``mmfinder-deamon`` you might want to use ``cron`` as follows ..
+For ``mmfinder-deamon`` you might want to use ``cron`` as following ..
 
     00 * * * * /usr/local/bin/mmfinder-deamon
 
 4. HOW TO USE IT
 =======================================
-Start with configuration, then ``mmfinder.py -u`` or ``mmfinder_deamon.py`` and search ..
+Start with the configuration, then ``mmfinder.py -u`` or ``mmfinder_deamon.py`` and search ..
 
       mmfinder -g .bashrc # search for .bashrc across all defined machines
 
@@ -111,7 +127,7 @@ Report bugs to the author.
 **BUGS**
 
 <pre>
-- [ ] [!] problem with config loading when you use version from github
+- [X] problem with config loading when you use version from github
 - [ ] problem with filenames with spaces
 - [ ] if a folder is found if you hit 'g' you will not get to the folder but to one folder up
 </pre>
@@ -120,7 +136,7 @@ Report bugs to the author.
 =======================================
 
 <pre>
-- [ ] make a deb pkg
+- [X] make a deb pkg
 - [ ] get old TODO from git repo with some TODOs :-)
 - [ ] check if all options works
 - [ ] write test script
