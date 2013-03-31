@@ -114,7 +114,7 @@ def check_user_configuration():
     Simply checks the user configuration. Very, very rough!
     """
     user = getuser()
-    path_to_config = '/home/' + user + sep + '.mmfinder-config.py'
+    path_to_config = os.path.join(os.environ.get('HOME','/home/' + getuser()), '.mmfinder-config.py')
     if not path.exists(path_to_config):
         print ('Error: It looks that you don\'t have ~/.mmfinder-confg.py! See the example https://github.com/m4rx9/mmfinder/blob/master/mmfinder_config.py')
         while 1:
