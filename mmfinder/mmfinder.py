@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 #-*-coding: utf-8 -*-
 """
-
 a tool for finding your files across different machines!
 
 not pretty.. full of quick-and-dirty hacks .. but works :-)
-
 """
 __author__ = "Marcin Magnus"
 __copyright__ = "Copyright 2010, Marcin Magnus"
@@ -18,15 +16,11 @@ __version__ = '0.98 alpha'
 from sys import exit, argv
 from string import ascii_letters
 from os import path, getcwd, system, sep
-from subprocess import Popen
 from commands import getoutput
 from re import compile, search, I
 from time import sleep
 from optparse import OptionParser
 from getpass import getuser
-
-import getpass
-
 
 from mmfinder_deamon import start as start_deamon
 
@@ -534,8 +528,6 @@ def option_parser():
     if opt.dev:
         print '# opt', opt
     return arguments, opt
-
-
 
 
 def start():
