@@ -112,27 +112,32 @@ def print_red_and_blue(text,text2, newline = True):
 def check_user_configuration():
     """
     Simply checks the user configuration. Very, very rough!
+
+    If the config is not found then the file might be downloaded.
     """
+    url_to_config = 'https://raw.github.com/m4rx9/mmfinder/master/mmfinder/config_example/mmfinder_config.py'
+
     user = getuser()
     path_to_config = os.path.join(os.environ.get('HOME','/home/' + getuser()), '.mmfinder-config.py')
     if not path.exists(path_to_config):
-        print ('Error: It looks that you don\'t have ~/.mmfinder-confg.py! See the example https://github.com/m4rx9/mmfinder/blob/master/mmfinder_config.py')
+        print 'Error: It looks that you don\'t have ~/.mmfinder-confg.py!'
+        print '       See the example https://github.com/m4rx9/mmfinder/blob/master/mmfinder_config.py'
+        print
         while 1:
-            yes_no = raw_input('Do you want to download the example and save it as ~/.mmfinder-config.py? [yes/no]: ')
+            yes_no = raw_input('Do you want to download the example from the online git repository of mmfinder and save it as ~/.mmfinder-config.py? [yes/no]: ')
             if yes_no == 'yes':
-                    print 'wget https://github.com/m4rx9/mmfinder/blob/master/mmfinder_config.py -O ~/.mmfinder-config.py'
-                    system('wget https://raw.github.com/m4rx9/mmfinder/master/mmfinder_config.py -O ~/.mmfinder-config.py')
+                    system('wget %s -O ~/.mmfinder-config.py' % url_to_config)
                     break
             elif yes_no == 'no':
                 break
             else:
-                print 'Type yes or now'
-                    
+                print 'Type yes or no'
         exit(1)        
     config = imp.load_source('config', path_to_config)
     ## check if the db directory exists
     if not path.exists(config.PATH_DB):
-        print ('Error: The folder for saving databases does not exists. Check ~/.mmfinder-confg.py PATH_DB variable!')
+        print 'Error: The folder for saving databases (currently: %s) does not exists.' % config.PATH_DB
+        print '       Check ~/.mmfinder-confg.py PATH_DB variable to change PATH_DB or create the folder.' 
         exit(1)
     return config
 
