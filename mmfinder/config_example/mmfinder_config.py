@@ -20,7 +20,7 @@ computer2 = {
 
 ## map computer to hostname
 HOSTS = {'debian': computer1, 'maximus': computer2}
-
+SHOW_BANNER = False
 
 ################################################################################
 ##                     ADVANCED CONFIGURATION                                 ##

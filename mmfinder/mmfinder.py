@@ -29,7 +29,7 @@ from lib.utils import banner2, hr, get_hostname, hr_text, print_red_and_blue, ch
 IDS = ascii_letters
 
 config = check_user_configuration()
-from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD, GREP_CMD
+from config import PLACES_LOCAL, PLACES_GLOBAL, PATH_DB, FF_SQLITE_DATABASE, EXTENSIONS_OF_DOCUMENTS, EXTENSIONS_OF_MEDIA, HTML_FN, HTML_CMD, GREP_CMD, SHOW_BANNER
 
 
 class App:
@@ -54,8 +54,6 @@ class App:
         - arguments & opt based on cmd input by user
         """
         list_with_action = True
-
-        hr()
 
         # if x 2 related to firefox's bookmarks
         if opt.bookmarks:
@@ -534,7 +532,9 @@ def start():
     """
     This runs the main program.
     """
-    banner2('mmfinder.py')
+    if SHOW_BANNER:
+        banner2('mmfinder.py')
+        hr()
     arguments, opt = option_parser()
     if arguments:
         m = App()
