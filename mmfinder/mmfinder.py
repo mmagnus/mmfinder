@@ -428,7 +428,7 @@ def option_parser():
     """
     description = ''
     version = __version__
-    usage = '%prog <options> word word word word'
+    usage = '%prog <options> word word word word \n\t' + __version__
     parser = OptionParser(description=description,
                               version=version,
                               usage=usage)
