@@ -2,10 +2,9 @@ from setuptools import setup, find_packages
 from os import system, path
 from time import sleep
 
-__version__ = "0.98 alpha"
+__version__ = "0.99 alpha"
 
 print '*' * 80
-print '*', 'Welcome!'
 print '*', 'mmfinder ', __version__
 print '*', 'run setup.py as a root!'
 print '*' * 80

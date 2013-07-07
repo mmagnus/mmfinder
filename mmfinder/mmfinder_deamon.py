@@ -13,7 +13,6 @@ __license__ = "GPL"
 __maintainer__ = "Marcin Magnus"
 __email__ = "mag_dex@o2.pl"
 __status__ = "Development"
-__version__ = '0.98 alpha'
 
 import os
 import commands

@@ -1,7 +1,7 @@
 # mmfinder
 
-     updated Feb 2013
-     version 0.98 alpha
+     updated July 2013
+     version 0.99 alpha
      author  Marcin Magnus (mag_dex@o2.pl) 
 	 license GPLv3
      https://github.com/m4rx9/mmfinder
@@ -12,7 +12,9 @@
 
 See http://www.youtube.com/watch?v=-oQ998IWwTc
 
-See mmfinder in PyPi https://pypi.python.org/pypi/mmfinder
+<img src="https://pypi.python.org/static/images/python-logo.gif">
+
+See mmfinder at **PyPi** https://pypi.python.org/pypi/mmfinder
 
 TABLE OF CONTENTS
 -----------------
@@ -97,7 +99,11 @@ or use the source code:
 
 3. CONFIGURATION
 =======================================
+**Main configuration**
+
 Edit ``~/.mmfinder-config.py`` to configure the program. 
+
+**Bash plugin**
 
 To use **bash plugin** (`bash-plugin.sh`) add ..
 
@@ -107,13 +113,15 @@ To use **bash plugin** (`bash-plugin.sh`) add ..
 	
 .. to your ``.bashrc``.
 
+**Put deamon under cron**
+
 For ``mmfinder-deamon`` you might want to use ``cron`` as following ..
 
     00 * * * * /usr/local/bin/mmfinder-deamon
 
 4. HOW TO USE IT
 =======================================
-Start with the configuration, then ``mmfinder.py -u`` or ``mmfinder_deamon.py`` and search ..
+Start with the configuration, then ``mmfinder -u`` or ``mmfinder_deamon`` and search ..
 
       mmfinder -g .bashrc # search for .bashrc across all defined machines
 
